@@ -305,7 +305,7 @@ body::before{
 
 /* demo mode tabs */
 .demo-tabs{
-  flex-shrink:0;display:grid;grid-template-columns:1fr 1fr;
+  flex-shrink:0;display:grid;grid-template-columns:1fr 1fr 1fr;
   border-bottom:1px solid var(--ln);
 }
 .demo-tab{
@@ -538,6 +538,86 @@ body::before{
   transition:box-shadow .2s;
 }
 .demo-get-access:hover{box-shadow:0 0 28px rgba(255,255,255,.12)}
+
+/* ── WAITLIST PANEL ── */
+.wl-layout{padding:16px 16px 100px}
+
+.wl-hero{
+  text-align:center;padding:28px 16px 24px;
+  border-bottom:1px solid var(--ln);margin-bottom:24px;
+}
+.wl-eyebrow{
+  font-family:'IBM Plex Mono',monospace;font-size:8px;font-weight:600;
+  letter-spacing:3px;text-transform:uppercase;color:var(--red);margin-bottom:10px;
+}
+.wl-title{
+  font-size:28px;font-weight:700;letter-spacing:-1px;
+  color:var(--t1);margin-bottom:8px;line-height:1.2;
+}
+.wl-sub{font-size:13px;color:var(--t3);line-height:1.6;max-width:300px;margin:0 auto}
+
+.wl-stats{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  border:1px solid var(--ln);margin-bottom:20px;
+}
+.wl-stat{padding:14px 10px;text-align:center;border-right:1px solid var(--ln)}
+.wl-stat:last-child{border-right:none}
+.wl-stat-n{
+  font-family:'IBM Plex Mono',monospace;font-size:20px;font-weight:600;
+  color:var(--t1);margin-bottom:3px;
+}
+.wl-stat-l{font-family:'IBM Plex Mono',monospace;font-size:7px;color:var(--t4);letter-spacing:1.5px;text-transform:uppercase}
+
+.wl-form-lbl{
+  font-family:'IBM Plex Mono',monospace;font-size:8px;font-weight:600;
+  letter-spacing:2px;text-transform:uppercase;color:var(--t4);
+  margin-bottom:6px;display:block;
+}
+.wl-input{
+  width:100%;background:var(--sf);border:1px solid var(--ln2);
+  font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--t1);
+  padding:12px 14px;margin-bottom:10px;outline:none;
+  transition:border-color .2s;
+}
+.wl-input:focus{border-color:#3a3a3a}
+.wl-input::placeholder{color:var(--t5)}
+
+.wl-roles{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:16px}
+.wl-role{
+  border:1px solid var(--ln2);background:none;
+  font-family:'IBM Plex Mono',monospace;font-size:8px;font-weight:600;
+  letter-spacing:1px;text-transform:uppercase;color:var(--t4);
+  padding:9px 6px;cursor:pointer;text-align:center;transition:all .2s;
+}
+.wl-role.sel{border-color:var(--t1);color:var(--t1);background:rgba(255,255,255,.04)}
+.wl-role:hover:not(.sel){border-color:#333;color:var(--t3)}
+
+.wl-submit{
+  width:100%;background:var(--wh);border:none;
+  font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:700;
+  color:var(--bk);padding:15px 18px;cursor:pointer;
+  display:flex;align-items:center;justify-content:space-between;
+  transition:box-shadow .2s;margin-bottom:12px;
+}
+.wl-submit:hover{box-shadow:0 0 28px rgba(255,255,255,.14)}
+.wl-submit:disabled{opacity:.4;cursor:not-allowed;box-shadow:none}
+.wl-note{
+  font-family:'IBM Plex Mono',monospace;font-size:8px;color:var(--t5);
+  text-align:center;line-height:1.6;
+}
+
+/* success state */
+.wl-success{
+  display:none;text-align:center;padding:40px 16px;
+}
+.wl-success.show{display:block}
+.wl-success-icon{font-size:48px;margin-bottom:16px}
+.wl-success-title{font-size:22px;font-weight:700;color:var(--t1);margin-bottom:8px;letter-spacing:-.5px}
+.wl-success-sub{font-size:13px;color:var(--t3);line-height:1.6;margin-bottom:20px}
+.wl-success-ref{
+  font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--t4);
+  border:1px solid var(--ln);padding:8px 14px;display:inline-block;letter-spacing:1px;
+}
 
 /* agent pill info */
 .agent-feature-row{
@@ -1244,10 +1324,13 @@ textarea::placeholder{color:var(--t5);font-size:13px}
 
   <div class="demo-tabs">
     <button class="demo-tab active" id="dt-human" onclick="setDemoTab('human')">
-      HUMAN EXPERIENCE <span class="dtag">LIVE</span>
+      HUMAN <span class="dtag">LIVE</span>
     </button>
     <button class="demo-tab" id="dt-agent" onclick="setDemoTab('agent')">
-      AI AGENT API <span class="dtag">JSON</span>
+      API <span class="dtag">JSON</span>
+    </button>
+    <button class="demo-tab" id="dt-waitlist" onclick="setDemoTab('waitlist')" style="color:var(--red)">
+      JOIN <span class="dtag" style="border-color:var(--red)">FREE</span>
     </button>
   </div>
 
@@ -1355,8 +1438,8 @@ textarea::placeholder{color:var(--t5);font-size:13px}
       </div><!-- /hd-layout -->
 
       <div class="demo-bottom">
-        <button class="demo-get-access" onclick="closeDemo()">
-          <span>GET ACCESS NOW</span>
+        <button class="demo-get-access" onclick="setDemoTab('waitlist')">
+          <span>REQUEST ACCESS</span>
           <span style="font-family:'IBM Plex Mono',monospace">&rarr;</span>
         </button>
       </div>
@@ -1445,12 +1528,70 @@ textarea::placeholder{color:var(--t5);font-size:13px}
       </div><!-- /ad-layout -->
 
       <div class="demo-bottom">
-        <button class="demo-get-access" onclick="closeDemo()">
-          <span>GET API ACCESS</span>
+        <button class="demo-get-access" onclick="setDemoTab('waitlist')">
+          <span>REQUEST API ACCESS</span>
           <span style="font-family:'IBM Plex Mono',monospace">&rarr;</span>
         </button>
       </div>
     </div><!-- /dp-agent -->
+
+    <!-- WAITLIST PANEL -->
+    <div class="demo-panel" id="dp-waitlist">
+      <div class="wl-layout">
+
+        <!-- hero -->
+        <div class="wl-hero">
+          <div class="wl-eyebrow">Early Access</div>
+          <div class="wl-title">Join the Waitlist</div>
+          <div class="wl-sub">Get early access to TokGraph Web3 V3 — narrative intelligence for crypto traders and AI agents.</div>
+        </div>
+
+        <!-- stats -->
+        <div class="wl-stats">
+          <div class="wl-stat">
+            <div class="wl-stat-n">2,841</div>
+            <div class="wl-stat-l">On Waitlist</div>
+          </div>
+          <div class="wl-stat">
+            <div class="wl-stat-n">48h</div>
+            <div class="wl-stat-l">Review Time</div>
+          </div>
+          <div class="wl-stat">
+            <div class="wl-stat-n">Free</div>
+            <div class="wl-stat-l">Beta Access</div>
+          </div>
+        </div>
+
+        <!-- form -->
+        <div id="wl-form-wrap">
+          <label class="wl-form-lbl">Your Email</label>
+          <input class="wl-input" type="email" id="wl-email" placeholder="you@example.com" autocomplete="email"/>
+
+          <label class="wl-form-lbl">I am a</label>
+          <div class="wl-roles">
+            <button class="wl-role sel" id="wr-trader" onclick="selectRole('trader')">Trader</button>
+            <button class="wl-role" id="wr-dev" onclick="selectRole('dev')">AI Dev</button>
+            <button class="wl-role" id="wr-fund" onclick="selectRole('fund')">Fund / VC</button>
+          </div>
+
+          <button class="wl-submit" id="wl-submit-btn" onclick="submitWaitlist()">
+            <span id="wl-submit-lbl">JOIN WAITLIST</span>
+            <span style="font-family:'IBM Plex Mono',monospace" id="wl-submit-arr">&rarr;</span>
+          </button>
+
+          <div class="wl-note">No spam. We review applications manually and send invite codes when ready.</div>
+        </div>
+
+        <!-- success state -->
+        <div class="wl-success" id="wl-success">
+          <div class="wl-success-icon">&#10003;</div>
+          <div class="wl-success-title">You're on the list</div>
+          <div class="wl-success-sub">We'll review your application and send your invite code to <strong id="wl-confirmed-email"></strong> within 48 hours.</div>
+          <div class="wl-success-ref" id="wl-ref-code"></div>
+        </div>
+
+      </div><!-- /wl-layout -->
+    </div><!-- /dp-waitlist -->
 
   </div><!-- /demo-panels -->
 </div><!-- /demo-overlay -->
@@ -2339,13 +2480,51 @@ function closeDemo() {
 }
 
 function setDemoTab(tab) {
-  ['human','agent'].forEach(t => {
+  ['human','agent','waitlist'].forEach(t => {
     document.getElementById('dt-'+t).classList.toggle('active', t===tab);
     document.getElementById('dp-'+t).classList.toggle('active', t===tab);
   });
   stopDemo();
-  if(tab==='human') startHumanDemo();
-  else              startAgentDemo();
+  if(tab==='human')    startHumanDemo();
+  else if(tab==='agent') startAgentDemo();
+  // waitlist: no animation needed
+}
+
+/* ── WAITLIST FORM ── */
+let wlRole = 'trader';
+
+function selectRole(r) {
+  wlRole = r;
+  ['trader','dev','fund'].forEach(id => {
+    document.getElementById('wr-'+id).classList.toggle('sel', id===r);
+  });
+}
+
+function submitWaitlist() {
+  const email = document.getElementById('wl-email').value.trim();
+  if(!email || !email.includes('@')) {
+    document.getElementById('wl-email').focus();
+    document.getElementById('wl-email').style.borderColor='var(--red)';
+    setTimeout(()=>document.getElementById('wl-email').style.borderColor='',1500);
+    return;
+  }
+  const btn = document.getElementById('wl-submit-btn');
+  btn.disabled = true;
+  document.getElementById('wl-submit-lbl').textContent = 'SUBMITTING...';
+  document.getElementById('wl-submit-arr').textContent = '';
+
+  // Store in localStorage
+  const entries = JSON.parse(localStorage.getItem('tg_waitlist')||'[]');
+  const ref = 'TG-' + Math.random().toString(36).slice(2,8).toUpperCase();
+  entries.push({ email, role:wlRole, ref, ts: Date.now() });
+  localStorage.setItem('tg_waitlist', JSON.stringify(entries));
+
+  setTimeout(() => {
+    document.getElementById('wl-form-wrap').style.display = 'none';
+    document.getElementById('wl-confirmed-email').textContent = email;
+    document.getElementById('wl-ref-code').textContent = 'REF: ' + ref;
+    document.getElementById('wl-success').classList.add('show');
+  }, 900);
 }
 
 function stopDemo() {
