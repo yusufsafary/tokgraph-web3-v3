@@ -433,6 +433,112 @@ html,body{height:100%;overflow:hidden;background:var(--bg);font-family:'Space Gr
 
 @media(max-width:900px){.demo-phone-col{display:none;}}
 @media(max-width:700px){.demo-mid{width:100%;}}
+
+/* ── NARRATIVE × WEB3 BRIDGE ── */
+.bridge-panel{padding:10px 12px 12px;}
+.bridge-row{display:flex;align-items:center;gap:6px;margin-bottom:5px;}
+.bridge-narr{
+  width:74px;flex-shrink:0;padding:5px 7px;
+  font-family:'IBM Plex Mono',monospace;font-size:6.5px;font-weight:700;
+  letter-spacing:.4px;border:1px solid var(--ln2);text-align:center;
+  line-height:1.3;
+}
+.bridge-pipe{
+  flex:1;height:16px;position:relative;display:flex;align-items:center;
+}
+.bridge-track{
+  flex:1;height:1px;background:var(--ln2);position:relative;overflow:hidden;
+}
+.bridge-track::after{
+  content:'';position:absolute;top:0;left:-100%;width:60%;height:100%;
+  background:linear-gradient(90deg,transparent,currentColor,transparent);
+  animation:bridge-flow 2.2s linear infinite;
+}
+@keyframes bridge-flow{0%{left:-60%}100%{left:110%}}
+.bridge-strength{
+  flex-shrink:0;font-family:'IBM Plex Mono',monospace;font-size:7px;
+  font-weight:700;margin:0 5px;
+}
+.bridge-tokens{display:flex;gap:3px;flex-wrap:wrap;}
+.bridge-tok{
+  font-family:'IBM Plex Mono',monospace;font-size:6.5px;font-weight:700;
+  padding:2px 5px;border:1px solid var(--ln2);color:var(--t3);
+  cursor:default;transition:all .25s;
+}
+.bridge-tok:hover,.bridge-tok.lit{
+  border-color:rgba(0,245,255,.4);color:var(--cyan);
+  background:rgba(0,245,255,.06);
+}
+.bridge-tok.hot{
+  border-color:rgba(255,0,80,.35);color:var(--tg);
+  background:rgba(255,0,80,.05);
+}
+.bridge-tok.warm{
+  border-color:rgba(168,85,247,.35);color:var(--purple);
+  background:rgba(168,85,247,.05);
+}
+
+/* ── NARRATIVE PULSE ── */
+.pulse-panel{padding:10px 12px 12px;}
+.pulse-row{
+  display:flex;align-items:center;gap:6px;margin-bottom:5px;
+}
+.pulse-name{
+  font-family:'IBM Plex Mono',monospace;font-size:7px;
+  color:var(--t2);width:64px;flex-shrink:0;
+}
+.pulse-track{
+  flex:1;height:9px;background:var(--sf2);border:1px solid var(--ln2);
+  overflow:hidden;position:relative;
+}
+.pulse-fill{
+  height:100%;transition:width 2s cubic-bezier(.4,0,.2,1);
+  position:relative;
+}
+.pulse-fill::after{
+  content:'';position:absolute;top:0;right:0;width:16px;height:100%;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.25));
+  animation:pulse-shimmer 1.8s ease infinite;
+}
+@keyframes pulse-shimmer{0%,100%{opacity:0}50%{opacity:1}}
+.pulse-val{
+  font-family:'IBM Plex Mono',monospace;font-size:7px;
+  color:var(--t4);width:26px;text-align:right;flex-shrink:0;
+}
+.pulse-chg{
+  font-family:'IBM Plex Mono',monospace;font-size:6.5px;font-weight:700;
+  width:36px;text-align:right;flex-shrink:0;
+}
+.pulse-chg.up{color:var(--acc);}
+.pulse-chg.dn{color:var(--red);}
+
+/* ── CREATOR CHAIN ── */
+.chain-panel{padding:10px 12px 12px;}
+.chain-row{display:flex;align-items:center;gap:0;margin-bottom:6px;}
+.chain-creator{
+  font-family:'IBM Plex Mono',monospace;font-size:7px;color:var(--t2);
+  width:90px;flex-shrink:0;
+}
+.chain-creator strong{color:var(--t1);font-weight:700;}
+.chain-seg{
+  font-family:'IBM Plex Mono',monospace;font-size:8px;color:var(--ln2);
+  padding:0 2px;flex-shrink:0;
+}
+.chain-narr-tag{
+  font-family:'IBM Plex Mono',monospace;font-size:6px;font-weight:700;
+  letter-spacing:.4px;padding:2px 5px;border:1px solid;flex-shrink:0;
+}
+.chain-tok-tag{
+  font-family:'IBM Plex Mono',monospace;font-size:6.5px;font-weight:700;
+  color:var(--cyan);border:1px solid rgba(0,245,255,.3);
+  padding:2px 5px;background:rgba(0,245,255,.04);flex-shrink:0;
+}
+.chain-outcome{
+  font-family:'IBM Plex Mono',monospace;font-size:6px;font-weight:700;
+  padding:2px 5px;margin-left:4px;flex-shrink:0;
+}
+.chain-outcome.pos{background:rgba(74,222,128,.12);color:var(--acc);border:1px solid rgba(74,222,128,.3);}
+.chain-outcome.neg{background:rgba(248,113,113,.1);color:var(--red);border:1px solid rgba(248,113,113,.3);}
 </style>
 </head>
 <body>
@@ -657,6 +763,33 @@ html,body{height:100%;overflow:hidden;background:var(--bg);font-family:'Space Gr
         <div class="radar-leg-item"><div class="radar-leg-dot" style="background:var(--purple)"></div>30–49 LOW</div>
         <div class="radar-leg-item"><div class="radar-leg-dot" style="background:var(--red)"></div>0–29 NOISE</div>
       </div>
+    </div>
+
+    <!-- TIKTOK NARRATIVE × WEB3 BRIDGE -->
+    <div class="section-label">
+      TIKTOK NARRATIVE → WEB3
+      <span class="section-label-note">which stories move which tokens</span>
+    </div>
+    <div class="bridge-panel">
+      <div id="bridge-flow"></div>
+    </div>
+
+    <!-- NARRATIVE PULSE -->
+    <div class="section-label">
+      NARRATIVE PULSE
+      <span class="section-label-note">mention velocity · live</span>
+    </div>
+    <div class="pulse-panel">
+      <div id="pulse-rows"></div>
+    </div>
+
+    <!-- CREATOR → CHAIN -->
+    <div class="section-label">
+      CREATOR ALPHA CHAIN
+      <span class="section-label-note">creator → narrative → token → outcome</span>
+    </div>
+    <div class="chain-panel">
+      <div id="chain-rows"></div>
     </div>
 
     <!-- CORRELATION MATRIX -->
@@ -1045,6 +1178,137 @@ function startAlertCycle() {
     if (stack.children.length > 3) stack.removeChild(stack.lastChild);
   }, 6000);
 }
+
+/* ═══════════════════════════════════════
+   TIKTOK NARRATIVE × WEB3 BRIDGE
+═══════════════════════════════════════ */
+var BRIDGE_DATA = [
+  {cat:'AI AGENTS', color:'var(--cyan)',   border:'rgba(0,245,255,.35)',  bg:'rgba(0,245,255,.06)',  pct:94, tokens:[
+    {sym:'$NEAR',hot:true},{sym:'$FET',hot:true},{sym:'$VIRTUAL',hot:true},{sym:'$TAO',warm:true},{sym:'$AGIX'}
+  ]},
+  {cat:'RWA',       color:'var(--purple)', border:'rgba(168,85,247,.35)', bg:'rgba(168,85,247,.06)', pct:88, tokens:[
+    {sym:'$ONDO',hot:true},{sym:'$MAPLE',warm:true},{sym:'$CFG',warm:true},{sym:'$TRU'}
+  ]},
+  {cat:'DePIN',     color:'#4ade80',       border:'rgba(74,222,128,.3)',  bg:'rgba(74,222,128,.05)', pct:82, tokens:[
+    {sym:'$RNDR',hot:true},{sym:'$HNT',hot:true},{sym:'$MOBILE',warm:true},{sym:'$IO'}
+  ]},
+  {cat:'MEMECOIN',  color:'var(--tg)',     border:'rgba(255,0,80,.3)',    bg:'rgba(255,0,80,.05)',   pct:65, tokens:[
+    {sym:'$WIF',hot:true},{sym:'$BONK',warm:true},{sym:'$PEPE'},{sym:'$POPCAT'}
+  ]},
+  {cat:'L2 WARS',   color:'#60a5fa',       border:'rgba(96,165,250,.3)',  bg:'rgba(96,165,250,.05)', pct:71, tokens:[
+    {sym:'$ARB',warm:true},{sym:'$OP',warm:true},{sym:'$STRK'},{sym:'$MANTA'}
+  ]},
+];
+
+function renderBridge() {
+  var el = document.getElementById('bridge-flow');
+  if (!el) return;
+  el.innerHTML = BRIDGE_DATA.map(function(row) {
+    var tokHtml = row.tokens.map(function(t) {
+      var cls = 'bridge-tok' + (t.hot ? ' hot' : t.warm ? ' warm' : '');
+      return '<span class="' + cls + '">' + t.sym + '</span>';
+    }).join('');
+    var pctStr = row.pct + '%';
+    return '<div class="bridge-row">' +
+      '<div class="bridge-narr" style="background:' + row.bg + ';border-color:' + row.border + ';color:' + row.color + '">' + row.cat + '</div>' +
+      '<div class="bridge-pipe">' +
+        '<div class="bridge-track" style="color:' + row.color + '"></div>' +
+      '</div>' +
+      '<div class="bridge-strength" style="color:' + row.color + '">' + pctStr + '</div>' +
+      '<div class="bridge-tokens">' + tokHtml + '</div>' +
+    '</div>';
+  }).join('');
+
+  // Periodically light up random tokens
+  setInterval(function() {
+    var all = el.querySelectorAll('.bridge-tok');
+    if (!all.length) return;
+    all.forEach(function(t){ t.classList.remove('lit'); });
+    var idx = Math.floor(Math.random() * all.length);
+    all[idx].classList.add('lit');
+    setTimeout(function(){ if (all[idx]) all[idx].classList.remove('lit'); }, 800);
+  }, 1200);
+}
+
+/* ═══════════════════════════════════════
+   NARRATIVE PULSE BARS
+═══════════════════════════════════════ */
+var PULSE_DATA = [
+  {name:'AI AGENTS', base:94, color:'var(--cyan)',    chg:'+280%'},
+  {name:'RWA',       base:88, color:'var(--purple)',  chg:'+165%'},
+  {name:'DePIN',     base:82, color:'#4ade80',        chg:'+210%'},
+  {name:'MEMECOIN',  base:65, color:'var(--tg)',      chg:'+95%'},
+  {name:'L2 WARS',   base:71, color:'#60a5fa',        chg:'+78%'},
+  {name:'ZK PRIV',   base:59, color:'#a855f7',        chg:'+55%'},
+  {name:'GAMEFI',    base:48, color:'#fb923c',        chg:'+44%'},
+  {name:'RESTAKING', base:79, color:'#22c55e',        chg:'+120%'},
+];
+
+var pulseVals = PULSE_DATA.map(function(d){ return d.base; });
+
+function renderPulse() {
+  var el = document.getElementById('pulse-rows');
+  if (!el) return;
+  el.innerHTML = PULSE_DATA.map(function(d, i) {
+    var up = d.chg.charAt(0) === '+';
+    return '<div class="pulse-row">' +
+      '<div class="pulse-name">' + d.name + '</div>' +
+      '<div class="pulse-track"><div class="pulse-fill" id="pulse-fill-' + i + '" style="width:0%;background:' + d.color + '"></div></div>' +
+      '<div class="pulse-val" id="pulse-val-' + i + '">' + d.base + '</div>' +
+      '<div class="pulse-chg ' + (up ? 'up' : 'dn') + '">' + d.chg + '</div>' +
+    '</div>';
+  }).join('');
+
+  // Animate fills in
+  PULSE_DATA.forEach(function(_, i){
+    setTimeout(function(){
+      var fill = document.getElementById('pulse-fill-' + i);
+      if (fill) fill.style.width = pulseVals[i] + '%';
+    }, 150 + i * 80);
+  });
+
+  // Randomly fluctuate bars
+  setInterval(function() {
+    var i = Math.floor(Math.random() * PULSE_DATA.length);
+    var delta = (Math.random() * 6 - 2);
+    pulseVals[i] = Math.max(20, Math.min(100, pulseVals[i] + delta));
+    var fill = document.getElementById('pulse-fill-' + i);
+    var valEl = document.getElementById('pulse-val-' + i);
+    if (fill) fill.style.width = pulseVals[i].toFixed(0) + '%';
+    if (valEl) valEl.textContent = pulseVals[i].toFixed(0);
+  }, 900);
+}
+
+/* ═══════════════════════════════════════
+   CREATOR ALPHA CHAIN
+═══════════════════════════════════════ */
+var CHAIN_DATA = [
+  {creator:'@cryptowatcher', narr:'AI AGENTS', narrColor:'var(--cyan)',   narrBorder:'rgba(0,245,255,.3)', tok:'$NEAR',    outcome:'+24.7%', pos:true},
+  {creator:'@defimaxi',      narr:'RWA',       narrColor:'var(--purple)', narrBorder:'rgba(168,85,247,.3)',tok:'$ONDO',    outcome:'+18.4%', pos:true},
+  {creator:'@web3alpha',     narr:'DePIN',     narrColor:'#4ade80',       narrBorder:'rgba(74,222,128,.3)',tok:'$RNDR',    outcome:'+31.2%', pos:true},
+  {creator:'@aitrading',     narr:'MEMECOIN',  narrColor:'var(--tg)',     narrBorder:'rgba(255,0,80,.3)',  tok:'$WIF',     outcome:'-8.3%',  pos:false},
+  {creator:'@nfttrader',     narr:'L2 WARS',   narrColor:'#60a5fa',       narrBorder:'rgba(96,165,250,.3)',tok:'$ARB',     outcome:'+12.6%', pos:true},
+];
+
+function renderCreatorChain() {
+  var el = document.getElementById('chain-rows');
+  if (!el) return;
+  el.innerHTML = CHAIN_DATA.map(function(r) {
+    return '<div class="chain-row">' +
+      '<div class="chain-creator"><strong>' + r.creator + '</strong></div>' +
+      '<div class="chain-seg">→</div>' +
+      '<div class="chain-narr-tag" style="color:' + r.narrColor + ';border-color:' + r.narrBorder + ';background:rgba(0,0,0,.3)">' + r.narr + '</div>' +
+      '<div class="chain-seg">→</div>' +
+      '<div class="chain-tok-tag">' + r.tok + '</div>' +
+      '<div class="chain-outcome ' + (r.pos ? 'pos' : 'neg') + '">' + r.outcome + '</div>' +
+    '</div>';
+  }).join('');
+}
+
+/* ── CALL NEW INIT FUNCTIONS ── */
+renderBridge();
+renderPulse();
+renderCreatorChain();
 </script>
 </body>
 </html>

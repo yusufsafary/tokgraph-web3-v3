@@ -756,6 +756,33 @@ textarea::placeholder{color:var(--t5);font-size:13px}
   #particle-canvas{max-width:500px;left:50%;transform:translateX(-50%)}
   .glow-orb{display:none}
 }
+
+/* ── TikTok→Web3 PIPELINE STRIP ── */
+.pipeline{display:flex;align-items:stretch;gap:0;padding:10px 16px 12px;border-bottom:1px solid var(--ln);overflow-x:auto;scrollbar-width:none;background:rgba(0,245,255,.012)}
+.pipeline::-webkit-scrollbar{display:none}
+.pl-step{display:flex;align-items:center;flex-shrink:0}
+.pl-box{padding:8px 10px;background:var(--sf2);border:1px solid var(--ln2);min-width:74px;cursor:default;transition:border-color .2s}
+.pl-box:hover{border-color:#3a3a3a}
+.pl-icon{font-size:11px;margin-bottom:3px;display:block}
+.pl-name{font-family:'IBM Plex Mono',monospace;font-size:6.5px;font-weight:700;color:var(--t1);letter-spacing:.5px;text-transform:uppercase}
+.pl-desc{font-family:'IBM Plex Mono',monospace;font-size:5.5px;color:var(--t4);margin-top:2px;line-height:1.4}
+.pl-arrow{padding:0 5px;color:var(--ln2);font-size:10px;align-self:center;flex-shrink:0}
+.pl-box.lit{border-color:rgba(0,245,255,.3);background:rgba(0,245,255,.04)}
+.pl-box.lit .pl-name{color:var(--cyan)}
+.pl-box.lit .pl-icon{filter:none}
+
+/* ── NARRATIVE→TOKEN MAP (heatmap extension) ── */
+.ntm-section{padding:8px 16px 12px;border-bottom:1px solid var(--ln)}
+.ntm-label{font-family:'IBM Plex Mono',monospace;font-size:7px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--t4);margin-bottom:7px;display:flex;align-items:center;gap:8px}
+.ntm-label::after{content:'';flex:1;height:1px;background:var(--ln)}
+.ntm-rows{display:flex;flex-direction:column;gap:5px}
+.ntm-row{display:flex;align-items:center;gap:7px}
+.ntm-cat{font-family:'IBM Plex Mono',monospace;font-size:6.5px;font-weight:700;letter-spacing:.4px;padding:2px 6px;flex-shrink:0;width:68px;text-align:center;border:1px solid transparent}
+.ntm-arrow-sym{color:var(--ln2);font-family:'IBM Plex Mono',monospace;font-size:8px;flex-shrink:0}
+.ntm-toks{display:flex;gap:3px;flex-wrap:wrap;flex:1}
+.ntm-tok{font-family:'IBM Plex Mono',monospace;font-size:6.5px;font-weight:700;border:1px solid var(--ln2);padding:1px 5px;color:var(--t3);transition:all .2s}
+.ntm-tok.hot{border-color:rgba(0,245,255,.35);color:var(--cyan);background:rgba(0,245,255,.04)}
+.ntm-tok.warm{border-color:rgba(168,85,247,.35);color:var(--purple);background:rgba(168,85,247,.04)}
 </style>
 </head>
 <body>
@@ -1162,7 +1189,50 @@ textarea::placeholder{color:var(--t5);font-size:13px}
     <div class="hero">
       <div class="kicker"><div class="kicker-line"></div><div class="kicker-txt">Narrative Intelligence</div></div>
       <h1 class="hero-h1">Turn <span class="outline">Attention</span><br/>Into Signals.</h1>
-      <p class="hero-p">Paste any TikTok transcript. Extract Web3 market narratives with precision.</p>
+      <p class="hero-p">TikTok narratives move crypto before CT does. We decode the signal from the noise.</p>
+    </div>
+
+    <!-- TikTok→Web3 PIPELINE -->
+    <div class="pipeline" id="pipeline">
+      <div class="pl-step">
+        <div class="pl-box lit" id="pl-0">
+          <span class="pl-icon">📱</span>
+          <div class="pl-name">TikTok Video</div>
+          <div class="pl-desc">Creator posts coin mention · views spike</div>
+        </div>
+      </div>
+      <div class="pl-step"><div class="pl-arrow">→</div></div>
+      <div class="pl-step">
+        <div class="pl-box" id="pl-1">
+          <span class="pl-icon">🔍</span>
+          <div class="pl-name">NLP Scan</div>
+          <div class="pl-desc">Transcript + comments analyzed in real-time</div>
+        </div>
+      </div>
+      <div class="pl-step"><div class="pl-arrow">→</div></div>
+      <div class="pl-step">
+        <div class="pl-box" id="pl-2">
+          <span class="pl-icon">🧩</span>
+          <div class="pl-name">Narrative Tag</div>
+          <div class="pl-desc">AI, RWA, DePIN, Memecoin, L2…</div>
+        </div>
+      </div>
+      <div class="pl-step"><div class="pl-arrow">→</div></div>
+      <div class="pl-step">
+        <div class="pl-box" id="pl-3">
+          <span class="pl-icon">⚡</span>
+          <div class="pl-name">Web3 Signal</div>
+          <div class="pl-desc">Score 0–100 · token cluster mapped</div>
+        </div>
+      </div>
+      <div class="pl-step"><div class="pl-arrow">→</div></div>
+      <div class="pl-step">
+        <div class="pl-box" id="pl-4">
+          <span class="pl-icon">📊</span>
+          <div class="pl-name">On-Chain Check</div>
+          <div class="pl-desc">DEX volume + wallet inflows cross-validated</div>
+        </div>
+      </div>
     </div>
 
     <div class="stats-grid">
@@ -1181,6 +1251,12 @@ textarea::placeholder{color:var(--t5);font-size:13px}
     <div class="heatmap-section" id="heatmap-section">
       <div class="heatmap-label">Narrative Heatmap <span id="heatmap-updated">LIVE</span></div>
       <div class="heatmap-grid" id="heatmap-grid"></div>
+    </div>
+
+    <!-- NARRATIVE → TOKEN MAP -->
+    <div class="ntm-section" id="ntm-section">
+      <div class="ntm-label">Narrative → Token Flow</div>
+      <div class="ntm-rows" id="ntm-rows"></div>
     </div>
 
     <!-- SMART ALERTS (NEW) -->
@@ -1393,6 +1469,14 @@ const HEATMAP_NARRATIVES = [
   {name:'DePIN',       score:8.2, color:'rgba(0,255,133,VAL)'},
 ];
 
+const NARRATIVE_TOKEN_MAP = [
+  {cat:'AI Agents',  color:'rgba(0,245,255,.2)',  border:'rgba(0,245,255,.4)',  textColor:'var(--cyan)',    tokens:[{sym:'$NEAR',hot:true},{sym:'$FET',hot:true},{sym:'$VIRTUAL',hot:true},{sym:'$TAO',warm:true},{sym:'$AGIX',warm:true}]},
+  {cat:'RWA',        color:'rgba(168,85,247,.15)', border:'rgba(168,85,247,.4)', textColor:'var(--purple)', tokens:[{sym:'$ONDO',hot:true},{sym:'$MAPLE',warm:true},{sym:'$CFG',warm:true},{sym:'$TRU'}]},
+  {cat:'DePIN',      color:'rgba(0,255,133,.12)',  border:'rgba(0,255,133,.3)',  textColor:'var(--green)',   tokens:[{sym:'$RNDR',hot:true},{sym:'$HNT',hot:true},{sym:'$MOBILE',warm:true},{sym:'$IO'}]},
+  {cat:'Memecoin',   color:'rgba(254,44,85,.1)',   border:'rgba(254,44,85,.3)',  textColor:'var(--red)',    tokens:[{sym:'$WIF',hot:true},{sym:'$BONK',warm:true},{sym:'$PEPE',warm:true},{sym:'$POPCAT'}]},
+  {cat:'L2 Wars',    color:'rgba(0,245,255,.08)',  border:'rgba(0,245,255,.2)',  textColor:'var(--cyan)',    tokens:[{sym:'$ARB',warm:true},{sym:'$OP',warm:true},{sym:'$STRK'},{sym:'$MANTA'}]},
+];
+
 const ALERTS = [
   'AI agent narratives spiking — 142 signals in the last hour',
   'RWA tokenization volume up 280% this week across 6 protocols',
@@ -1479,6 +1563,52 @@ const TICKER_DATA = [
   }
   draw();
 })();
+
+/* ══════════════════════════════════════
+   PIPELINE ANIMATION
+══════════════════════════════════════ */
+(function initPipeline() {
+  let step = 0;
+  const boxes = [0,1,2,3,4];
+  function pulse() {
+    boxes.forEach(i => {
+      const el = document.getElementById('pl-' + i);
+      if (el) el.classList.toggle('lit', i === step);
+    });
+    step = (step + 1) % boxes.length;
+  }
+  // Start after page load
+  setTimeout(() => { pulse(); setInterval(pulse, 900); }, 1200);
+})();
+
+/* ══════════════════════════════════════
+   NARRATIVE → TOKEN MAP
+══════════════════════════════════════ */
+function renderNarrativeTokenMap() {
+  const el = document.getElementById('ntm-rows');
+  if (!el) return;
+  el.innerHTML = NARRATIVE_TOKEN_MAP.map(row => {
+    const tokHtml = row.tokens.map(t => {
+      const cls = t.hot ? 'ntm-tok hot' : t.warm ? 'ntm-tok warm' : 'ntm-tok';
+      return `<span class="${cls}">${t.sym}</span>`;
+    }).join('');
+    return `<div class="ntm-row">
+      <div class="ntm-cat" style="background:${row.color};border-color:${row.border};color:${row.textColor}">${row.cat}</div>
+      <div class="ntm-arrow-sym">→</div>
+      <div class="ntm-toks">${tokHtml}</div>
+    </div>`;
+  }).join('');
+
+  // Periodically flicker a random "hot" token
+  setInterval(() => {
+    const hots = el.querySelectorAll('.ntm-tok.hot');
+    if (!hots.length) return;
+    const t = hots[Math.floor(Math.random() * hots.length)];
+    t.style.transition = 'opacity .2s';
+    t.style.opacity = '.4';
+    setTimeout(() => { t.style.opacity = '1'; }, 220);
+  }, 1500);
+}
 
 /* ══════════════════════════════════════
    HEATMAP
@@ -1827,6 +1957,7 @@ function initApp() {
   updateStats();
   renderHeatmap();
   renderSmartAlerts(SMART_ALERT_DATA);
+  renderNarrativeTokenMap();
 }
 
 function updateUserBadge() {
