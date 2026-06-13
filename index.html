@@ -188,16 +188,45 @@ body::before{
 .gate-tiktok-btn.loading{opacity:.5;pointer-events:none}
 .gate-tiktok-icon{width:20px;height:20px;flex-shrink:0}
 .gate-tiktok-spin{width:13px;height:13px;border:2px solid rgba(255,255,255,.2);border-top-color:#fff;border-radius:50%;animation:spin .6s linear infinite;display:none;flex-shrink:0}
-/* Fixed demo button */
-.gate-demo-cta{position:fixed;bottom:0;left:0;right:0;z-index:1001;padding:0 20px 20px;background:linear-gradient(transparent,rgba(0,0,0,.95) 38%);display:none}
-.gate-demo-cta.visible{display:block}
-.gate-demo-btn{width:100%;max-width:420px;margin:0 auto;background:rgba(10,10,10,.9);border:1px solid rgba(0,245,255,.2);cursor:pointer;padding:14px 18px;display:flex;align-items:center;justify-content:space-between;gap:12px;transition:border-color .2s,background .2s,box-shadow .2s;text-align:left;backdrop-filter:blur(8px)}
-.gate-demo-btn:hover{border-color:rgba(0,245,255,.5);box-shadow:0 0 30px rgba(0,245,255,.1)}
-.gdb-left{flex:1}
-.gdb-label{font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--cyan);margin-bottom:3px}
-.gdb-sub{font-size:12px;color:var(--t4)}
-.gdb-arrow{font-family:'IBM Plex Mono',monospace;font-size:20px;color:var(--cyan);transition:transform .2s}
-.gate-demo-btn:hover .gdb-arrow{transform:translateX(5px)}
+/* Fixed demo button — hidden, replaced by inline version */
+.gate-demo-cta{display:none!important;}
+
+/* ── INLINE LIVE PREVIEW (inside gate card) ── */
+.gate-inline-demo{
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  width:100%;padding:13px 0 2px;background:none;border:none;border-top:1px solid var(--ln);
+  cursor:pointer;margin-top:16px;transition:all .2s;text-decoration:none;
+}
+.gate-inline-demo:hover .gid-label{color:var(--t1);}
+.gate-inline-demo:hover .gid-arrow{transform:translateX(5px);}
+.gid-icon{font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--cyan);opacity:.8;}
+.gid-label{font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:600;letter-spacing:1.8px;text-transform:uppercase;color:var(--cyan);transition:color .2s;}
+.gid-sub{font-family:'IBM Plex Mono',monospace;font-size:7.5px;color:var(--t4);margin-left:2px;}
+.gid-arrow{font-family:'IBM Plex Mono',monospace;font-size:14px;color:var(--cyan);transition:transform .25s ease;}
+
+/* ── ORYNTH BADGE ── */
+.orynth-badge{
+  display:inline-flex;align-items:center;gap:5px;
+  font-family:'IBM Plex Mono',monospace;font-size:8px;color:var(--t4);
+  border:1px solid var(--ln);padding:3px 9px;letter-spacing:.5px;
+  transition:all .25s;text-decoration:none;
+}
+.orynth-badge:hover{border-color:rgba(0,245,255,.2);color:var(--t3);}
+.orynth-dot{width:5px;height:5px;border-radius:50%;background:linear-gradient(135deg,#00f5ff,#7c3aed);flex-shrink:0;}
+
+/* ── GLOBAL SMOOTHNESS ── */
+html{scroll-behavior:smooth;}
+*{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;}
+.gate-card{transition:box-shadow .35s ease;}
+.gate-cta{transition:opacity .2s,box-shadow .25s,transform .12s!important;}
+.gate-cta:active:not(.loading){transform:scale(.985);}
+.gate-mode-btn{transition:all .2s ease!important;}
+.finput{transition:border-color .2s,box-shadow .25s,background .15s!important;}
+.finput:focus{border-color:rgba(0,245,255,.45)!important;box-shadow:0 0 0 1px rgba(0,245,255,.12),0 2px 12px rgba(0,0,0,.4)!important;background:rgba(0,0,0,.7)!important;}
+.gate-tiktok-btn{transition:border-color .2s,box-shadow .25s,background .2s!important;}
+.gate-logo{transition:opacity .3s;}
+#login-gate{animation:gatein .55s cubic-bezier(.22,.68,0,1.2);}
+@keyframes gatein{from{opacity:0;transform:translateY(16px) scale(.98)}to{opacity:1;transform:none}}
 
 /* ══════════════════════════════════════════════
    DEMO OVERLAY
@@ -831,6 +860,12 @@ textarea::placeholder{color:var(--t5);font-size:13px}
           <div class="gate-spin" id="h-spin"></div>
           <span id="h-lbl">ACCESS TOKGRAPH</span>
         </button>
+        <button class="gate-inline-demo" onclick="openDemo()">
+          <span class="gid-icon">▶</span>
+          <span class="gid-label">LIVE PREVIEW</span>
+          <span class="gid-sub">— see full product first</span>
+          <span class="gid-arrow">→</span>
+        </button>
       </div>
 
       <!-- AGENT PANEL -->
@@ -863,6 +898,9 @@ textarea::placeholder{color:var(--t5);font-size:13px}
           <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
           @tokgraph
         </a>
+        <span class="orynth-badge">
+          <span class="orynth-dot"></span>ORYNTH
+        </span>
       </div>
     </div>
   </div>
