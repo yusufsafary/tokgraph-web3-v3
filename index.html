@@ -23,10 +23,94 @@ body{background:var(--bk);color:var(--t1);font-family:'Space Grotesk',sans-serif
 
 /* ── GRID BACKGROUND ── */
 body::before{
-  content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+  content:'';position:fixed;inset:0;pointer-events:none;z-index:2;
   background-image:linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),
                    linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px);
   background-size:48px 48px;
+}
+
+/* ══════════════════════════════════════════════
+   TIKTOK COLLAGE BACKGROUND
+══════════════════════════════════════════════ */
+#tiktok-bg{
+  position:fixed;inset:0;z-index:1;pointer-events:none;overflow:hidden;
+}
+.tk-overlay{
+  position:absolute;inset:0;
+  background:radial-gradient(ellipse 55% 65% at 50% 50%,
+    rgba(0,0,0,.88) 0%,rgba(0,0,0,.65) 60%,rgba(0,0,0,.4) 100%);
+  z-index:10;
+}
+.tk-phone{
+  position:absolute;width:140px;height:248px;
+  border-radius:18px;overflow:hidden;
+  border:1.5px solid rgba(255,255,255,.08);
+  box-shadow:0 12px 40px rgba(0,0,0,.7);
+  animation:tk-float var(--ta,10s) ease-in-out var(--td,0s) infinite;
+  transform:rotate(var(--tr,0deg));
+}
+@keyframes tk-float{
+  0%,100%{transform:rotate(var(--tr,0deg)) translateY(0px)}
+  50%{transform:rotate(var(--tr,0deg)) translateY(-14px)}
+}
+.tk-vid{position:absolute;inset:0;background:var(--tg)}
+.tk-vid::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(transparent 55%,rgba(0,0,0,.7) 100%);
+}
+/* scanline */
+.tk-scan{
+  position:absolute;left:0;right:0;height:2px;
+  background:rgba(255,255,255,.12);
+  animation:tk-scanline 4s linear infinite;
+  z-index:2;
+}
+@keyframes tk-scanline{from{top:0}to{top:100%}}
+/* right icons */
+.tk-right{
+  position:absolute;right:7px;bottom:60px;z-index:3;
+  display:flex;flex-direction:column;align-items:center;gap:14px;
+}
+.tk-av{
+  width:28px;height:28px;border-radius:50%;
+  background:rgba(255,255,255,.9);
+  border:1.5px solid #fff;overflow:hidden;
+  display:grid;place-items:center;
+  font-size:9px;font-weight:700;color:#000;
+  font-family:'IBM Plex Mono',monospace;
+}
+.tk-ic{text-align:center}
+.tk-ic-sym{font-size:17px;display:block;filter:drop-shadow(0 1px 3px rgba(0,0,0,.6))}
+.tk-ic-n{font-family:'IBM Plex Mono',monospace;font-size:7px;color:rgba(255,255,255,.8);display:block}
+.tk-disc{
+  width:24px;height:24px;border-radius:50%;
+  background:conic-gradient(#333,#777,#333);
+  border:2px solid rgba(255,255,255,.3);
+  animation:tk-spin 4s linear infinite;
+  display:grid;place-items:center;font-size:9px;
+}
+@keyframes tk-spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+/* bottom text */
+.tk-bot{
+  position:absolute;bottom:0;left:0;right:0;z-index:3;
+  padding:8px 7px 8px;
+}
+.tk-user{font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:600;color:#fff;margin-bottom:3px}
+.tk-cap{font-size:9px;color:rgba(255,255,255,.85);line-height:1.4;margin-bottom:4px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.tk-mus{font-size:8px;color:rgba(255,255,255,.6);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+/* phone positions */
+.tp1{left:0%;top:8%;--tr:-6deg;--ta:9s;--td:0s;--tg:linear-gradient(160deg,#ff9a56,#ff6b6b,#c0392b)}
+.tp2{right:0%;top:3%;--tr:5deg;--ta:11s;--td:1.5s;--tg:linear-gradient(160deg,#a29bfe,#6c5ce7,#4a0080)}
+.tp3{left:-1%;top:42%;--tr:-4deg;--ta:8s;--td:3s;--tg:linear-gradient(160deg,#55efc4,#00b894,#006b57)}
+.tp4{right:-1%;top:40%;--tr:7deg;--ta:10s;--td:.8s;--tg:linear-gradient(160deg,#fd79a8,#e84393,#8e0057)}
+.tp5{left:1%;top:72%;--tr:-3deg;--ta:12s;--td:2.2s;--tg:linear-gradient(160deg,#74b9ff,#0984e3,#023d7a)}
+.tp6{right:1%;top:69%;--tr:6deg;--ta:7s;--td:4s;--tg:linear-gradient(160deg,#ffeaa7,#fdcb6e,#c97d00)}
+
+@media(max-width:600px){
+  .tk-phone{width:100px;height:178px;border-radius:12px;opacity:.55}
+  .tp3,.tp4{opacity:.35}
+  .tp5,.tp6{opacity:.3}
 }
 
 /* ══════════════════════════════════════════════
@@ -34,7 +118,7 @@ body::before{
 ══════════════════════════════════════════════ */
 #login-gate{
   position:fixed;inset:0;z-index:999;
-  background:var(--bk);
+  background:transparent;
   display:flex;flex-direction:column;align-items:center;justify-content:center;
   padding:24px 20px;
   animation:fadein .4s ease;
@@ -157,12 +241,12 @@ body::before{
 /* Fixed demo button — always visible at bottom of screen */
 .gate-demo-cta{
   position:fixed;bottom:0;left:0;right:0;
-  z-index:1000;
+  z-index:1001;
   padding:0 20px 20px;
-  background:linear-gradient(transparent,#000 38%);
-  pointer-events:none;
+  background:linear-gradient(transparent,rgba(0,0,0,.9) 38%);
+  display:none;
 }
-.gate-demo-cta.visible{pointer-events:all}
+.gate-demo-cta.visible{display:block}
 .gate-demo-btn{
   width:100%;max-width:420px;margin:0 auto;
   background:#0d0d0d;
@@ -1046,6 +1130,107 @@ textarea::placeholder{color:var(--t5);font-size:13px}
     </div>
     <div class="gdb-arrow">&rarr;</div>
   </button>
+</div>
+
+<!-- ══════ TIKTOK COLLAGE BACKGROUND ══════ -->
+<div id="tiktok-bg">
+  <!-- Phone 1: top-left, warm orange -->
+  <div class="tk-phone tp1">
+    <div class="tk-vid"></div><div class="tk-scan"></div>
+    <div class="tk-right">
+      <div class="tk-av">CW</div>
+      <div class="tk-ic"><span class="tk-ic-sym">❤</span><span class="tk-ic-n">48.2K</span></div>
+      <div class="tk-ic"><span class="tk-ic-sym">💬</span><span class="tk-ic-n">892</span></div>
+      <div class="tk-ic"><span class="tk-ic-sym">↗</span><span class="tk-ic-n">Share</span></div>
+      <div class="tk-disc">♪</div>
+    </div>
+    <div class="tk-bot">
+      <div class="tk-user">@cryptowatcher</div>
+      <div class="tk-cap">AI agents are running the market rn 👀</div>
+      <div class="tk-mus">♪ AI Trading Mix · Original</div>
+    </div>
+  </div>
+  <!-- Phone 2: top-right, purple -->
+  <div class="tk-phone tp2">
+    <div class="tk-vid"></div><div class="tk-scan" style="animation-delay:1.3s"></div>
+    <div class="tk-right">
+      <div class="tk-av">DM</div>
+      <div class="tk-ic"><span class="tk-ic-sym">❤</span><span class="tk-ic-n">112K</span></div>
+      <div class="tk-ic"><span class="tk-ic-sym">💬</span><span class="tk-ic-n">2.1K</span></div>
+      <div class="tk-ic"><span class="tk-ic-sym">↗</span><span class="tk-ic-n">Share</span></div>
+      <div class="tk-disc">♪</div>
+    </div>
+    <div class="tk-bot">
+      <div class="tk-user">@defimaxi</div>
+      <div class="tk-cap">3 narratives to watch this cycle 🚀</div>
+      <div class="tk-mus">♪ Crypto Vibes · DeFi Mix</div>
+    </div>
+  </div>
+  <!-- Phone 3: mid-left, green -->
+  <div class="tk-phone tp3">
+    <div class="tk-vid"></div><div class="tk-scan" style="animation-delay:2.1s"></div>
+    <div class="tk-right">
+      <div class="tk-av">W3</div>
+      <div class="tk-ic"><span class="tk-ic-sym">❤</span><span class="tk-ic-n">67.4K</span></div>
+      <div class="tk-ic"><span class="tk-ic-sym">💬</span><span class="tk-ic-n">1.4K</span></div>
+      <div class="tk-ic"><span class="tk-ic-sym">↗</span><span class="tk-ic-n">Share</span></div>
+      <div class="tk-disc">♪</div>
+    </div>
+    <div class="tk-bot">
+      <div class="tk-user">@web3alpha</div>
+      <div class="tk-cap">How I found 100x signals early 🎯</div>
+      <div class="tk-mus">♪ Alpha Sounds · Web3</div>
+    </div>
+  </div>
+  <!-- Phone 4: mid-right, pink -->
+  <div class="tk-phone tp4">
+    <div class="tk-vid"></div><div class="tk-scan" style="animation-delay:.6s"></div>
+    <div class="tk-right">
+      <div class="tk-av">NT</div>
+      <div class="tk-ic"><span class="tk-ic-sym">❤</span><span class="tk-ic-n">89.1K</span></div>
+      <div class="tk-ic"><span class="tk-ic-sym">💬</span><span class="tk-ic-n">3.3K</span></div>
+      <div class="tk-ic"><span class="tk-ic-sym">↗</span><span class="tk-ic-n">Share</span></div>
+      <div class="tk-disc">♪</div>
+    </div>
+    <div class="tk-bot">
+      <div class="tk-user">@nfttrader</div>
+      <div class="tk-cap">This protocol is different $TAO 🔥</div>
+      <div class="tk-mus">♪ Market Beats · NFT Season</div>
+    </div>
+  </div>
+  <!-- Phone 5: bottom-left, blue -->
+  <div class="tk-phone tp5">
+    <div class="tk-vid"></div><div class="tk-scan" style="animation-delay:3s"></div>
+    <div class="tk-right">
+      <div class="tk-av">AI</div>
+      <div class="tk-ic"><span class="tk-ic-sym">❤</span><span class="tk-ic-n">34.7K</span></div>
+      <div class="tk-ic"><span class="tk-ic-sym">💬</span><span class="tk-ic-n">678</span></div>
+      <div class="tk-ic"><span class="tk-ic-sym">↗</span><span class="tk-ic-n">Share</span></div>
+      <div class="tk-disc">♪</div>
+    </div>
+    <div class="tk-bot">
+      <div class="tk-user">@aitrading</div>
+      <div class="tk-cap">ML meets on-chain data 🤖</div>
+      <div class="tk-mus">♪ Neural Sound · AI Mix</div>
+    </div>
+  </div>
+  <!-- Phone 6: bottom-right, gold -->
+  <div class="tk-phone tp6">
+    <div class="tk-vid"></div><div class="tk-scan" style="animation-delay:1.8s"></div>
+    <div class="tk-right">
+      <div class="tk-av">MC</div>
+      <div class="tk-ic"><span class="tk-ic-sym">❤</span><span class="tk-ic-n">201K</span></div>
+      <div class="tk-ic"><span class="tk-ic-sym">💬</span><span class="tk-ic-n">5.8K</span></div>
+      <div class="tk-ic"><span class="tk-ic-sym">↗</span><span class="tk-ic-n">Share</span></div>
+      <div class="tk-disc">♪</div>
+    </div>
+    <div class="tk-bot">
+      <div class="tk-user">@marketcap</div>
+      <div class="tk-cap">RWA tokenization: the quiet 10x 📈</div>
+      <div class="tk-mus">♪ Bull Season · MarketCap</div>
+    </div>
+  </div>
+  <div class="tk-overlay"></div>
 </div>
 
 <!-- ══════ DEMO OVERLAY ══════ -->
