@@ -153,7 +153,289 @@ body::before{
   padding:12px 22px;border-top:1px solid var(--ln);
   font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--t4);
   text-align:center;letter-spacing:.5px;
+  display:flex;align-items:center;justify-content:space-between;
 }
+.gate-demo-link{
+  background:none;border:none;cursor:pointer;
+  font-family:'IBM Plex Mono',monospace;font-size:9px;
+  color:var(--t3);letter-spacing:.5px;
+  text-decoration:underline;text-underline-offset:3px;
+  transition:color .15s;
+}
+.gate-demo-link:hover{color:var(--t1)}
+
+/* ══════════════════════════════════════════════
+   DEMO OVERLAY
+══════════════════════════════════════════════ */
+#demo-overlay{
+  position:fixed;inset:0;z-index:1000;
+  background:var(--bk);
+  display:flex;flex-direction:column;
+  opacity:0;pointer-events:none;
+  transition:opacity .3s ease;
+  overflow:hidden;
+}
+#demo-overlay.show{opacity:1;pointer-events:all}
+
+/* demo top bar */
+.demo-topbar{
+  flex-shrink:0;height:44px;
+  background:var(--sf);border-bottom:1px solid var(--ln);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 16px;
+}
+.demo-badge{
+  display:flex;align-items:center;gap:7px;
+  font-family:'IBM Plex Mono',monospace;font-size:9px;
+  font-weight:600;letter-spacing:2px;
+}
+.demo-badge-pill{
+  background:var(--red);color:var(--wh);
+  padding:2px 8px;font-size:8px;letter-spacing:1.5px;
+}
+.demo-badge-name{color:var(--t3)}
+.demo-close{
+  background:none;border:1px solid var(--ln2);
+  font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--t3);
+  padding:5px 10px;cursor:pointer;letter-spacing:1px;transition:all .2s;
+}
+.demo-close:hover{border-color:#444;color:var(--t1)}
+
+/* demo mode tabs */
+.demo-tabs{
+  flex-shrink:0;display:grid;grid-template-columns:1fr 1fr;
+  border-bottom:1px solid var(--ln);
+}
+.demo-tab{
+  background:none;border:none;border-bottom:2px solid transparent;
+  font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:600;
+  letter-spacing:2px;text-transform:uppercase;color:var(--t4);
+  padding:11px 0;cursor:pointer;text-align:center;transition:all .2s;
+}
+.demo-tab.active{color:var(--t1);border-bottom-color:var(--t1)}
+.demo-tab:hover:not(.active){color:var(--t2)}
+.demo-tab .dtag{
+  font-size:7px;border:1px solid currentColor;padding:1px 5px;margin-left:6px;opacity:.7;
+}
+
+/* demo panels */
+.demo-panels{flex:1;overflow:hidden;position:relative}
+.demo-panel{
+  position:absolute;inset:0;overflow-y:auto;
+  opacity:0;pointer-events:none;transition:opacity .25s;
+}
+.demo-panel.active{opacity:1;pointer-events:all}
+
+/* ── HUMAN DEMO PANEL ── */
+.hd-layout{padding:16px 16px 100px}
+
+.hd-title-row{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:14px;
+}
+.hd-title{
+  font-family:'IBM Plex Mono',monospace;font-size:8px;font-weight:600;
+  letter-spacing:2.5px;text-transform:uppercase;color:var(--red);
+}
+.hd-status{
+  display:flex;align-items:center;gap:5px;
+  font-family:'IBM Plex Mono',monospace;font-size:8px;color:var(--t3);
+}
+.hd-status-dot{width:5px;height:5px;border-radius:50%;background:var(--green)}
+.hd-status-dot.idle{background:var(--t5)}
+.hd-status-dot.busy{background:var(--red);animation:blink 1s infinite}
+
+/* mock textarea */
+.demo-ibox{
+  background:var(--sf);border:1px solid var(--ln2);margin-bottom:10px;
+}
+.demo-textarea{
+  width:100%;min-height:90px;padding:12px;
+  font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--t2);
+  line-height:1.65;display:block;
+  white-space:pre-wrap;word-break:break-word;
+}
+.demo-cursor{
+  display:inline-block;width:7px;height:13px;background:var(--t2);
+  animation:blink-c .7s step-end infinite;vertical-align:bottom;margin-left:1px;
+}
+
+.demo-ifoot{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:6px 10px;border-top:1px solid var(--ln);
+  font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--t4);
+}
+
+/* mock CTA */
+.demo-cta{
+  width:100%;background:var(--wh);border:none;
+  font-family:'Space Grotesk',sans-serif;font-size:13px;font-weight:700;
+  color:var(--bk);padding:13px 16px;display:flex;
+  align-items:center;justify-content:space-between;margin-bottom:10px;
+  transition:box-shadow .3s;cursor:default;
+}
+.demo-cta.pulsing{box-shadow:0 0 24px rgba(255,255,255,.18)}
+
+/* demo result blocks */
+.demo-result{display:none}
+.demo-result.show{display:block}
+
+.dr-blk{border:1px solid var(--ln);margin-bottom:5px}
+.dr-hd{
+  padding:7px 12px;border-bottom:1px solid var(--ln);
+  display:flex;align-items:center;justify-content:space-between;
+  font-family:'IBM Plex Mono',monospace;font-size:7px;
+  letter-spacing:2.5px;text-transform:uppercase;color:var(--t4);
+}
+.dr-bd{padding:12px 12px}
+
+.demo-narr-cat{font-size:30px;font-weight:700;letter-spacing:-1.2px;color:var(--t1);margin-bottom:4px}
+.demo-narr-key{font-size:12px;color:var(--t2);font-style:italic}
+.demo-sent{
+  font-family:'IBM Plex Mono',monospace;font-size:8px;font-weight:600;
+  letter-spacing:1.5px;text-transform:uppercase;
+  background:var(--wh);color:var(--bk);padding:4px 9px;
+  display:inline-block;margin-top:8px;
+}
+
+.demo-score-big{
+  font-family:'IBM Plex Mono',monospace;font-size:64px;font-weight:600;
+  line-height:1;letter-spacing:-5px;color:var(--t1);margin-bottom:8px;
+}
+.demo-score-bar{height:2px;background:#141414;overflow:hidden}
+.demo-score-fill{height:100%;background:var(--wh);width:0;transition:width 1.4s cubic-bezier(.16,1,.3,1)}
+.demo-segs{display:flex;gap:2px;margin-top:8px}
+.dseg{flex:1;height:3px;background:#141414;transition:background .4s}
+.dseg.on{background:var(--wh)}.dseg.half{background:#383838}
+
+.demo-tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:6px}
+.dtag-tok{border:1px solid var(--t1);color:var(--t1);font-family:'IBM Plex Mono',monospace;font-size:10px;padding:3px 8px;opacity:0;transform:translateY(4px);transition:all .3s}
+.dtag-tok.in{opacity:1;transform:none}
+.dtag-kw{border:1px solid #222;color:var(--t3);font-family:'IBM Plex Mono',monospace;font-size:10px;padding:3px 8px;opacity:0;transition:all .3s}
+.dtag-kw.in{opacity:1}
+
+.demo-why{font-size:12px;color:var(--t2);line-height:1.7;opacity:0;transition:opacity .5s}
+.demo-why.in{opacity:1}
+
+.demo-action-blk{
+  border:1px solid var(--t1);background:rgba(255,255,255,.02);
+  padding:14px 12px;display:grid;grid-template-columns:1fr auto;gap:12px;
+  align-items:center;opacity:0;transition:opacity .4s;
+}
+.demo-action-blk.in{opacity:1}
+.dact-lbl{font-family:'IBM Plex Mono',monospace;font-size:7px;letter-spacing:2px;text-transform:uppercase;color:var(--t4);margin-bottom:4px}
+.dact-name{font-size:22px;font-weight:700;color:var(--t1);letter-spacing:-.4px;margin-bottom:3px}
+.dact-sub{font-size:11px;color:var(--t2);line-height:1.5}
+.dact-g{font-family:'IBM Plex Mono',monospace;font-size:26px;color:var(--t1)}
+
+/* ── AGENT DEMO PANEL ── */
+.ad-layout{padding:16px 16px 100px}
+
+.ad-section{margin-bottom:20px}
+.ad-section-lbl{
+  font-family:'IBM Plex Mono',monospace;font-size:8px;font-weight:600;
+  letter-spacing:2.5px;text-transform:uppercase;color:var(--t4);
+  margin-bottom:8px;display:flex;align-items:center;gap:8px;
+}
+.ad-section-lbl::after{content:'';flex:1;height:1px;background:var(--ln)}
+
+/* terminal */
+.term{
+  background:#080808;border:1px solid var(--ln2);
+  font-family:'IBM Plex Mono',monospace;font-size:11px;line-height:1.65;
+  padding:14px;position:relative;overflow:hidden;
+}
+.term-topbar{
+  display:flex;align-items:center;gap:5px;margin-bottom:12px;padding-bottom:10px;
+  border-bottom:1px solid var(--ln);
+}
+.term-dot{width:8px;height:8px;border-radius:50%}
+.term-title{font-size:9px;color:var(--t4);letter-spacing:1px;margin-left:6px}
+
+.t-comment{color:#444}
+.t-cmd{color:var(--t3)}
+.t-flag{color:#7ca}
+.t-url{color:#8ab4f8}
+.t-string{color:#ce9178}
+.t-key{color:#9cdcfe}
+.t-val{color:#4ade80}
+.t-val-str{color:#ce9178}
+.t-val-num{color:#b5cea8}
+.t-punc{color:var(--t4)}
+.t-method{color:var(--red);font-weight:600}
+
+.term-cursor{
+  display:inline-block;width:6px;height:12px;background:var(--t3);
+  animation:blink-c .8s step-end infinite;vertical-align:middle;
+}
+
+/* endpoints table */
+.ep-table{border:1px solid var(--ln);width:100%}
+.ep-row{
+  display:grid;grid-template-columns:auto auto 1fr;
+  border-bottom:1px solid var(--ln);padding:9px 12px;align-items:center;gap:10px;
+  transition:background .15s;
+}
+.ep-row:last-child{border-bottom:none}
+.ep-row:hover{background:var(--sf)}
+.ep-method{
+  font-family:'IBM Plex Mono',monospace;font-size:8px;font-weight:600;
+  letter-spacing:.5px;padding:2px 6px;white-space:nowrap;
+}
+.ep-method.p{background:var(--wh);color:var(--bk)}
+.ep-method.g{border:1px solid #2e2e2e;color:var(--t4)}
+.ep-path{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--t2)}
+.ep-desc{font-size:12px;color:var(--t3)}
+
+/* rate limits */
+.rl-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  border:1px solid var(--ln);
+}
+.rl-cell{
+  padding:12px 14px;border-right:1px solid var(--ln);text-align:center;
+}
+.rl-cell:last-child{border-right:none}
+.rl-num{
+  font-family:'IBM Plex Mono',monospace;font-size:22px;font-weight:600;
+  color:var(--t1);margin-bottom:3px;
+}
+.rl-lbl{font-family:'IBM Plex Mono',monospace;font-size:8px;color:var(--t3);letter-spacing:1.5px;text-transform:uppercase}
+
+/* ws stream */
+.ws-stream{
+  background:#080808;border:1px solid var(--ln2);
+  padding:12px 14px;
+  font-family:'IBM Plex Mono',monospace;font-size:10px;
+  color:var(--t3);line-height:1.8;
+  height:140px;overflow:hidden;position:relative;
+}
+.ws-stream::after{
+  content:'';position:absolute;bottom:0;left:0;right:0;height:40px;
+  background:linear-gradient(transparent,#080808);
+}
+.ws-line{display:block;animation:ws-appear .3s ease both}
+@keyframes ws-appear{from{opacity:0;transform:translateX(-6px)}to{opacity:1;transform:none}}
+.ws-line .wst{color:var(--t5)}
+.ws-line .wsn{color:var(--t1);font-weight:600}
+.ws-line .wss{color:var(--green)}
+.ws-line .wsr{color:var(--red)}
+
+/* demo bottom CTA */
+.demo-bottom{
+  position:absolute;bottom:0;left:0;right:0;
+  background:linear-gradient(transparent,var(--bk) 50%);
+  padding:30px 16px 16px;
+}
+.demo-get-access{
+  width:100%;background:var(--wh);border:none;
+  font-family:'Space Grotesk',sans-serif;
+  font-size:14px;font-weight:700;letter-spacing:.5px;
+  color:var(--bk);padding:15px 18px;cursor:pointer;
+  display:flex;align-items:center;justify-content:space-between;
+  transition:box-shadow .2s;
+}
+.demo-get-access:hover{box-shadow:0 0 28px rgba(255,255,255,.12)}
 
 /* agent pill info */
 .agent-feature-row{
@@ -728,9 +1010,236 @@ textarea::placeholder{color:var(--t5);font-size:13px}
       </div>
 
     </div>
-    <div class="gate-footer">Invite-only access · Applications reviewed within 48h</div>
+    <div class="gate-footer">
+    <span>Invite-only access</span>
+    <button class="gate-demo-link" onclick="openDemo()">SEE DEMO &rarr;</button>
+  </div>
   </div>
 </div>
+
+<!-- ══════ DEMO OVERLAY ══════ -->
+<div id="demo-overlay">
+
+  <div class="demo-topbar">
+    <div class="demo-badge">
+      <span class="demo-badge-pill">DEMO</span>
+      <span class="demo-badge-name">TokGraph Web3 V3 &mdash; Live Preview</span>
+    </div>
+    <button class="demo-close" onclick="closeDemo()">CLOSE &times;</button>
+  </div>
+
+  <div class="demo-tabs">
+    <button class="demo-tab active" id="dt-human" onclick="setDemoTab('human')">
+      HUMAN EXPERIENCE <span class="dtag">LIVE</span>
+    </button>
+    <button class="demo-tab" id="dt-agent" onclick="setDemoTab('agent')">
+      AI AGENT API <span class="dtag">JSON</span>
+    </button>
+  </div>
+
+  <div class="demo-panels">
+
+    <!-- HUMAN DEMO -->
+    <div class="demo-panel active" id="dp-human">
+      <div class="hd-layout">
+        <div class="hd-title-row">
+          <span class="hd-title">Live Analysis Demo</span>
+          <div class="hd-status">
+            <div class="hd-status-dot idle" id="demo-dot"></div>
+            <span id="demo-status-txt" style="font-family:'IBM Plex Mono',monospace;font-size:9px">Idle</span>
+          </div>
+        </div>
+
+        <!-- Mock input -->
+        <div class="demo-ibox">
+          <div class="demo-textarea" id="demo-textarea"><span class="demo-cursor" id="demo-cursor"></span></div>
+          <div class="demo-ifoot">
+            <span>Transcript Input</span>
+            <span id="demo-char-count" style="font-size:9px;color:var(--t4)">0 chars</span>
+          </div>
+        </div>
+
+        <!-- Mock CTA -->
+        <div class="demo-cta" id="demo-cta-btn">
+          <span id="demo-cta-lbl">ANALYZE SIGNAL</span>
+          <span id="demo-cta-arr" style="font-family:'IBM Plex Mono',monospace">&rarr;</span>
+        </div>
+
+        <!-- Scan -->
+        <div class="scan-wrap" id="demo-scan" style="margin:0 0 10px;padding:10px 12px">
+          <div class="scan-segs" id="demo-scan-segs"></div>
+          <div class="scan-txt"><span id="demo-scan-txt">Initializing</span><span class="scan-cur">_</span></div>
+        </div>
+
+        <!-- Result -->
+        <div class="demo-result" id="demo-result">
+
+          <div class="dr-blk">
+            <div class="dr-hd">
+              <span>01 Narrative</span>
+              <span style="color:var(--red);font-size:8px;letter-spacing:1.5px">BULLISH</span>
+            </div>
+            <div class="dr-bd">
+              <div class="demo-narr-cat">AI</div>
+              <div class="demo-narr-key">"AI agent infrastructure emerging as dominant cycle narrative"</div>
+              <div class="demo-sent">BULLISH</div>
+            </div>
+          </div>
+
+          <div class="dr-blk">
+            <div class="dr-hd">
+              <span>02 Market Relevance</span>
+              <span style="background:var(--wh);color:var(--bk);padding:2px 9px;font-size:8px;letter-spacing:1.5px">HIGH CONVICTION</span>
+            </div>
+            <div class="dr-bd">
+              <div class="demo-score-big" id="demo-score-num">0.0</div>
+              <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--t4);margin-bottom:8px">/10 relevance score</div>
+              <div class="demo-score-bar"><div class="demo-score-fill" id="demo-fill"></div></div>
+              <div class="demo-segs" id="demo-segs"></div>
+            </div>
+          </div>
+
+          <div class="dr-blk">
+            <div class="dr-hd"><span>03 Tokens and Keywords</span></div>
+            <div class="dr-bd">
+              <div style="font-family:'IBM Plex Mono',monospace;font-size:7px;color:var(--t4);letter-spacing:2px;margin-bottom:6px">DETECTED TOKENS</div>
+              <div class="demo-tags" id="demo-toks">
+                <span class="dtag-tok">$NEAR</span>
+                <span class="dtag-tok">$FET</span>
+                <span class="dtag-tok">$VIRTUAL</span>
+                <span class="dtag-tok">$TAO</span>
+              </div>
+              <div style="font-family:'IBM Plex Mono',monospace;font-size:7px;color:var(--t4);letter-spacing:2px;margin:10px 0 6px">KEY TERMS</div>
+              <div class="demo-tags" id="demo-kws">
+                <span class="dtag-kw">autonomous</span>
+                <span class="dtag-kw">agents</span>
+                <span class="dtag-kw">infrastructure</span>
+                <span class="dtag-kw">protocol</span>
+                <span class="dtag-kw">on-chain</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="dr-blk">
+            <div class="dr-hd"><span>04 Why It Matters</span></div>
+            <div class="dr-bd">
+              <p class="demo-why" id="demo-why">AI agent narratives are driving significant on-chain activity. Autonomous protocols are becoming the default execution layer. Infrastructure plays are positioned for outsized returns as adoption accelerates exponentially.</p>
+            </div>
+          </div>
+
+          <div class="demo-action-blk" id="demo-action">
+            <div>
+              <div class="dact-lbl">05 Signal Action</div>
+              <div class="dact-name">EARLY SIGNAL</div>
+              <div class="dact-sub">High conviction entry window open. Early positioning with managed risk recommended now.</div>
+            </div>
+            <div class="dact-g">&uarr;</div>
+          </div>
+
+        </div><!-- /demo-result -->
+
+      </div><!-- /hd-layout -->
+
+      <div class="demo-bottom">
+        <button class="demo-get-access" onclick="closeDemo()">
+          <span>GET ACCESS NOW</span>
+          <span style="font-family:'IBM Plex Mono',monospace">&rarr;</span>
+        </button>
+      </div>
+    </div><!-- /dp-human -->
+
+    <!-- AGENT DEMO -->
+    <div class="demo-panel" id="dp-agent">
+      <div class="ad-layout">
+
+        <div class="ad-section">
+          <div class="ad-section-lbl">Request</div>
+          <div class="term">
+            <div class="term-topbar">
+              <div class="term-dot" style="background:#fe5f57"></div>
+              <div class="term-dot" style="background:#febc2e"></div>
+              <div class="term-dot" style="background:#28c840"></div>
+              <span class="term-title">bash</span>
+            </div>
+            <div id="agent-request-lines"></div>
+            <span class="term-cursor" id="agent-cursor"></span>
+          </div>
+        </div>
+
+        <div class="ad-section">
+          <div class="ad-section-lbl">Response</div>
+          <div class="term" style="max-height:260px;overflow:hidden">
+            <div class="term-topbar">
+              <div class="term-dot" style="background:#fe5f57"></div>
+              <div class="term-dot" style="background:#febc2e"></div>
+              <div class="term-dot" style="background:#28c840"></div>
+              <span class="term-title">JSON 200 OK</span>
+            </div>
+            <div id="agent-response-lines"></div>
+          </div>
+        </div>
+
+        <div class="ad-section">
+          <div class="ad-section-lbl">WebSocket Stream</div>
+          <div class="ws-stream" id="ws-stream"></div>
+        </div>
+
+        <div class="ad-section">
+          <div class="ad-section-lbl">API Endpoints</div>
+          <div class="ep-table">
+            <div class="ep-row">
+              <span class="ep-method p">POST</span>
+              <span class="ep-path">/analyze</span>
+              <span class="ep-desc">Extract narrative signals from transcript</span>
+            </div>
+            <div class="ep-row">
+              <span class="ep-method g">GET</span>
+              <span class="ep-path">/trend</span>
+              <span class="ep-desc">Live narrative momentum feed</span>
+            </div>
+            <div class="ep-row">
+              <span class="ep-method g">GET</span>
+              <span class="ep-path">/history</span>
+              <span class="ep-desc">Past signal history export</span>
+            </div>
+            <div class="ep-row">
+              <span class="ep-method g">GET</span>
+              <span class="ep-path">/health</span>
+              <span class="ep-desc">Engine status and uptime</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="ad-section">
+          <div class="ad-section-lbl">Rate Limits</div>
+          <div class="rl-grid">
+            <div class="rl-cell">
+              <div class="rl-num">100</div>
+              <div class="rl-lbl">Req / Day</div>
+            </div>
+            <div class="rl-cell">
+              <div class="rl-num">10</div>
+              <div class="rl-lbl">Req / Min</div>
+            </div>
+            <div class="rl-cell">
+              <div class="rl-num">1MB</div>
+              <div class="rl-lbl">Max Body</div>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /ad-layout -->
+
+      <div class="demo-bottom">
+        <button class="demo-get-access" onclick="closeDemo()">
+          <span>GET API ACCESS</span>
+          <span style="font-family:'IBM Plex Mono',monospace">&rarr;</span>
+        </button>
+      </div>
+    </div><!-- /dp-agent -->
+
+  </div><!-- /demo-panels -->
+</div><!-- /demo-overlay -->
 
 <!-- ══════ APP ══════ -->
 <div id="app">
@@ -1582,7 +2091,290 @@ function toast(msg) {
 ══════════════════════════════════════ */
 document.addEventListener('keydown', e=>{
   if((e.ctrlKey||e.metaKey)&&e.key==='Enter') runAnalysis();
+  if(e.key==='Escape') closeDemo();
 });
+
+/* ══════════════════════════════════════
+   DEMO OVERLAY
+══════════════════════════════════════ */
+let demoRunning = false;
+let demoTimers  = [];
+
+function openDemo() {
+  document.getElementById('demo-overlay').classList.add('show');
+  setDemoTab('human');
+  startHumanDemo();
+}
+
+function closeDemo() {
+  document.getElementById('demo-overlay').classList.remove('show');
+  stopDemo();
+}
+
+function setDemoTab(tab) {
+  ['human','agent'].forEach(t => {
+    document.getElementById('dt-'+t).classList.toggle('active', t===tab);
+    document.getElementById('dp-'+t).classList.toggle('active', t===tab);
+  });
+  stopDemo();
+  if(tab==='human') startHumanDemo();
+  else              startAgentDemo();
+}
+
+function stopDemo() {
+  demoTimers.forEach(clearTimeout);
+  demoTimers = [];
+  demoRunning = false;
+}
+
+function dt(fn, delay) {
+  const id = setTimeout(fn, delay);
+  demoTimers.push(id);
+  return id;
+}
+
+/* ─── HUMAN DEMO ─── */
+const DEMO_TRANSCRIPT = `AI agents are literally taking over crypto right now. I'm seeing autonomous agents trading, bridging, and writing smart contracts on their own. Every major protocol is integrating agent infrastructure. This is the next 100x narrative. $NEAR, $FET, and $VIRTUAL are all positioned perfectly. Get in early or get left behind.`;
+
+const SCAN_STEPS_D = ['Normalizing input signal','Detecting narrative patterns','Scoring market relevance','Extracting token signals','Generating report'];
+
+function setDemoStatus(state) {
+  const dot = document.getElementById('demo-dot');
+  const txt = document.getElementById('demo-status-txt');
+  dot.className = 'hd-status-dot ' + state;
+  txt.textContent = state==='idle'?'Idle':state==='busy'?'Analyzing...':'Complete';
+}
+
+function startHumanDemo() {
+  if(demoRunning) return;
+  demoRunning = true;
+
+  // reset
+  const ta    = document.getElementById('demo-textarea');
+  const cta   = document.getElementById('demo-cta-btn');
+  const scan  = document.getElementById('demo-scan');
+  const res   = document.getElementById('demo-result');
+  const fill  = document.getElementById('demo-fill');
+  const score = document.getElementById('demo-score-num');
+
+  ta.innerHTML = '<span class="demo-cursor" id="demo-cursor"></span>';
+  document.getElementById('demo-char-count').textContent = '0 chars';
+  document.getElementById('demo-cta-lbl').textContent = 'ANALYZE SIGNAL';
+  document.getElementById('demo-cta-arr').style.opacity = '1';
+  cta.classList.remove('pulsing');
+  scan.classList.remove('show');
+  res.classList.remove('show');
+  fill.style.width = '0';
+  score.textContent = '0.0';
+  document.querySelectorAll('.dtag-tok,.dtag-kw').forEach(el=>el.classList.remove('in'));
+  document.getElementById('demo-why').classList.remove('in');
+  document.getElementById('demo-action').classList.remove('in');
+  setDemoStatus('idle');
+
+  // phase 1: type transcript
+  let i = 0;
+  const cursor = () => document.getElementById('demo-cursor');
+
+  function typeNext() {
+    if(!demoRunning) return;
+    if(i >= DEMO_TRANSCRIPT.length) {
+      // done typing
+      dt(triggerAnalyze, 700);
+      return;
+    }
+    const chunk = DEMO_TRANSCRIPT.slice(0, ++i);
+    const cur   = cursor();
+    if(cur) cur.remove();
+    ta.innerHTML = chunk + '<span class="demo-cursor" id="demo-cursor"></span>';
+    document.getElementById('demo-char-count').textContent = i + ' chars';
+    const speed = i < 60 ? 28 : i < 150 ? 18 : 10;
+    dt(typeNext, speed);
+  }
+
+  dt(typeNext, 500);
+
+  function triggerAnalyze() {
+    if(!demoRunning) return;
+    setDemoStatus('busy');
+    cta.classList.add('pulsing');
+    document.getElementById('demo-cta-lbl').textContent = 'ANALYZING';
+    document.getElementById('demo-cta-arr').style.opacity = '0';
+
+    dt(()=>{
+      cta.classList.remove('pulsing');
+      scan.classList.add('show');
+      runScanAnim(0);
+    }, 400);
+  }
+
+  function runScanAnim(step) {
+    if(!demoRunning) return;
+    const segs = document.getElementById('demo-scan-segs');
+    segs.innerHTML = SCAN_STEPS_D.map((_,i)=>`<div class="sseg${i<step?' done':i===step?' active':''}"></div>`).join('');
+    document.getElementById('demo-scan-txt').textContent = SCAN_STEPS_D[Math.min(step, SCAN_STEPS_D.length-1)];
+    if(step < SCAN_STEPS_D.length) {
+      dt(()=>runScanAnim(step+1), 450);
+    } else {
+      dt(revealResult, 300);
+    }
+  }
+
+  function revealResult() {
+    if(!demoRunning) return;
+    scan.classList.remove('show');
+    document.getElementById('demo-cta-lbl').textContent = 'ANALYZE SIGNAL';
+    document.getElementById('demo-cta-arr').style.opacity = '1';
+    setDemoStatus('complete');
+
+    res.classList.add('show');
+
+    // animate score counter
+    dt(()=>{
+      fill.style.width = '87%';
+      animateScore(0, 8.7, 1400);
+    }, 100);
+
+    // animate segs
+    dt(()=>{
+      const segs = document.getElementById('demo-segs');
+      segs.innerHTML = Array.from({length:10},(_,i)=>`<div class="dseg${i<8?' on':i===8?' half':''}"></div>`).join('');
+    }, 200);
+
+    // token tags
+    document.querySelectorAll('#demo-toks .dtag-tok').forEach((el,i)=>{
+      dt(()=>el.classList.add('in'), 900 + i*120);
+    });
+
+    // keyword tags
+    document.querySelectorAll('#demo-kws .dtag-kw').forEach((el,i)=>{
+      dt(()=>el.classList.add('in'), 1400 + i*80);
+    });
+
+    // why
+    dt(()=>document.getElementById('demo-why').classList.add('in'), 1800);
+
+    // action
+    dt(()=>document.getElementById('demo-action').classList.add('in'), 2200);
+
+    // loop after 6s
+    dt(()=>{ stopDemo(); demoRunning=false; dt(startHumanDemo, 800); }, 6500);
+  }
+}
+
+function animateScore(current, target, duration) {
+  const el  = document.getElementById('demo-score-num');
+  const step = target / (duration / 16);
+  let val   = current;
+  function tick() {
+    if(!demoRunning) return;
+    val = Math.min(val + step, target);
+    el.textContent = val.toFixed(1);
+    if(val < target) dt(tick, 16);
+  }
+  dt(tick, 16);
+}
+
+/* ─── AGENT DEMO ─── */
+const REQUEST_LINES = [
+  {cls:'t-comment', txt:'# Authenticate with your API key'},
+  {cls:'t-cmd',     txt:'curl \\'},
+  {cls:'t-flag',    txt:'  -X POST \\'},
+  {cls:'t-url',     txt:'  https://api.tokgraph.fun/analyze \\'},
+  {cls:'t-flag',    txt:'  -H "Authorization: Bearer tg_sk_..." \\'},
+  {cls:'t-flag',    txt:'  -H "Content-Type: application/json" \\'},
+  {cls:'t-string',  txt:"  -d '{\"text\": \"AI agents are taking over...\"}'"},
+];
+
+const RESPONSE_LINES = [
+  {cls:'t-punc',    txt:'{'},
+  {cls:'',          txt:'  <span class="t-key">"id"</span><span class="t-punc">:</span> <span class="t-val-str">"sig_1749823600174"</span><span class="t-punc">,</span>'},
+  {cls:'',          txt:'  <span class="t-key">"narrative_category"</span><span class="t-punc">:</span> <span class="t-val-str">"AI"</span><span class="t-punc">,</span>'},
+  {cls:'',          txt:'  <span class="t-key">"sentiment"</span><span class="t-punc">:</span> <span class="t-val-str">"Bullish"</span><span class="t-punc">,</span>'},
+  {cls:'',          txt:'  <span class="t-key">"market_relevance_score"</span><span class="t-punc">:</span> <span class="t-val-num">8.7</span><span class="t-punc">,</span>'},
+  {cls:'',          txt:'  <span class="t-key">"action"</span><span class="t-punc">:</span> <span class="t-val-str">"Early Signal"</span><span class="t-punc">,</span>'},
+  {cls:'',          txt:'  <span class="t-key">"tokens_mentioned"</span><span class="t-punc">:</span> <span class="t-punc">[</span><span class="t-val-str">"NEAR"</span><span class="t-punc">,</span><span class="t-val-str">"FET"</span><span class="t-punc">,</span><span class="t-val-str">"VIRTUAL"</span><span class="t-punc">],</span>'},
+  {cls:'',          txt:'  <span class="t-key">"keywords"</span><span class="t-punc">:</span> <span class="t-punc">[</span><span class="t-val-str">"agents"</span><span class="t-punc">,</span><span class="t-val-str">"autonomous"</span><span class="t-punc">,</span><span class="t-val-str">"infrastructure"</span><span class="t-punc">],</span>'},
+  {cls:'',          txt:'  <span class="t-key">"why_it_matters"</span><span class="t-punc">:</span> <span class="t-val-str">"AI agent narratives driving..."</span><span class="t-punc">,</span>'},
+  {cls:'',          txt:'  <span class="t-key">"timestamp"</span><span class="t-punc">:</span> <span class="t-val-str">"2026-06-13T11:46:40.174Z"</span>'},
+  {cls:'t-punc',    txt:'}'},
+];
+
+const WS_ENTRIES = [
+  {time:'11:47:02', name:'AI Agents',        score:'9.1', up:true},
+  {time:'11:47:15', name:'RWA Tokenization', score:'8.8', up:true},
+  {time:'11:47:31', name:'DeFi Restaking',   score:'7.9', up:true},
+  {time:'11:47:44', name:'Memecoin Season',  score:'6.5', up:true},
+  {time:'11:47:58', name:'Layer 2 Wars',     score:'7.1', up:true},
+  {time:'11:48:12', name:'ZK Privacy',       score:'-2.1',up:false},
+];
+
+function startAgentDemo() {
+  if(demoRunning) return;
+  demoRunning = true;
+
+  const reqEl = document.getElementById('agent-request-lines');
+  const resEl = document.getElementById('agent-response-lines');
+  const wsEl  = document.getElementById('ws-stream');
+  const cur   = document.getElementById('agent-cursor');
+
+  reqEl.innerHTML = '';
+  resEl.innerHTML = '';
+  wsEl.innerHTML  = '';
+  if(cur) cur.style.display='inline-block';
+
+  // type request lines
+  REQUEST_LINES.forEach((line, i) => {
+    dt(() => {
+      if(!demoRunning) return;
+      const el = document.createElement('div');
+      el.innerHTML = `<span class="${line.cls}">${line.txt}</span>`;
+      el.style.opacity='0';el.style.transform='translateX(-4px)';el.style.transition='all .25s';
+      reqEl.appendChild(el);
+      requestAnimationFrame(()=>{ el.style.opacity='1'; el.style.transform='none'; });
+    }, i*180);
+  });
+
+  const reqDone = REQUEST_LINES.length * 180 + 300;
+
+  // hide cursor, show response
+  dt(()=>{ if(cur) cur.style.display='none'; }, reqDone);
+
+  RESPONSE_LINES.forEach((line, i) => {
+    dt(()=>{
+      if(!demoRunning) return;
+      const el = document.createElement('div');
+      el.innerHTML = line.cls ? `<span class="${line.cls}">${line.txt}</span>` : line.txt;
+      el.style.opacity='0';el.style.transition='opacity .2s';
+      resEl.appendChild(el);
+      requestAnimationFrame(()=>el.style.opacity='1');
+    }, reqDone + 200 + i*130);
+  });
+
+  const resDone = reqDone + 200 + RESPONSE_LINES.length * 130 + 400;
+
+  // websocket stream
+  dt(()=>{
+    const hdr = document.createElement('div');
+    hdr.className='ws-line';
+    hdr.innerHTML='<span class="wst">// ws://api.tokgraph.fun/stream — connected</span>';
+    wsEl.appendChild(hdr);
+  }, resDone);
+
+  WS_ENTRIES.forEach((entry, i) => {
+    dt(()=>{
+      if(!demoRunning) return;
+      const el = document.createElement('div');
+      el.className='ws-line';
+      el.style.animationDelay= i*0.05+'s';
+      el.innerHTML=`<span class="wst">${entry.time}</span> <span class="wsn">${entry.name}</span> <span class="${entry.up?'wss':'wsr'}">${entry.up?'+':''}${entry.score}</span>`;
+      wsEl.appendChild(el);
+    }, resDone + 300 + i*700);
+  });
+
+  // loop
+  const totalDone = resDone + 300 + WS_ENTRIES.length * 700 + 2000;
+  dt(()=>{ stopDemo(); dt(startAgentDemo, 600); }, totalDone);
+}
 </script>
 </body>
 </html>
