@@ -2,661 +2,641 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>TokGraph Web3 V3 — Turn Attention Into Signals</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>TokGraph — Web3 Signal Intelligence</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg: #0A0A0F;
-      --bg2: #0F0F1A;
-      --bg3: #14141F;
-      --cyan: #00F5FF;
-      --purple: #A855F7;
-      --green: #00FF85;
-      --red: #FF3B3B;
-      --text: #EAEAEA;
-      --muted: #6B7280;
-      --border: rgba(255,255,255,0.07);
-      --card: rgba(255,255,255,0.04);
-      --glow-cyan: 0 0 20px rgba(0,245,255,0.3);
-      --glow-purple: 0 0 20px rgba(168,85,247,0.3);
-      --glow-green: 0 0 20px rgba(0,255,133,0.3);
+      --black: #000000;
+      --white: #ffffff;
+      --red: #FE2C55;
+      --grey-100: #f5f5f5;
+      --grey-200: #e0e0e0;
+      --grey-400: #999999;
+      --grey-600: #555555;
+      --grey-800: #1a1a1a;
+      --grey-900: #111111;
     }
 
-    html { scroll-behavior: smooth; }
+    html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
 
     body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: 'Inter', sans-serif;
+      background: var(--black);
+      color: var(--white);
+      font-family: 'Space Grotesk', sans-serif;
       min-height: 100vh;
       overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
     }
 
-    /* TYPOGRAPHY */
-    .font-ui { font-family: 'Space Grotesk', sans-serif; }
-    .font-mono { font-family: 'IBM Plex Mono', monospace; }
+    ::-webkit-scrollbar { width: 2px; }
+    ::-webkit-scrollbar-track { background: var(--black); }
+    ::-webkit-scrollbar-thumb { background: var(--grey-600); }
 
-    /* SCROLLBAR */
-    ::-webkit-scrollbar { width: 4px; }
-    ::-webkit-scrollbar-track { background: var(--bg); }
-    ::-webkit-scrollbar-thumb { background: var(--purple); border-radius: 2px; }
-
-    /* NAV */
+    /* ── NAV ── */
     nav {
       position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-      background: rgba(10,10,15,0.85);
-      backdrop-filter: blur(20px);
-      border-bottom: 1px solid var(--border);
-      padding: 14px 20px;
+      background: var(--black);
+      border-bottom: 1px solid var(--grey-800);
+      padding: 0 16px;
+      height: 52px;
       display: flex; align-items: center; justify-content: space-between;
     }
 
     .logo {
-      font-family: 'Space Grotesk', sans-serif;
-      font-weight: 700; font-size: 18px;
-      background: linear-gradient(135deg, var(--cyan), var(--purple));
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-      background-clip: text;
-      letter-spacing: -0.5px;
+      font-size: 15px; font-weight: 700;
+      letter-spacing: -0.3px;
+      display: flex; align-items: center; gap: 8px;
     }
 
-    .logo span { font-size: 11px; opacity: 0.6; -webkit-text-fill-color: var(--text); color: var(--text); font-weight: 400; letter-spacing: 1px; text-transform: uppercase; display: block; margin-top: -2px; }
+    .logo-mark {
+      width: 28px; height: 28px;
+      background: var(--white);
+      border-radius: 6px;
+      display: grid; place-items: center;
+      flex-shrink: 0;
+    }
 
-    .nav-tabs {
-      display: flex; gap: 4px;
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 10px; padding: 4px;
+    .logo-mark svg { display: block; }
+
+    .logo-text { color: var(--white); }
+    .logo-version {
+      font-size: 9px; font-weight: 500; letter-spacing: 1.5px;
+      color: var(--grey-400); text-transform: uppercase;
+      font-family: 'IBM Plex Mono', monospace;
+    }
+
+    .nav-center {
+      position: absolute; left: 50%; transform: translateX(-50%);
+      display: flex; gap: 2px;
+      background: var(--grey-900);
+      border: 1px solid var(--grey-800);
+      border-radius: 8px; padding: 3px;
     }
 
     .nav-tab {
-      background: none; border: none; color: var(--muted);
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 13px; font-weight: 500;
-      padding: 7px 14px; border-radius: 7px;
-      cursor: pointer; transition: all 0.2s;
+      background: none; border: none;
+      color: var(--grey-400); font-family: 'Space Grotesk', sans-serif;
+      font-size: 12px; font-weight: 600; letter-spacing: 0.3px;
+      padding: 5px 12px; border-radius: 6px;
+      cursor: pointer; transition: all 0.15s; white-space: nowrap;
     }
 
-    .nav-tab.active {
-      background: linear-gradient(135deg, rgba(0,245,255,0.15), rgba(168,85,247,0.15));
-      color: var(--cyan);
-      border: 1px solid rgba(0,245,255,0.2);
+    .nav-tab.active { background: var(--white); color: var(--black); }
+    .nav-tab:hover:not(.active) { color: var(--white); }
+
+    .nav-right {
+      display: flex; align-items: center; gap: 6px;
     }
 
-    .nav-tab:hover:not(.active) { color: var(--text); background: var(--card); }
-
-    .status-dot {
-      width: 8px; height: 8px; border-radius: 50%;
-      background: var(--green);
-      box-shadow: var(--glow-green);
-      animation: pulse-dot 2s infinite;
-    }
-
-    @keyframes pulse-dot {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.6; transform: scale(0.8); }
-    }
-
-    /* SCREENS */
-    .screen { display: none; padding-top: 70px; min-height: 100vh; animation: fadeIn 0.3s ease; }
-    .screen.active { display: block; }
-
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
-
-    /* ===== SCREEN 1: ANALYZE ===== */
-    .hero {
-      padding: 40px 20px 24px;
-      text-align: center;
-    }
-
-    .hero-badge {
-      display: inline-flex; align-items: center; gap: 6px;
-      background: rgba(0,245,255,0.08); border: 1px solid rgba(0,245,255,0.2);
-      border-radius: 20px; padding: 5px 14px;
+    .live-badge {
+      display: flex; align-items: center; gap: 5px;
       font-family: 'IBM Plex Mono', monospace;
-      font-size: 11px; color: var(--cyan); letter-spacing: 1px;
-      margin-bottom: 20px;
+      font-size: 10px; color: var(--grey-400); letter-spacing: 0.5px;
     }
 
-    .hero-title {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: clamp(28px, 8vw, 42px);
-      font-weight: 700; line-height: 1.1;
-      margin-bottom: 12px;
+    .live-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--red);
+      animation: blink 1.8s ease-in-out infinite;
     }
 
-    .hero-title .gradient {
-      background: linear-gradient(135deg, var(--cyan), var(--purple));
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-      background-clip: text;
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+    /* ── SCREENS ── */
+    .screen { display: none; padding-top: 52px; min-height: 100vh; }
+    .screen.active { display: block; animation: up 0.25s ease; }
+    @keyframes up { from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:translateY(0)} }
+
+    /* ══════════════════════════════
+       SCREEN 1 — ANALYZE
+    ══════════════════════════════ */
+
+    .analyze-layout { display: flex; flex-direction: column; min-height: calc(100vh - 52px); }
+
+    /* Hero bar */
+    .hero-bar {
+      border-bottom: 1px solid var(--grey-800);
+      padding: 28px 16px 24px;
+    }
+
+    .hero-eyebrow {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px; font-weight: 500;
+      letter-spacing: 2px; text-transform: uppercase;
+      color: var(--red); margin-bottom: 10px;
+    }
+
+    .hero-h1 {
+      font-size: clamp(26px, 7vw, 38px);
+      font-weight: 700; line-height: 1.05;
+      letter-spacing: -1px; margin-bottom: 10px;
+    }
+
+    .hero-h1 em {
+      font-style: normal;
+      -webkit-text-stroke: 1px var(--white);
+      color: transparent;
     }
 
     .hero-sub {
-      color: var(--muted); font-size: 15px; line-height: 1.5;
-      max-width: 340px; margin: 0 auto 32px;
+      font-size: 13px; color: var(--grey-400); line-height: 1.5;
+      max-width: 320px;
     }
 
-    /* INPUT AREA */
-    .input-container {
-      margin: 0 20px 20px;
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 16px; overflow: hidden;
-      transition: border-color 0.3s, box-shadow 0.3s;
+    /* Input block */
+    .input-block { padding: 16px 16px 0; }
+
+    .input-label {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase;
+      color: var(--grey-600); margin-bottom: 8px;
+      display: flex; align-items: center; justify-content: space-between;
     }
 
-    .input-container:focus-within {
-      border-color: rgba(0,245,255,0.4);
-      box-shadow: var(--glow-cyan);
+    .input-wrap {
+      border: 1px solid var(--grey-800);
+      border-radius: 0;
+      background: var(--grey-900);
+      transition: border-color 0.15s;
     }
+
+    .input-wrap:focus-within { border-color: var(--white); }
 
     #transcript-input {
-      width: 100%; min-height: 140px;
+      width: 100%; min-height: 130px;
       background: none; border: none; outline: none;
-      color: var(--text); font-family: 'Inter', sans-serif; font-size: 15px;
-      line-height: 1.6; padding: 18px;
+      color: var(--white); font-family: 'Space Grotesk', sans-serif;
+      font-size: 14px; line-height: 1.6; padding: 14px;
       resize: none;
     }
 
-    #transcript-input::placeholder { color: var(--muted); }
+    #transcript-input::placeholder { color: var(--grey-600); }
 
-    .input-footer {
+    .input-foot {
+      border-top: 1px solid var(--grey-800);
       display: flex; align-items: center; justify-content: space-between;
-      padding: 10px 18px;
-      border-top: 1px solid var(--border);
+      padding: 8px 14px;
     }
 
-    .char-count { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--muted); }
+    .char-count {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px; color: var(--grey-600);
+    }
 
     .clear-btn {
-      background: none; border: none; color: var(--muted);
-      font-size: 12px; cursor: pointer; transition: color 0.2s;
+      background: none; border: none;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px; color: var(--grey-600);
+      cursor: pointer; letter-spacing: 0.5px;
+      transition: color 0.15s;
     }
 
     .clear-btn:hover { color: var(--red); }
 
-    /* ANALYZE BUTTON */
+    /* Demo strips */
+    .demo-strip {
+      padding: 12px 16px 0;
+      display: flex; gap: 6px; overflow-x: auto;
+      scrollbar-width: none;
+    }
+
+    .demo-strip::-webkit-scrollbar { display: none; }
+
+    .demo-chip {
+      flex-shrink: 0;
+      border: 1px solid var(--grey-800);
+      background: none;
+      color: var(--grey-400); font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px; letter-spacing: 0.5px;
+      padding: 6px 12px; cursor: pointer;
+      border-radius: 2px;
+      transition: all 0.15s; white-space: nowrap;
+    }
+
+    .demo-chip:hover { border-color: var(--white); color: var(--white); }
+
+    /* Analyze button */
     .analyze-btn {
-      display: block; width: calc(100% - 40px);
-      margin: 0 20px 20px;
-      background: linear-gradient(135deg, var(--cyan), var(--purple));
-      border: none; border-radius: 14px;
-      color: #0A0A0F; font-family: 'Space Grotesk', sans-serif;
-      font-size: 16px; font-weight: 700;
-      padding: 17px; cursor: pointer;
-      transition: transform 0.15s, box-shadow 0.2s;
+      display: block; width: calc(100% - 32px);
+      margin: 14px 16px 0;
+      background: var(--white);
+      border: none; color: var(--black);
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 14px; font-weight: 700; letter-spacing: 0.3px;
+      padding: 15px;
+      cursor: pointer;
+      border-radius: 0;
+      transition: background 0.15s, transform 0.1s;
       position: relative; overflow: hidden;
     }
 
-    .analyze-btn::before {
-      content: ''; position: absolute; inset: 0;
-      background: linear-gradient(135deg, rgba(255,255,255,0.2), transparent);
-      opacity: 0; transition: opacity 0.2s;
-    }
-
-    .analyze-btn:hover { transform: translateY(-2px); box-shadow: var(--glow-cyan); }
-    .analyze-btn:hover::before { opacity: 1; }
-    .analyze-btn:active { transform: scale(0.97) translateY(0); }
-
-    .analyze-btn.loading {
-      pointer-events: none; opacity: 0.8;
-    }
+    .analyze-btn:active { transform: scale(0.99); }
+    .analyze-btn.loading { background: var(--grey-200); pointer-events: none; }
 
     .btn-inner { display: flex; align-items: center; justify-content: center; gap: 8px; }
 
     .spinner {
-      width: 18px; height: 18px;
-      border: 2px solid rgba(10,10,15,0.3);
-      border-top-color: #0A0A0F;
+      width: 14px; height: 14px;
+      border: 2px solid rgba(0,0,0,0.2);
+      border-top-color: var(--black);
       border-radius: 50%;
-      animation: spin 0.8s linear infinite;
+      animation: spin 0.7s linear infinite;
       display: none;
     }
 
-    @keyframes spin { to { transform: rotate(360deg); } }
+    @keyframes spin { to{transform:rotate(360deg)} }
 
-    /* QUICK DEMO */
-    .demo-section {
-      margin: 0 20px 30px;
+    /* Agent endpoints */
+    .endpoints-block {
+      margin: 14px 16px 0;
+      border: 1px solid var(--grey-800);
+      padding: 12px 14px;
     }
 
-    .demo-label {
+    .endpoints-label {
       font-family: 'IBM Plex Mono', monospace;
-      font-size: 10px; color: var(--muted);
-      letter-spacing: 1px; text-transform: uppercase;
-      margin-bottom: 10px;
+      font-size: 9px; letter-spacing: 2px; text-transform: uppercase;
+      color: var(--grey-600); margin-bottom: 8px;
     }
 
-    .demo-chips {
-      display: flex; flex-wrap: wrap; gap: 8px;
+    .endpoint-row {
+      display: flex; align-items: center; gap: 8px;
+      margin-bottom: 4px;
     }
 
-    .demo-chip {
-      background: var(--card); border: 1px solid var(--border);
-      border-radius: 8px; padding: 7px 12px;
-      font-size: 12px; color: var(--muted);
-      cursor: pointer; transition: all 0.2s;
+    .endpoint-row:last-child { margin-bottom: 0; }
+
+    .ep-method {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 9px; font-weight: 600;
+      color: var(--black); background: var(--white);
+      padding: 2px 5px; letter-spacing: 0.5px;
     }
 
-    .demo-chip:hover {
-      border-color: rgba(168,85,247,0.4);
-      color: var(--purple);
-      background: rgba(168,85,247,0.08);
+    .ep-method.get { background: var(--grey-200); }
+
+    .ep-path {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px; color: var(--grey-400);
     }
 
-    /* ===== RESULT VIEW ===== */
+    /* Error */
+    .error-box {
+      margin: 10px 16px 0;
+      border-left: 2px solid var(--red);
+      padding: 10px 12px;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px; color: var(--red);
+      display: none; background: rgba(254,44,85,0.05);
+    }
+
+    .error-box.show { display: block; }
+
+    /* ── RESULT ── */
     #result-view {
-      margin: 0 20px 30px;
+      margin: 14px 16px 100px;
       display: none;
     }
 
-    #result-view.visible { display: block; animation: slideUp 0.4s ease; }
+    #result-view.show { display: block; animation: up 0.3s ease; }
 
-    @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-
-    .result-header {
+    .result-header-bar {
       display: flex; align-items: center; justify-content: space-between;
-      margin-bottom: 16px;
+      border-bottom: 1px solid var(--grey-800);
+      padding-bottom: 10px; margin-bottom: 12px;
     }
 
-    .result-title {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 13px; font-weight: 600; color: var(--cyan);
-      letter-spacing: 0.5px; text-transform: uppercase;
+    .result-label {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 9px; letter-spacing: 2px; text-transform: uppercase;
+      color: var(--red);
     }
 
     .result-id {
       font-family: 'IBM Plex Mono', monospace;
-      font-size: 11px; color: var(--muted);
+      font-size: 10px; color: var(--grey-600);
     }
 
-    .card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 16px; padding: 18px;
-      margin-bottom: 12px;
+    /* Signal card */
+    .sig-card {
+      border: 1px solid var(--grey-800);
+      margin-bottom: 8px;
     }
 
-    .card-label {
+    .sig-card-head {
+      border-bottom: 1px solid var(--grey-800);
+      padding: 8px 12px;
       font-family: 'IBM Plex Mono', monospace;
-      font-size: 10px; color: var(--muted);
-      letter-spacing: 1px; text-transform: uppercase;
-      margin-bottom: 10px;
+      font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase;
+      color: var(--grey-600);
     }
 
-    /* Narrative + Sentiment */
-    .narrative-row {
-      display: flex; align-items: flex-start; justify-content: space-between; gap: 12px;
+    .sig-card-body { padding: 14px 12px; }
+
+    /* Row 1 */
+    .narrative-grid {
+      display: grid; grid-template-columns: 1fr auto;
+      gap: 12px; align-items: start;
     }
 
-    .narrative-category {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 22px; font-weight: 700;
-      background: linear-gradient(135deg, var(--cyan), var(--purple));
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-      background-clip: text;
+    .category-text {
+      font-size: 26px; font-weight: 700; letter-spacing: -1px;
+      line-height: 1; margin-bottom: 4px;
     }
 
-    .key-narrative {
-      font-size: 14px; color: var(--muted);
-      margin-top: 4px; font-style: italic;
+    .key-narrative-text {
+      font-size: 12px; color: var(--grey-400);
+      font-style: italic; line-height: 1.4;
     }
 
-    .sentiment-badge {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 13px; font-weight: 700;
-      padding: 6px 14px; border-radius: 20px;
-      white-space: nowrap; flex-shrink: 0;
+    .sentiment-pill {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px; font-weight: 600; letter-spacing: 1px;
+      padding: 5px 10px; white-space: nowrap;
+      text-transform: uppercase;
     }
 
-    .sentiment-badge.bullish { background: rgba(0,255,133,0.15); color: var(--green); border: 1px solid rgba(0,255,133,0.3); }
-    .sentiment-badge.neutral { background: rgba(234,234,234,0.1); color: var(--text); border: 1px solid var(--border); }
-    .sentiment-badge.bearish { background: rgba(255,59,59,0.15); color: var(--red); border: 1px solid rgba(255,59,59,0.3); }
+    .sentiment-pill.bullish { background: var(--white); color: var(--black); }
+    .sentiment-pill.neutral { border: 1px solid var(--grey-600); color: var(--grey-400); }
+    .sentiment-pill.bearish { background: var(--red); color: var(--white); }
 
     /* Score */
-    .score-row {
-      display: flex; align-items: center; justify-content: space-between;
+    .score-layout {
+      display: flex; align-items: flex-end; justify-content: space-between;
       margin-bottom: 12px;
     }
 
     .score-num {
       font-family: 'IBM Plex Mono', monospace;
-      font-size: 36px; font-weight: 600;
-      color: var(--cyan);
+      font-size: 52px; font-weight: 600; line-height: 1;
+      letter-spacing: -3px;
     }
 
-    .score-label { font-size: 12px; color: var(--muted); margin-top: 2px; }
-
-    .score-bar-bg {
-      background: rgba(255,255,255,0.06);
-      border-radius: 6px; height: 8px; overflow: hidden;
+    .score-denom {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 14px; color: var(--grey-600); margin-bottom: 6px;
     }
 
-    .score-bar-fill {
-      height: 100%; border-radius: 6px; width: 0;
-      background: linear-gradient(90deg, var(--purple), var(--cyan));
-      transition: width 1.2s cubic-bezier(0.34, 1.56, 0.64, 1);
-      box-shadow: 0 0 10px rgba(0,245,255,0.4);
+    .score-verdict {
+      font-size: 11px; color: var(--grey-400);
+      text-align: right;
+    }
+
+    .track {
+      height: 2px; background: var(--grey-800);
+      width: 100%; overflow: hidden;
+    }
+
+    .track-fill {
+      height: 100%; background: var(--white);
+      width: 0; transition: width 1s cubic-bezier(0.22, 1, 0.36, 1);
     }
 
     /* Tags */
-    .tags { display: flex; flex-wrap: wrap; gap: 7px; }
+    .tags-row { display: flex; flex-wrap: wrap; gap: 6px; }
 
     .tag {
       font-family: 'IBM Plex Mono', monospace;
-      font-size: 12px; padding: 5px 11px;
-      border-radius: 7px;
+      font-size: 11px; padding: 4px 9px;
     }
 
-    .tag.token {
-      background: rgba(168,85,247,0.12);
-      color: var(--purple);
-      border: 1px solid rgba(168,85,247,0.25);
-    }
+    .tag.token { border: 1px solid var(--white); color: var(--white); }
+    .tag.kw { border: 1px solid var(--grey-700); color: var(--grey-400); }
 
-    .tag.keyword {
-      background: rgba(0,245,255,0.08);
-      color: var(--cyan);
-      border: 1px solid rgba(0,245,255,0.2);
-    }
-
-    .empty-tag { font-size: 13px; color: var(--muted); font-style: italic; }
-
-    /* Why it matters */
+    /* Why */
     .why-text {
-      font-size: 15px; line-height: 1.65; color: var(--text);
+      font-size: 14px; line-height: 1.65; color: var(--grey-200);
     }
 
     /* Action */
-    .action-box {
-      text-align: center; padding: 22px;
-      border-radius: 16px;
+    .action-block {
+      border: 1px solid var(--grey-800);
+      display: grid; grid-template-columns: 1fr auto;
+      align-items: center; padding: 16px 14px;
+      gap: 12px;
     }
 
-    .action-box.watch { background: rgba(0,245,255,0.08); border: 1px solid rgba(0,245,255,0.25); }
-    .action-box.ignore { background: rgba(255,255,255,0.04); border: 1px solid var(--border); }
-    .action-box.research { background: rgba(168,85,247,0.08); border: 1px solid rgba(168,85,247,0.25); }
-    .action-box.early-signal { background: rgba(0,255,133,0.08); border: 1px solid rgba(0,255,133,0.25); }
+    .action-block.early-signal { border-color: var(--white); }
+    .action-block.research { border-color: var(--grey-400); }
 
-    .action-icon { font-size: 28px; margin-bottom: 8px; }
-
-    .action-label {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 22px; font-weight: 700;
-      margin-bottom: 4px;
-    }
-
-    .action-box.watch .action-label { color: var(--cyan); }
-    .action-box.ignore .action-label { color: var(--muted); }
-    .action-box.research .action-label { color: var(--purple); }
-    .action-box.early-signal .action-label { color: var(--green); }
-
-    .action-sub { font-size: 13px; color: var(--muted); }
-
-    /* Timestamp */
-    .timestamp-row {
-      text-align: center; padding: 12px 0 4px;
+    .action-title {
       font-family: 'IBM Plex Mono', monospace;
-      font-size: 11px; color: var(--muted);
+      font-size: 9px; letter-spacing: 2px; text-transform: uppercase;
+      color: var(--grey-600); margin-bottom: 4px;
     }
 
-    /* ERROR */
-    .error-box {
-      background: rgba(255,59,59,0.08);
-      border: 1px solid rgba(255,59,59,0.25);
-      border-radius: 14px; padding: 16px 18px;
-      margin: 0 20px 20px;
-      font-size: 14px; color: var(--red);
-      display: none;
+    .action-value {
+      font-size: 20px; font-weight: 700; letter-spacing: -0.5px;
     }
 
-    .error-box.visible { display: block; animation: fadeIn 0.3s ease; }
+    .action-block.early-signal .action-value { color: var(--white); }
+    .action-block.watch .action-value { color: var(--white); }
+    .action-block.research .action-value { color: var(--white); }
+    .action-block.ignore .action-value { color: var(--grey-600); }
 
-    /* ===== SCREEN 2: TRENDS ===== */
-    .trends-header {
-      padding: 30px 20px 16px;
+    .action-sub { font-size: 11px; color: var(--grey-600); margin-top: 2px; }
+
+    .action-icon {
+      font-size: 28px; line-height: 1;
+    }
+
+    .ts-row {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px; color: var(--grey-800);
+      text-align: right; margin-top: 10px;
+      padding-bottom: 20px;
+    }
+
+    /* ══════════════════════════════
+       SCREEN 2 — TRENDS
+    ══════════════════════════════ */
+
+    .page-header {
+      border-bottom: 1px solid var(--grey-800);
+      padding: 24px 16px 16px;
+      display: flex; align-items: flex-end; justify-content: space-between;
     }
 
     .page-title {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 22px; font-weight: 700;
-      margin-bottom: 4px;
+      font-size: 22px; font-weight: 700; letter-spacing: -0.8px;
     }
 
-    .page-sub { font-size: 14px; color: var(--muted); }
-
-    .trends-feed {
-      padding: 0 20px 30px;
-      display: flex; flex-direction: column; gap: 10px;
+    .page-meta {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px; color: var(--grey-600);
     }
 
-    .trend-card {
-      background: var(--card); border: 1px solid var(--border);
-      border-radius: 16px; padding: 18px;
-      transition: border-color 0.25s, transform 0.25s;
-      animation: slideUp 0.4s ease both;
+    .refresh-btn {
+      background: none; border: 1px solid var(--grey-800);
+      color: var(--grey-400); font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px; letter-spacing: 1px;
+      padding: 7px 12px; cursor: pointer;
+      transition: all 0.15s;
     }
 
-    .trend-card:hover {
-      border-color: rgba(168,85,247,0.3);
-      transform: translateX(4px);
+    .refresh-btn:hover { border-color: var(--white); color: var(--white); }
+
+    .trends-list { padding: 0 16px 80px; }
+
+    .trend-item {
+      border-bottom: 1px solid var(--grey-800);
+      padding: 16px 0;
+      display: grid; grid-template-columns: 1fr;
+      gap: 8px;
+      transition: padding-left 0.2s;
+      animation: up 0.3s ease both;
     }
 
-    .trend-top {
+    .trend-item:hover { padding-left: 8px; }
+
+    .trend-row-top {
       display: flex; align-items: center; justify-content: space-between;
-      margin-bottom: 10px;
     }
 
     .trend-name {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 17px; font-weight: 700;
+      font-size: 16px; font-weight: 700; letter-spacing: -0.3px;
     }
 
     .trend-growth {
       font-family: 'IBM Plex Mono', monospace;
-      font-size: 14px; font-weight: 600; color: var(--green);
+      font-size: 13px; font-weight: 600; color: var(--white);
     }
 
-    .trend-mid {
-      display: flex; align-items: center; gap: 12px;
-      margin-bottom: 10px;
+    .trend-row-mid {
+      display: flex; align-items: center; gap: 10px;
     }
 
-    .mentions-badge {
+    .trend-mentions {
       font-family: 'IBM Plex Mono', monospace;
-      font-size: 12px; color: var(--muted);
-      background: rgba(255,255,255,0.05);
-      border: 1px solid var(--border);
-      border-radius: 6px; padding: 4px 9px;
+      font-size: 10px; color: var(--grey-600);
     }
 
-    .strength-bar-bg {
-      flex: 1; background: rgba(255,255,255,0.06);
-      border-radius: 4px; height: 5px; overflow: hidden;
+    .trend-track {
+      flex: 1; height: 1px; background: var(--grey-800); overflow: hidden;
     }
 
-    .strength-bar-fill {
-      height: 100%; border-radius: 4px;
-      background: linear-gradient(90deg, var(--purple), var(--cyan));
-      box-shadow: 0 0 8px rgba(168,85,247,0.4);
+    .trend-fill {
+      height: 100%; background: var(--white);
     }
 
-    .strength-num {
+    .trend-score {
       font-family: 'IBM Plex Mono', monospace;
-      font-size: 13px; font-weight: 600; color: var(--purple);
-      white-space: nowrap;
+      font-size: 12px; font-weight: 600;
     }
 
-    .trend-summary { font-size: 13px; color: var(--muted); line-height: 1.5; }
-
-    .refresh-btn {
-      display: block; width: calc(100% - 40px);
-      margin: 0 20px 24px;
-      background: none; border: 1px solid var(--border);
-      border-radius: 12px; color: var(--cyan);
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 14px; font-weight: 600;
-      padding: 13px; cursor: pointer;
-      transition: all 0.2s;
-    }
-
-    .refresh-btn:hover {
-      border-color: rgba(0,245,255,0.4);
-      background: rgba(0,245,255,0.06);
-      box-shadow: var(--glow-cyan);
+    .trend-summary {
+      font-size: 12px; color: var(--grey-400); line-height: 1.5;
     }
 
     .trends-empty {
-      text-align: center; padding: 50px 20px;
-      color: var(--muted);
-    }
-
-    .trends-empty svg { opacity: 0.3; margin-bottom: 12px; }
-
-    /* ===== SCREEN 3: HISTORY ===== */
-    .history-header {
-      padding: 30px 20px 16px;
-    }
-
-    .history-list {
-      padding: 0 20px 30px;
-      display: flex; flex-direction: column; gap: 10px;
-    }
-
-    .history-card {
-      background: var(--card); border: 1px solid var(--border);
-      border-radius: 14px; padding: 16px;
-      cursor: pointer; transition: all 0.2s;
-      animation: fadeIn 0.3s ease both;
-    }
-
-    .history-card:hover {
-      border-color: rgba(0,245,255,0.2);
-      background: rgba(255,255,255,0.06);
-    }
-
-    .history-top {
-      display: flex; align-items: center; justify-content: space-between;
-      margin-bottom: 8px;
-    }
-
-    .history-category {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 15px; font-weight: 700;
-      background: linear-gradient(135deg, var(--cyan), var(--purple));
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    .history-time {
+      padding: 60px 0; text-align: center;
       font-family: 'IBM Plex Mono', monospace;
-      font-size: 11px; color: var(--muted);
+      font-size: 12px; color: var(--grey-700); letter-spacing: 1px;
     }
 
-    .history-narrative {
-      font-size: 13px; color: var(--muted);
-      margin-bottom: 10px; font-style: italic;
+    /* ══════════════════════════════
+       SCREEN 3 — HISTORY
+    ══════════════════════════════ */
+
+    .history-list { padding: 0 16px 80px; }
+
+    .history-item {
+      border-bottom: 1px solid var(--grey-800);
+      padding: 14px 0; cursor: pointer;
+      transition: padding-left 0.2s;
+      animation: up 0.3s ease both;
     }
 
-    .history-foot {
+    .history-item:hover { padding-left: 8px; }
+
+    .hist-top {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 5px;
+    }
+
+    .hist-cat {
+      font-size: 14px; font-weight: 700; letter-spacing: -0.3px;
+    }
+
+    .hist-time {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px; color: var(--grey-600);
+    }
+
+    .hist-narrative {
+      font-size: 12px; color: var(--grey-400);
+      font-style: italic; margin-bottom: 8px;
+    }
+
+    .hist-foot {
       display: flex; align-items: center; gap: 8px;
     }
 
-    .history-score {
+    .hist-score {
       font-family: 'IBM Plex Mono', monospace;
-      font-size: 12px;
-      background: rgba(0,245,255,0.1);
-      color: var(--cyan);
-      border: 1px solid rgba(0,245,255,0.2);
-      border-radius: 6px; padding: 3px 8px;
+      font-size: 10px; color: var(--grey-600);
+      border: 1px solid var(--grey-800);
+      padding: 2px 7px;
+    }
+
+    .hist-action {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px; color: var(--white);
+      margin-left: auto;
     }
 
     .history-empty {
-      text-align: center; padding: 50px 20px;
-      color: var(--muted);
-    }
-
-    /* FLOATING TAGLINE */
-    .tagline-bar {
-      position: fixed; bottom: 0; left: 0; right: 0;
-      background: rgba(10,10,15,0.95); backdrop-filter: blur(20px);
-      border-top: 1px solid var(--border);
-      padding: 10px 20px;
-      text-align: center;
+      padding: 60px 0; text-align: center;
       font-family: 'IBM Plex Mono', monospace;
-      font-size: 11px; color: var(--muted);
-      letter-spacing: 0.5px;
-      z-index: 50;
+      font-size: 12px; color: var(--grey-700); letter-spacing: 1px;
     }
 
-    .tagline-bar span { color: var(--cyan); }
-
-    /* LOADING SKELETON */
-    .skeleton {
-      background: linear-gradient(90deg, rgba(255,255,255,0.04) 25%, rgba(255,255,255,0.08) 50%, rgba(255,255,255,0.04) 75%);
-      background-size: 200% 100%;
-      animation: shimmer 1.5s infinite;
-      border-radius: 8px;
+    /* ── TAGLINE ── */
+    .tagline {
+      position: fixed; bottom: 0; left: 0; right: 0; z-index: 50;
+      background: var(--black);
+      border-top: 1px solid var(--grey-800);
+      padding: 10px 16px;
+      display: flex; align-items: center; justify-content: space-between;
     }
 
-    @keyframes shimmer { from { background-position: -200% 0; } to { background-position: 200% 0; } }
+    .tagline-text {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px; color: var(--grey-600); letter-spacing: 0.5px;
+    }
 
-    /* TOAST */
+    .tagline-text span { color: var(--white); }
+
+    .tagline-ver {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px; color: var(--grey-800);
+    }
+
+    /* ── TOAST ── */
     .toast {
-      position: fixed; bottom: 60px; left: 50%; transform: translateX(-50%) translateY(20px);
-      background: var(--bg3); border: 1px solid var(--border);
-      border-radius: 10px; padding: 10px 18px;
-      font-size: 13px; color: var(--text);
-      opacity: 0; transition: all 0.3s;
+      position: fixed; bottom: 48px; left: 50%;
+      transform: translateX(-50%) translateY(8px);
+      background: var(--white); color: var(--black);
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px; font-weight: 500;
+      padding: 9px 16px; letter-spacing: 0.3px;
+      opacity: 0; transition: all 0.2s;
       z-index: 200; white-space: nowrap;
       pointer-events: none;
     }
 
     .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
-    /* AGENT MODE NOTICE */
-    .agent-notice {
-      margin: 0 20px 16px;
-      background: rgba(168,85,247,0.06);
-      border: 1px solid rgba(168,85,247,0.2);
-      border-radius: 12px; padding: 14px 16px;
-    }
-
-    .agent-notice-title {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 13px; font-weight: 700; color: var(--purple);
-      margin-bottom: 8px;
-    }
-
-    .agent-notice code {
-      display: block; background: rgba(0,0,0,0.3);
-      border-radius: 6px; padding: 6px 10px;
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 11px; color: var(--cyan);
-      margin-top: 6px; word-break: break-all;
-    }
-
-    /* Responsive */
-    @media (min-width: 480px) {
-      .hero { padding: 50px 32px 28px; }
-      .input-container { margin: 0 32px 20px; }
-      .analyze-btn { margin: 0 32px 20px; width: calc(100% - 64px); }
-      .demo-section { margin: 0 32px 30px; }
-      #result-view { margin: 0 32px 30px; }
-      .error-box { margin: 0 32px 20px; }
-      .trends-header, .history-header { padding: 30px 32px 16px; }
-      .trends-feed, .history-list { padding: 0 32px 30px; }
-      .refresh-btn { margin: 0 32px 24px; width: calc(100% - 64px); }
-    }
-
-    @media (min-width: 768px) {
-      body { max-width: 540px; margin: 0 auto; }
-      nav { max-width: 540px; left: 50%; transform: translateX(-50%); }
-      .tagline-bar { max-width: 540px; left: 50%; transform: translateX(-50%); }
+    /* Responsive cap */
+    @media (min-width: 540px) {
+      body { max-width: 500px; margin: 0 auto; }
+      nav { max-width: 500px; left: 50%; transform: translateX(-50%); }
+      .tagline { max-width: 500px; left: 50%; transform: translateX(-50%); }
+      .toast { bottom: 56px; }
     }
   </style>
 </head>
@@ -664,528 +644,493 @@
 
   <!-- NAV -->
   <nav>
-    <div class="logo font-ui">
-      TokGraph <span>Web3 V3</span>
+    <div class="logo">
+      <div class="logo-mark">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <rect x="2" y="2" width="5" height="12" fill="black"/>
+          <rect x="9" y="6" width="5" height="8" fill="black"/>
+          <rect x="9" y="2" width="5" height="3" fill="#FE2C55"/>
+        </svg>
+      </div>
+      <div>
+        <div class="logo-text">TokGraph</div>
+        <div class="logo-version">Web3 V3</div>
+      </div>
     </div>
-    <div class="nav-tabs">
-      <button class="nav-tab active font-ui" onclick="showScreen('analyze')">Analyze</button>
-      <button class="nav-tab font-ui" onclick="showScreen('trends')">Trends</button>
-      <button class="nav-tab font-ui" onclick="showScreen('history')">History</button>
+
+    <div class="nav-center">
+      <button class="nav-tab active" onclick="switchTab(this,'analyze')">Analyze</button>
+      <button class="nav-tab" onclick="switchTab(this,'trends')">Trends</button>
+      <button class="nav-tab" onclick="switchTab(this,'history')">History</button>
     </div>
-    <div class="status-dot" title="System Online"></div>
+
+    <div class="nav-right">
+      <div class="live-badge">
+        <div class="live-dot"></div>
+        LIVE
+      </div>
+    </div>
   </nav>
 
-  <!-- TOAST -->
   <div class="toast" id="toast"></div>
 
-  <!-- ========== SCREEN: ANALYZE ========== -->
+  <!-- ══════════════ ANALYZE ══════════════ -->
   <div class="screen active" id="screen-analyze">
-    <div class="hero">
-      <div class="hero-badge">⚡ Narrative Intelligence Engine</div>
-      <h1 class="hero-title">
-        Turn <span class="gradient">Attention</span><br/>Into Signals
-      </h1>
-      <p class="hero-sub">Paste any TikTok transcript and extract crypto market narratives in seconds.</p>
-    </div>
+    <div class="analyze-layout">
 
-    <div class="input-container">
-      <textarea id="transcript-input" placeholder="Paste TikTok text or transcript here...&#10;&#10;e.g. &quot;AI agents are taking over crypto right now. Every protocol is integrating autonomous agents. This is the next megatrend...&quot;"
-        oninput="updateCharCount()"></textarea>
-      <div class="input-footer">
-        <span class="char-count font-mono" id="char-count">0 chars</span>
-        <button class="clear-btn" onclick="clearInput()">✕ Clear</button>
-      </div>
-    </div>
-
-    <button class="analyze-btn font-ui" id="analyze-btn" onclick="analyzeSignal()">
-      <div class="btn-inner">
-        <div class="spinner" id="btn-spinner"></div>
-        <span id="btn-text">⚡ Analyze Signal</span>
-      </div>
-    </button>
-
-    <div class="demo-section">
-      <div class="demo-label">Quick Demo</div>
-      <div class="demo-chips">
-        <div class="demo-chip" onclick="loadDemo(0)">🤖 AI Agents</div>
-        <div class="demo-chip" onclick="loadDemo(1)">🐸 Memecoin</div>
-        <div class="demo-chip" onclick="loadDemo(2)">🏦 DeFi Yield</div>
-        <div class="demo-chip" onclick="loadDemo(3)">🌍 RWA</div>
-      </div>
-    </div>
-
-    <!-- AGENT MODE NOTICE -->
-    <div class="agent-notice">
-      <div class="agent-notice-title">⚙️ Agent Mode Available</div>
-      <div style="font-size:12px;color:var(--muted);line-height:1.5">AI agents can query this system directly via REST API:</div>
-      <code>POST /analyze</code>
-      <code>GET /trend</code>
-      <code>GET /history</code>
-    </div>
-
-    <!-- ERROR -->
-    <div class="error-box" id="error-box"></div>
-
-    <!-- RESULT VIEW -->
-    <div id="result-view">
-      <div class="result-header">
-        <span class="result-title">Signal Detected</span>
-        <span class="result-id font-mono" id="result-id"></span>
+      <div class="hero-bar">
+        <div class="hero-eyebrow">Narrative Intelligence</div>
+        <h1 class="hero-h1">Turn <em>Attention</em><br/>Into Signals.</h1>
+        <p class="hero-sub">Paste any TikTok transcript. Extract crypto market narratives in under 3 seconds.</p>
       </div>
 
-      <!-- Section 1: Narrative -->
-      <div class="card">
-        <div class="card-label">Narrative</div>
-        <div class="narrative-row">
-          <div>
-            <div class="narrative-category font-ui" id="r-category">—</div>
-            <div class="key-narrative" id="r-key-narrative">—</div>
+      <div class="input-block">
+        <div class="input-label">
+          <span>Input / Transcript</span>
+          <span class="char-count" id="char-count" style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--grey-600)">0</span>
+        </div>
+        <div class="input-wrap">
+          <textarea id="transcript-input"
+            placeholder="Paste TikTok text, caption, or transcript..."
+            oninput="onInput()"></textarea>
+          <div class="input-foot">
+            <span></span>
+            <button class="clear-btn" onclick="clearAll()">CLEAR ×</button>
           </div>
-          <div class="sentiment-badge" id="r-sentiment">—</div>
         </div>
       </div>
 
-      <!-- Section 2: Score -->
-      <div class="card">
-        <div class="card-label">Market Relevance Score</div>
-        <div class="score-row">
-          <div>
-            <div class="score-num font-mono" id="r-score">0</div>
-            <div class="score-label">out of 10</div>
+      <div class="demo-strip" id="demo-strip">
+        <button class="demo-chip" onclick="loadDemo(0)">AI AGENTS</button>
+        <button class="demo-chip" onclick="loadDemo(1)">MEMECOIN</button>
+        <button class="demo-chip" onclick="loadDemo(2)">DEFI YIELD</button>
+        <button class="demo-chip" onclick="loadDemo(3)">RWA</button>
+      </div>
+
+      <button class="analyze-btn" id="analyze-btn" onclick="analyze()">
+        <div class="btn-inner">
+          <div class="spinner" id="spinner"></div>
+          <span id="btn-label">ANALYZE SIGNAL →</span>
+        </div>
+      </button>
+
+      <div class="endpoints-block">
+        <div class="endpoints-label">Agent API Endpoints</div>
+        <div class="endpoint-row">
+          <span class="ep-method">POST</span>
+          <span class="ep-path">/analyze</span>
+        </div>
+        <div class="endpoint-row">
+          <span class="ep-method get">GET</span>
+          <span class="ep-path">/trend</span>
+        </div>
+        <div class="endpoint-row">
+          <span class="ep-method get">GET</span>
+          <span class="ep-path">/history</span>
+        </div>
+      </div>
+
+      <div class="error-box" id="error-box"></div>
+
+      <!-- RESULT -->
+      <div id="result-view">
+        <div class="result-header-bar">
+          <span class="result-label">Signal Output</span>
+          <span class="result-id" id="result-id">#——</span>
+        </div>
+
+        <!-- Narrative -->
+        <div class="sig-card">
+          <div class="sig-card-head">01 — Narrative Category</div>
+          <div class="sig-card-body">
+            <div class="narrative-grid">
+              <div>
+                <div class="category-text" id="r-cat">—</div>
+                <div class="key-narrative-text" id="r-key">"—"</div>
+              </div>
+              <div class="sentiment-pill neutral" id="r-sent">—</div>
+            </div>
           </div>
-          <div style="font-size:32px" id="r-score-emoji">🔍</div>
         </div>
-        <div class="score-bar-bg">
-          <div class="score-bar-fill" id="r-score-bar"></div>
+
+        <!-- Score -->
+        <div class="sig-card">
+          <div class="sig-card-head">02 — Market Relevance Score</div>
+          <div class="sig-card-body">
+            <div class="score-layout">
+              <div>
+                <div class="score-num" id="r-score-num">0</div>
+                <div class="score-denom">/10</div>
+              </div>
+              <div class="score-verdict" id="r-verdict">—</div>
+            </div>
+            <div class="track"><div class="track-fill" id="r-bar"></div></div>
+          </div>
         </div>
+
+        <!-- Tokens + Keywords -->
+        <div class="sig-card">
+          <div class="sig-card-head">03 — Tokens &amp; Keywords</div>
+          <div class="sig-card-body">
+            <div class="tags-row" id="r-tokens" style="margin-bottom:10px"></div>
+            <div class="tags-row" id="r-keywords"></div>
+          </div>
+        </div>
+
+        <!-- Why -->
+        <div class="sig-card">
+          <div class="sig-card-head">04 — Why It Matters</div>
+          <div class="sig-card-body">
+            <p class="why-text" id="r-why">—</p>
+          </div>
+        </div>
+
+        <!-- Action -->
+        <div class="action-block watch" id="r-action-block">
+          <div>
+            <div class="action-title">Signal Action</div>
+            <div class="action-value" id="r-action-val">—</div>
+            <div class="action-sub" id="r-action-sub">—</div>
+          </div>
+          <div class="action-icon" id="r-icon">—</div>
+        </div>
+
+        <div class="ts-row" id="r-ts"></div>
       </div>
 
-      <!-- Section 3: Tokens + Keywords -->
-      <div class="card">
-        <div class="card-label" style="margin-bottom:12px">Tokens Mentioned</div>
-        <div class="tags" id="r-tokens"><span class="empty-tag">None detected</span></div>
-        <div class="card-label" style="margin-top:16px;margin-bottom:12px">Keywords</div>
-        <div class="tags" id="r-keywords"></div>
-      </div>
-
-      <!-- Section 4: Why it matters -->
-      <div class="card">
-        <div class="card-label">Why It Matters</div>
-        <p class="why-text" id="r-why">—</p>
-      </div>
-
-      <!-- Section 5: Action -->
-      <div class="action-box" id="r-action-box">
-        <div class="action-icon" id="r-action-icon">⚡</div>
-        <div class="action-label font-ui" id="r-action">—</div>
-        <div class="action-sub" id="r-action-sub">—</div>
-      </div>
-
-      <div class="timestamp-row font-mono" id="r-timestamp"></div>
     </div>
   </div>
 
-  <!-- ========== SCREEN: TRENDS ========== -->
+  <!-- ══════════════ TRENDS ══════════════ -->
   <div class="screen" id="screen-trends">
-    <div class="trends-header">
-      <div class="page-title font-ui">Trend Feed</div>
-      <div class="page-sub">Live narrative momentum across Web3 attention markets</div>
-    </div>
-
-    <button class="refresh-btn font-ui" onclick="loadTrends()">↺ Refresh Trends</button>
-
-    <div class="trends-feed" id="trends-feed">
-      <div class="trends-empty">
-        <svg width="48" height="48" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="24" cy="24" r="20" stroke="#A855F7" stroke-width="2"/>
-          <path d="M16 28l6-8 4 5 4-7" stroke="#00F5FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-        <p>No trends yet.<br/>Analyze some content first.</p>
+    <div class="page-header">
+      <div>
+        <div class="page-title">Trend Feed</div>
+        <div class="page-meta" id="trend-meta">Narrative momentum · Web3 markets</div>
       </div>
+      <button class="refresh-btn" onclick="loadTrends()">↺ REFRESH</button>
+    </div>
+    <div class="trends-list" id="trends-list">
+      <div class="trends-empty">NO DATA YET</div>
     </div>
   </div>
 
-  <!-- ========== SCREEN: HISTORY ========== -->
+  <!-- ══════════════ HISTORY ══════════════ -->
   <div class="screen" id="screen-history">
-    <div class="history-header">
-      <div class="page-title font-ui">Analysis History</div>
-      <div class="page-sub">Past signal extractions</div>
-    </div>
-
-    <div class="history-list" id="history-list">
-      <div class="history-empty">
-        <p style="font-size:14px">No analyses yet.<br/>Run your first signal extraction.</p>
+    <div class="page-header">
+      <div>
+        <div class="page-title">History</div>
+        <div class="page-meta" id="hist-meta">0 analyses</div>
       </div>
+    </div>
+    <div class="history-list" id="history-list">
+      <div class="history-empty">NO ANALYSES YET</div>
     </div>
   </div>
 
-  <!-- FLOATING TAGLINE -->
-  <div class="tagline-bar font-mono">
-    <span>TokGraph</span> turns attention into tradable signals.
+  <!-- TAGLINE -->
+  <div class="tagline">
+    <div class="tagline-text"><span>TokGraph</span> turns attention into tradable signals.</div>
+    <div class="tagline-ver">V3</div>
   </div>
 
   <script>
-    // ========================
-    // CONFIG & STATE
-    // ========================
-    const API_BASE = window.location.origin;
-
-    const DEMO_TEXTS = [
-      `AI agents are literally taking over crypto right now. I'm seeing autonomous agents trading, bridging, and even writing smart contracts on their own. Every major protocol is integrating agent infrastructure. This is the next 100x narrative. $NEAR, $FET, and $VIRTUAL are all positioned perfectly. Get in early or get left behind.`,
-      `Okay so this memecoin launched 2 hours ago and it's already 50x. The dog with hat meta is back and it's bigger than ever. CT is going crazy. Devs doxxed, liquidity locked, contract renounced. This could be the next $WIF or $BONK. I'm aping in small just to have a bag.`,
-      `DeFi yields are insane right now. I'm getting 40% APY on stablecoins through this new protocol. They're using real-world assets as backing. No inflationary emissions. Just pure organic yield from on-chain lending markets. $AAVE and $COMP are mooning on this narrative.`,
-      `Real world assets are the biggest narrative of the next bull run. BlackRock is tokenizing everything. Treasury bonds, real estate, private credit. The TVL in RWA protocols has 10x'd in 6 months. $ONDO, $CENTRIFUGE, $MAPLE — these are the picks. Institutions are finally here.`
+    /* ─── DEMO DATA ─── */
+    const DEMOS = [
+      {label:'AI AGENTS', text:`AI agents are literally taking over crypto right now. I'm seeing autonomous agents trading, bridging, and writing smart contracts on their own. Every major protocol is integrating agent infrastructure. This is the next 100x narrative. $NEAR, $FET, and $VIRTUAL are all positioned perfectly. Get in early or get left behind.`},
+      {label:'MEMECOIN', text:`Okay so this memecoin launched 2 hours ago and it's already 50x. The dog with hat meta is back and it's bigger than ever. CT is going crazy. Devs doxxed, liquidity locked, contract renounced. This could be the next $WIF or $BONK. I'm aping in small just to have a bag.`},
+      {label:'DEFI YIELD', text:`DeFi yields are insane right now. I'm getting 40% APY on stablecoins through this new protocol. They're using real-world assets as backing. No inflationary emissions. Just pure organic yield from on-chain lending markets. $AAVE and $COMP are mooning on this narrative.`},
+      {label:'RWA', text:`Real world assets are the biggest narrative of the next bull run. BlackRock is tokenizing everything. Treasury bonds, real estate, private credit. The TVL in RWA protocols has 10x'd in 6 months. $ONDO, $CENTRIFUGE, $MAPLE — these are the picks. Institutions are finally here.`}
     ];
 
-    const DEMO_LABELS = ['AI Agents', 'Memecoin Hype', 'DeFi Yield', 'RWA Narrative'];
+    let history = JSON.parse(localStorage.getItem('tg3_hist') || '[]');
 
-    let analysisHistory = JSON.parse(localStorage.getItem('tg_history') || '[]');
-    let trendsCache = null;
-
-    // ========================
-    // SCREEN ROUTING
-    // ========================
-    function showScreen(name) {
-      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    /* ─── NAV ─── */
+    function switchTab(btn, screen) {
       document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
-      document.getElementById('screen-' + name).classList.add('active');
-      event.target.classList.add('active');
-
-      if (name === 'trends') loadTrends();
-      if (name === 'history') renderHistory();
+      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('screen-' + screen).classList.add('active');
+      if (screen === 'trends') loadTrends();
+      if (screen === 'history') renderHistory();
     }
 
-    // ========================
-    // INPUT HELPERS
-    // ========================
-    function updateCharCount() {
-      const val = document.getElementById('transcript-input').value;
-      document.getElementById('char-count').textContent = val.length + ' chars';
+    /* ─── INPUT ─── */
+    function onInput() {
+      const v = document.getElementById('transcript-input').value;
+      document.getElementById('char-count').textContent = v.length + ' chars';
     }
 
-    function clearInput() {
+    function clearAll() {
       document.getElementById('transcript-input').value = '';
-      updateCharCount();
+      onInput();
       hideResult();
-      hideError();
+      document.getElementById('error-box').classList.remove('show');
     }
 
     function loadDemo(i) {
-      document.getElementById('transcript-input').value = DEMO_TEXTS[i];
-      updateCharCount();
+      document.getElementById('transcript-input').value = DEMOS[i].text;
+      onInput();
       hideResult();
-      hideError();
-      showToast(`Demo loaded: ${DEMO_LABELS[i]}`);
+      toast(DEMOS[i].label + ' demo loaded');
     }
 
-    // ========================
-    // ANALYZE
-    // ========================
-    async function analyzeSignal() {
+    /* ─── ANALYZE ─── */
+    async function analyze() {
       const text = document.getElementById('transcript-input').value.trim();
-      if (!text) { showToast('Please paste some content first'); return; }
-      if (text.length < 20) { showToast('Content too short — need at least 20 characters'); return; }
+      if (!text || text.length < 20) { toast('Paste at least 20 characters'); return; }
 
-      setLoading(true);
+      setBtnLoading(true);
       hideResult();
-      hideError();
+      document.getElementById('error-box').classList.remove('show');
 
       try {
-        const res = await fetch(API_BASE + '/analyze', {
+        const res = await fetch(location.origin + '/analyze', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ text })
+          headers: {'Content-Type':'application/json'},
+          body: JSON.stringify({text})
         });
-
-        if (!res.ok) throw new Error(`Server error: ${res.status}`);
-        const data = await res.json();
-        renderResult(data);
-        saveToHistory(data, text);
-        showToast('Signal extracted successfully');
-      } catch (err) {
-        // OFFLINE DEMO MODE
-        const mock = generateMockAnalysis(text);
-        renderResult(mock);
-        saveToHistory(mock, text);
-        showError('Backend not connected — showing simulated signal');
+        if (!res.ok) throw new Error(res.status);
+        const d = await res.json();
+        showResult(d);
+        saveHistory(d, text);
+      } catch {
+        const d = mockAnalysis(text);
+        showResult(d);
+        saveHistory(d, text);
+        const eb = document.getElementById('error-box');
+        eb.textContent = '⚠ Backend offline — showing simulated signal';
+        eb.classList.add('show');
       } finally {
-        setLoading(false);
+        setBtnLoading(false);
       }
     }
 
-    // ========================
-    // MOCK ANALYSIS (offline demo)
-    // ========================
-    function generateMockAnalysis(text) {
-      const t = text.toLowerCase();
-      let category = 'Unknown', sentiment = 'Neutral', score = 5, action = 'Watch';
-      let key_narrative = 'Crypto narrative signal';
-      let tokens = [], keywords = [];
-      let why = 'This content touches on a relevant Web3 narrative worth monitoring.';
+    function setBtnLoading(on) {
+      const btn = document.getElementById('analyze-btn');
+      const sp = document.getElementById('spinner');
+      const lbl = document.getElementById('btn-label');
+      if (on) {
+        btn.classList.add('loading');
+        sp.style.display = 'block';
+        lbl.textContent = 'EXTRACTING SIGNAL...';
+      } else {
+        btn.classList.remove('loading');
+        sp.style.display = 'none';
+        lbl.textContent = 'ANALYZE SIGNAL →';
+      }
+    }
 
-      if (t.includes('ai') || t.includes('agent') || t.includes('autonomous')) {
-        category = 'AI'; sentiment = 'Bullish'; score = 8.5; action = 'Early Signal';
-        key_narrative = 'AI agent infrastructure emerging';
-        tokens = ['NEAR', 'FET', 'VIRTUAL', 'TAO'];
-        keywords = ['autonomous', 'agents', 'infrastructure', 'protocol'];
-        why = 'AI agent narratives are driving significant attention. Early positioning in infrastructure plays could yield outsized returns as adoption accelerates.';
-      } else if (t.includes('meme') || t.includes('dog') || t.includes('bonk') || t.includes('pepe')) {
-        category = 'Memecoin'; sentiment = 'Bullish'; score = 6.5; action = 'Watch';
-        key_narrative = 'Memecoin momentum building';
-        tokens = ['WIF', 'BONK', 'PEPE', 'DOGE'];
-        keywords = ['memecoin', 'aping', 'meta', 'CT'];
-        why = 'Memecoin narratives cycle fast. High volatility, high reward. Monitor sentiment closely and size positions accordingly.';
-      } else if (t.includes('defi') || t.includes('yield') || t.includes('apy') || t.includes('lending')) {
-        category = 'DeFi'; sentiment = 'Bullish'; score = 7.8; action = 'Research';
-        key_narrative = 'DeFi yield opportunities surfacing';
-        tokens = ['AAVE', 'COMP', 'UNI', 'MKR'];
-        keywords = ['yield', 'APY', 'liquidity', 'protocol', 'stablecoin'];
-        why = 'Organic DeFi yield signals indicate capital rotation into productive on-chain assets. Strong risk-adjusted opportunity.';
-      } else if (t.includes('rwa') || t.includes('real world') || t.includes('tokeniz') || t.includes('blackrock')) {
-        category = 'RWA'; sentiment = 'Bullish'; score = 9.1; action = 'Early Signal';
-        key_narrative = 'RWA tokenization institutional wave';
-        tokens = ['ONDO', 'CENTRIFUGE', 'MAPLE'];
-        keywords = ['tokenization', 'RWA', 'institutions', 'BlackRock', 'treasury'];
-        why = 'Institutional RWA adoption represents a structural shift in crypto markets. This narrative has multi-year legs and is only beginning.';
-      } else if (t.includes('bear') || t.includes('dump') || t.includes('crash') || t.includes('scam')) {
-        sentiment = 'Bearish'; score = 3; action = 'Ignore';
-        key_narrative = 'Bearish sentiment detected';
-        why = 'Content exhibits bearish framing with limited actionable signal quality.';
+    /* ─── MOCK ─── */
+    function mockAnalysis(text) {
+      const t = text.toLowerCase();
+      let cat='Unknown', sent='Neutral', score=4.5, action='Watch';
+      let key='Crypto narrative signal', tokens=[], kws=[], why='Content touches on a relevant Web3 narrative worth monitoring.';
+
+      if (t.includes('ai') || t.includes('agent') || t.includes('autonomous') || t.includes('fetch') || t.includes('virtual')) {
+        cat='AI'; sent='Bullish'; score=8.7; action='Early Signal';
+        key='AI agent infrastructure emerging'; tokens=['NEAR','FET','VIRTUAL','TAO'];
+        kws=['autonomous','agents','infrastructure','protocol'];
+        why='AI agent narratives are driving significant attention. Early positioning in infrastructure plays could yield outsized returns as adoption accelerates.';
+      } else if (t.includes('meme') || t.includes('dog') || t.includes('bonk') || t.includes('wif') || t.includes('pepe') || t.includes('aping')) {
+        cat='Memecoin'; sent='Bullish'; score=6.2; action='Watch';
+        key='Memecoin meta cycling again'; tokens=['WIF','BONK','PEPE','DOGE'];
+        kws=['memecoin','meta','aping','CT'];
+        why='Memecoin narratives cycle fast. High volatility, high reward. Monitor sentiment closely and size positions accordingly.';
+      } else if (t.includes('defi') || t.includes('yield') || t.includes('apy') || t.includes('lending') || t.includes('aave')) {
+        cat='DeFi'; sent='Bullish'; score=7.8; action='Research';
+        key='Organic DeFi yield resurgence'; tokens=['AAVE','COMP','UNI','MKR'];
+        kws=['yield','APY','liquidity','stablecoin','protocol'];
+        why='Organic DeFi yield signals indicate capital rotation into productive on-chain assets. Strong risk-adjusted opportunity emerging.';
+      } else if (t.includes('rwa') || t.includes('real world') || t.includes('tokeniz') || t.includes('blackrock') || t.includes('ondo')) {
+        cat='RWA'; sent='Bullish'; score=9.1; action='Early Signal';
+        key='RWA tokenization institutional wave'; tokens=['ONDO','CENTRIFUGE','MAPLE'];
+        kws=['tokenization','RWA','institutions','BlackRock','treasury'];
+        why='Institutional RWA adoption represents a structural shift in crypto markets. Multi-year narrative with only beginning of capital flows.';
+      } else if (t.includes('layer 2') || t.includes('l2') || t.includes('rollup') || t.includes('arbitrum') || t.includes('optimism')) {
+        cat='Infra'; sent='Neutral'; score=6.5; action='Watch';
+        key='L2 ecosystem expansion'; tokens=['ARB','OP','MATIC','BASE'];
+        kws=['layer2','rollup','scaling','infrastructure'];
+        why='L2 wars are creating fragmentation and arbitrage opportunities. Monitor TVL migration patterns closely.';
+      } else if (t.includes('gaming') || t.includes('nft') || t.includes('play') || t.includes('metaverse')) {
+        cat='Gaming'; sent='Neutral'; score=5.5; action='Watch';
+        key='Web3 gaming narrative stalling'; tokens=['IMX','RONIN','GALA'];
+        kws=['gaming','nft','metaverse','play-to-earn'];
+        why='Gaming narratives remain subdued. Watch for catalyst events like major game launches to re-ignite attention.';
+      } else if (t.includes('bear') || t.includes('dump') || t.includes('crash') || t.includes('scam') || t.includes('rug')) {
+        sent='Bearish'; score=2.5; action='Ignore';
+        key='Bearish sentiment detected'; tokens=[]; kws=['bearish','risk','caution'];
+        why='Content exhibits bearish framing with low actionable signal quality. No positioning recommended.';
       }
 
       return {
-        id: 'mock_' + Date.now(),
-        narrative_category: category,
-        key_narrative,
-        sentiment,
-        market_relevance_score: score,
-        tokens_mentioned: tokens,
-        keywords,
-        why_it_matters: why,
-        action,
+        id: 'sim_' + Date.now(),
+        narrative_category: cat, key_narrative: key,
+        sentiment: sent, market_relevance_score: score,
+        tokens_mentioned: tokens, keywords: kws,
+        why_it_matters: why, action,
         timestamp: new Date().toISOString()
       };
     }
 
-    // ========================
-    // RENDER RESULT
-    // ========================
-    function renderResult(d) {
-      document.getElementById('result-id').textContent = '#' + (d.id || '').slice(-6).toUpperCase();
-      document.getElementById('r-category').textContent = d.narrative_category || '—';
-      document.getElementById('r-key-narrative').textContent = d.key_narrative || '—';
+    /* ─── RENDER RESULT ─── */
+    function showResult(d) {
+      document.getElementById('result-id').textContent = '#' + String(d.id || '').slice(-6).toUpperCase();
+      document.getElementById('r-cat').textContent = d.narrative_category || '—';
+      document.getElementById('r-key').textContent = '"' + (d.key_narrative || '—') + '"';
 
-      const sEl = document.getElementById('r-sentiment');
       const s = (d.sentiment || '').toLowerCase();
-      sEl.textContent = d.sentiment || '—';
-      sEl.className = 'sentiment-badge ' + (s === 'bullish' ? 'bullish' : s === 'bearish' ? 'bearish' : 'neutral');
+      const sEl = document.getElementById('r-sent');
+      sEl.textContent = (d.sentiment || '—').toUpperCase();
+      sEl.className = 'sentiment-pill ' + (s === 'bullish' ? 'bullish' : s === 'bearish' ? 'bearish' : 'neutral');
 
       const score = parseFloat(d.market_relevance_score) || 0;
-      const scoreEl = document.getElementById('r-score');
-      scoreEl.textContent = score.toFixed(1);
-      document.getElementById('r-score-emoji').textContent = score >= 8 ? '🔥' : score >= 6 ? '📈' : score >= 4 ? '👀' : '😐';
+      document.getElementById('r-score-num').textContent = score.toFixed(1);
+      const verdicts = {0:'LOW SIGNAL',1:'LOW SIGNAL',2:'LOW SIGNAL',3:'WEAK',4:'WEAK',5:'MODERATE',6:'MODERATE',7:'STRONG',8:'STRONG',9:'HIGH CONVICTION',10:'HIGH CONVICTION'};
+      document.getElementById('r-verdict').textContent = verdicts[Math.round(score)] || 'MODERATE';
+      setTimeout(() => { document.getElementById('r-bar').style.width = (score / 10 * 100) + '%'; }, 80);
 
-      setTimeout(() => {
-        document.getElementById('r-score-bar').style.width = (score / 10 * 100) + '%';
-      }, 100);
-
-      const tokensEl = document.getElementById('r-tokens');
-      const tokens = d.tokens_mentioned || [];
-      tokensEl.innerHTML = tokens.length
-        ? tokens.map(t => `<span class="tag token">$${t}</span>`).join('')
-        : '<span class="empty-tag">None detected</span>';
+      const tokEl = document.getElementById('r-tokens');
+      const toks = d.tokens_mentioned || [];
+      tokEl.innerHTML = toks.length
+        ? toks.map(t => `<span class="tag token">$${t}</span>`).join('')
+        : '<span style="font-family:\'IBM Plex Mono\',monospace;font-size:11px;color:var(--grey-700)">NONE DETECTED</span>';
 
       const kwEl = document.getElementById('r-keywords');
-      const kws = d.keywords || [];
-      kwEl.innerHTML = kws.map(k => `<span class="tag keyword">${k}</span>`).join('');
+      kwEl.innerHTML = (d.keywords || []).map(k => `<span class="tag kw">${k}</span>`).join('');
 
       document.getElementById('r-why').textContent = d.why_it_matters || '—';
 
-      const action = (d.action || 'Watch').replace(' ', '-').toLowerCase();
-      const actionBox = document.getElementById('r-action-box');
-      actionBox.className = 'action-box ' + action;
-
-      const icons = { 'watch': '👁', 'ignore': '🚫', 'research': '🔬', 'early-signal': '🚀' };
+      const ac = (d.action || 'Watch').toLowerCase().replace(' ', '-');
+      const ab = document.getElementById('r-action-block');
+      ab.className = 'action-block ' + ac;
+      document.getElementById('r-action-val').textContent = (d.action || '—').toUpperCase();
+      const icons = {'watch':'👁','ignore':'—','research':'🔬','early-signal':'↑'};
       const subs = {
-        'watch': 'Monitor this narrative for development',
-        'ignore': 'Low signal quality — not actionable',
-        'research': 'Strong enough signal to investigate deeper',
-        'early-signal': 'High conviction — consider early positioning'
+        'watch':'Monitor this narrative for further development.',
+        'ignore':'Low signal quality — not actionable.',
+        'research':'Strong enough signal to investigate deeper.',
+        'early-signal':'High conviction. Consider early positioning.'
       };
+      document.getElementById('r-icon').textContent = icons[ac] || '→';
+      document.getElementById('r-action-sub').textContent = subs[ac] || '';
 
-      document.getElementById('r-action-icon').textContent = icons[action] || '⚡';
-      document.getElementById('r-action').textContent = d.action || '—';
-      document.getElementById('r-action-sub').textContent = subs[action] || '';
-
-      const ts = d.timestamp ? new Date(d.timestamp).toLocaleString() : '';
-      document.getElementById('r-timestamp').textContent = ts ? `Generated at ${ts}` : '';
+      const ts = d.timestamp ? new Date(d.timestamp).toLocaleString('en-US', {month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'}) : '';
+      document.getElementById('r-ts').textContent = ts;
 
       const rv = document.getElementById('result-view');
-      rv.classList.add('visible');
-      setTimeout(() => rv.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
+      rv.classList.add('show');
+      setTimeout(() => rv.scrollIntoView({behavior:'smooth', block:'start'}), 120);
     }
 
     function hideResult() {
-      document.getElementById('result-view').classList.remove('visible');
-      document.getElementById('r-score-bar').style.width = '0';
+      document.getElementById('result-view').classList.remove('show');
+      document.getElementById('r-bar').style.width = '0';
     }
 
-    function showError(msg) {
-      const el = document.getElementById('error-box');
-      el.textContent = '⚠ ' + msg;
-      el.classList.add('visible');
-    }
-
-    function hideError() {
-      document.getElementById('error-box').classList.remove('visible');
-    }
-
-    // ========================
-    // LOADING STATE
-    // ========================
-    function setLoading(on) {
-      const btn = document.getElementById('analyze-btn');
-      const spinner = document.getElementById('btn-spinner');
-      const text = document.getElementById('btn-text');
-      if (on) {
-        btn.classList.add('loading');
-        spinner.style.display = 'block';
-        text.textContent = 'Extracting signal...';
-      } else {
-        btn.classList.remove('loading');
-        spinner.style.display = 'none';
-        text.textContent = '⚡ Analyze Signal';
-      }
-    }
-
-    // ========================
-    // HISTORY
-    // ========================
-    function saveToHistory(data, text) {
-      const entry = { ...data, preview: text.slice(0, 80) };
-      analysisHistory.unshift(entry);
-      if (analysisHistory.length > 50) analysisHistory = analysisHistory.slice(0, 50);
-      localStorage.setItem('tg_history', JSON.stringify(analysisHistory));
+    /* ─── HISTORY ─── */
+    function saveHistory(d, text) {
+      history.unshift({...d, _preview: text.slice(0, 80)});
+      if (history.length > 50) history = history.slice(0, 50);
+      localStorage.setItem('tg3_hist', JSON.stringify(history));
     }
 
     function renderHistory() {
       const el = document.getElementById('history-list');
-      if (!analysisHistory.length) {
-        el.innerHTML = `<div class="history-empty"><p style="font-size:14px">No analyses yet.<br/>Run your first signal extraction.</p></div>`;
+      document.getElementById('hist-meta').textContent = history.length + ' analyses';
+      if (!history.length) {
+        el.innerHTML = '<div class="history-empty">NO ANALYSES YET</div>';
         return;
       }
-
-      el.innerHTML = analysisHistory.map((h, i) => {
-        const t = h.timestamp ? new Date(h.timestamp).toLocaleString() : '';
-        const s = (h.sentiment || '').toLowerCase();
-        const sentColor = s === 'bullish' ? 'var(--green)' : s === 'bearish' ? 'var(--red)' : 'var(--muted)';
-        return `<div class="history-card" onclick="restoreAnalysis(${i})" style="animation-delay:${i * 0.05}s">
-          <div class="history-top">
-            <span class="history-category font-ui">${h.narrative_category || 'Unknown'}</span>
-            <span class="history-time font-mono">${t}</span>
+      el.innerHTML = history.map((h, i) => {
+        const ts = h.timestamp ? new Date(h.timestamp).toLocaleString('en-US',{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'}) : '';
+        const s = (h.sentiment||'').toLowerCase();
+        return `<div class="history-item" onclick="restoreItem(${i})" style="animation-delay:${i*.04}s">
+          <div class="hist-top">
+            <span class="hist-cat">${h.narrative_category||'Unknown'}</span>
+            <span class="hist-time">${ts}</span>
           </div>
-          <div class="history-narrative">"${h.key_narrative || ''}"</div>
-          <div class="history-foot">
-            <span class="history-score font-mono">Score: ${h.market_relevance_score || 0}/10</span>
-            <span class="sentiment-badge ${s}" style="font-size:11px;padding:3px 10px">${h.sentiment || '—'}</span>
-            <span style="margin-left:auto;font-size:12px;color:${sentColor};font-weight:700">${h.action || ''}</span>
+          <div class="hist-narrative">"${h.key_narrative||''}"</div>
+          <div class="hist-foot">
+            <span class="hist-score">${h.market_relevance_score||0}/10</span>
+            <span class="sentiment-pill ${s}" style="font-size:9px;padding:2px 8px">${(h.sentiment||'').toUpperCase()}</span>
+            <span class="hist-action">${(h.action||'').toUpperCase()} →</span>
           </div>
         </div>`;
       }).join('');
     }
 
-    function restoreAnalysis(i) {
-      const h = analysisHistory[i];
-      showScreen('analyze');
-      document.querySelectorAll('.nav-tab')[0].classList.add('active');
-      document.querySelectorAll('.nav-tab')[1].classList.remove('active');
-      document.querySelectorAll('.nav-tab')[2].classList.remove('active');
-      if (h.preview) {
-        document.getElementById('transcript-input').value = h.preview + (h.preview.length >= 80 ? '...' : '');
-        updateCharCount();
+    function restoreItem(i) {
+      const h = history[i];
+      document.querySelectorAll('.nav-tab')[0].click();
+      if (h._preview) {
+        document.getElementById('transcript-input').value = h._preview;
+        onInput();
       }
-      renderResult(h);
+      showResult(h);
     }
 
-    // ========================
-    // TRENDS
-    // ========================
-    async function loadTrends() {
-      const feed = document.getElementById('trends-feed');
-      feed.innerHTML = `
-        <div class="card skeleton" style="height:100px"></div>
-        <div class="card skeleton" style="height:100px"></div>
-        <div class="card skeleton" style="height:100px"></div>
-      `;
-
-      try {
-        const res = await fetch(API_BASE + '/trend');
-        if (!res.ok) throw new Error();
-        const data = await res.json();
-        renderTrends(data.trends || []);
-      } catch {
-        renderTrends(getMockTrends());
-      }
-    }
-
+    /* ─── TRENDS ─── */
     function getMockTrends() {
       return [
-        { name: 'AI Agents', mentions: 142, growth: '+280%', signal_strength: 9.4, summary: 'Autonomous on-chain agents dominating attention across CT. Infrastructure plays seeing 3x volume increases.' },
-        { name: 'RWA Tokenization', mentions: 98, growth: '+165%', signal_strength: 8.8, summary: 'Institutional-grade real world asset protocols attracting major capital. BlackRock effect amplifying signal.' },
-        { name: 'DeFi Restaking', mentions: 76, growth: '+120%', signal_strength: 7.9, summary: 'Liquid restaking protocols seeing exponential TVL growth. ETH yield narrative returning strongly.' },
-        { name: 'Memecoin Season', mentions: 210, growth: '+95%', signal_strength: 6.5, summary: 'Dog and frog meta cycling again. Fast money flows with extreme volatility. CT sentiment extremely positive.' },
-        { name: 'Layer 2 Wars', mentions: 63, growth: '+78%', signal_strength: 7.1, summary: 'L2 ecosystem fragmentation creating arbitrage opportunities. Bridge volume up 4x month-over-month.' },
-        { name: 'ZK Technology', mentions: 45, growth: '+55%', signal_strength: 6.8, summary: 'Zero-knowledge proofs moving from research to production. Privacy narrative gaining institutional interest.' }
+        {name:'AI Agents', mentions:142, growth:'+280%', signal_strength:9.4, summary:'Autonomous on-chain agents dominating CT attention. Infrastructure plays seeing 3x volume increases.'},
+        {name:'RWA Tokenization', mentions:98, growth:'+165%', signal_strength:8.8, summary:'Institutional-grade RWA protocols attracting major capital. BlackRock effect amplifying signal.'},
+        {name:'DeFi Restaking', mentions:76, growth:'+120%', signal_strength:7.9, summary:'Liquid restaking protocols seeing exponential TVL growth. ETH yield narrative returning strongly.'},
+        {name:'Memecoin Season', mentions:210, growth:'+95%', signal_strength:6.5, summary:'Dog and frog meta cycling again. Fast money flows, extreme volatility.'},
+        {name:'Layer 2 Wars', mentions:63, growth:'+78%', signal_strength:7.1, summary:'L2 ecosystem fragmentation creating arbitrage opportunities. Bridge volume up 4x MoM.'},
+        {name:'ZK Privacy', mentions:45, growth:'+55%', signal_strength:6.8, summary:'ZK proofs moving from research to production. Privacy narrative gaining institutional interest.'}
       ];
     }
 
-    function renderTrends(trends) {
-      const feed = document.getElementById('trends-feed');
-      if (!trends.length) {
-        feed.innerHTML = `<div class="trends-empty"><p>No trend data available yet.</p></div>`;
-        return;
+    async function loadTrends() {
+      const list = document.getElementById('trends-list');
+      list.innerHTML = [1,2,3].map(()=>`
+        <div style="border-bottom:1px solid var(--grey-800);padding:16px 0">
+          <div style="height:14px;background:var(--grey-900);margin-bottom:8px;width:60%"></div>
+          <div style="height:10px;background:var(--grey-900);width:40%"></div>
+        </div>`).join('');
+
+      let trends;
+      try {
+        const res = await fetch(location.origin + '/trend');
+        if (!res.ok) throw new Error();
+        const d = await res.json();
+        trends = d.trends || [];
+        if (!trends.length) throw new Error();
+      } catch {
+        trends = getMockTrends();
       }
 
-      feed.innerHTML = trends.map((t, i) => `
-        <div class="trend-card" style="animation-delay:${i * 0.07}s">
-          <div class="trend-top">
-            <span class="trend-name font-ui">${t.name}</span>
-            <span class="trend-growth font-mono">${t.growth}</span>
+      document.getElementById('trend-meta').textContent = trends.length + ' narratives · ' + new Date().toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'});
+
+      list.innerHTML = trends.map((t, i) => `
+        <div class="trend-item" style="animation-delay:${i*.07}s">
+          <div class="trend-row-top">
+            <span class="trend-name">${t.name}</span>
+            <span class="trend-growth">${t.growth}</span>
           </div>
-          <div class="trend-mid">
-            <span class="mentions-badge font-mono">${t.mentions} signals</span>
-            <div class="strength-bar-bg">
-              <div class="strength-bar-fill" style="width:${(t.signal_strength / 10 * 100)}%"></div>
-            </div>
-            <span class="strength-num font-mono">${t.signal_strength}</span>
+          <div class="trend-row-mid">
+            <span class="trend-mentions">${t.mentions} signals</span>
+            <div class="trend-track"><div class="trend-fill" style="width:${(t.signal_strength/10*100)}%"></div></div>
+            <span class="trend-score">${t.signal_strength}</span>
           </div>
           <div class="trend-summary">${t.summary}</div>
-        </div>
-      `).join('');
+        </div>`).join('');
     }
 
-    // ========================
-    // TOAST
-    // ========================
-    let toastTimer = null;
-    function showToast(msg) {
-      const t = document.getElementById('toast');
-      t.textContent = msg;
-      t.classList.add('show');
-      clearTimeout(toastTimer);
-      toastTimer = setTimeout(() => t.classList.remove('show'), 3000);
+    /* ─── TOAST ─── */
+    let _toastTimer;
+    function toast(msg) {
+      const el = document.getElementById('toast');
+      el.textContent = msg;
+      el.classList.add('show');
+      clearTimeout(_toastTimer);
+      _toastTimer = setTimeout(() => el.classList.remove('show'), 2800);
     }
 
-    // ========================
-    // INIT
-    // ========================
-    document.addEventListener('DOMContentLoaded', () => {
-      updateCharCount();
-    });
-
-    // Keyboard shortcut: Ctrl+Enter to analyze
+    /* ─── INIT ─── */
     document.addEventListener('keydown', e => {
-      if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') analyzeSignal();
+      if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') analyze();
     });
   </script>
 </body>
