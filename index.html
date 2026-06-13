@@ -329,7 +329,160 @@ body::before{
 .demo-panel.active{opacity:1;pointer-events:all}
 
 /* ── HUMAN DEMO PANEL ── */
-.hd-layout{padding:16px 16px 100px}
+.hd-layout{padding:16px 16px 120px}
+
+/* status bar */
+.hd-status-bar{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:14px;
+}
+.hd-phase-lbl{
+  font-family:'IBM Plex Mono',monospace;font-size:8px;font-weight:600;
+  letter-spacing:3px;text-transform:uppercase;
+  color:var(--t4);transition:color .3s;
+}
+.hd-phase-lbl.scanning{color:var(--red)}
+.hd-phase-lbl.done{color:var(--green)}
+
+/* TikTok-style signal scan card */
+.htk-card{
+  position:relative;margin-bottom:10px;
+  display:grid;grid-template-columns:1fr 50px;
+  height:210px;overflow:hidden;border-radius:4px;
+  border:1px solid #1e1e1e;
+}
+.htk-vid{
+  position:relative;overflow:hidden;
+  background:linear-gradient(170deg,#d4380d 0%,#a8071a 45%,#4a0000 100%);
+}
+.htk-vid::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(transparent 30%,rgba(0,0,0,.85) 100%);
+}
+.htk-beam{
+  position:absolute;left:0;right:0;height:70px;z-index:5;
+  background:linear-gradient(transparent,rgba(254,44,85,.55),transparent);
+  filter:blur(6px);top:-70px;
+}
+@keyframes beam-move{from{top:-70px}to{top:calc(100% + 70px)}}
+.htk-beam.active{animation:beam-move 2.2s ease-in-out forwards}
+.htk-text{
+  position:absolute;bottom:28px;left:10px;right:6px;z-index:4;
+  font-size:10px;color:rgba(255,255,255,.92);line-height:1.6;
+}
+.htk-user-lbl{
+  font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:600;
+  color:#fff;margin-bottom:4px;
+}
+.htk-tags-lbl{
+  position:absolute;bottom:8px;left:10px;z-index:4;
+  font-size:9px;color:rgba(255,255,255,.5);
+}
+.htk-right{
+  background:#070707;border-left:1px solid #1a1a1a;
+  display:flex;flex-direction:column;align-items:center;
+  padding:10px 0;gap:12px;
+}
+.htk-av{
+  width:30px;height:30px;border-radius:50%;
+  background:var(--wh);border:2px solid var(--red);
+  display:grid;place-items:center;
+  font-size:7px;font-weight:700;color:#000;
+  font-family:'IBM Plex Mono',monospace;
+}
+.htk-ic{text-align:center;cursor:default}
+.htk-ic-s{font-size:16px;display:block}
+.htk-ic-n{font-family:'IBM Plex Mono',monospace;font-size:6px;color:rgba(255,255,255,.6);display:block}
+.htk-disc{
+  width:24px;height:24px;border-radius:50%;margin-top:auto;
+  background:conic-gradient(#222,#555,#222);
+  display:grid;place-items:center;font-size:9px;
+  border:1px solid rgba(255,255,255,.15);
+}
+.htk-disc.spin{animation:tk-spin 3s linear infinite}
+
+/* scan step bar */
+.htk-steps{
+  margin-bottom:8px;display:none;
+}
+.htk-steps.show{display:block}
+.htk-step-bars{display:grid;grid-template-columns:repeat(5,1fr);gap:3px;margin-bottom:5px}
+.htk-step-bar{height:3px;background:#1a1a1a;transition:background .35s}
+.htk-step-bar.done{background:var(--wh)}
+.htk-step-bar.act{background:var(--red);animation:pulse-seg .7s ease infinite}
+@keyframes pulse-seg{0%,100%{opacity:1}50%{opacity:.35}}
+.htk-step-txt{
+  font-family:'IBM Plex Mono',monospace;font-size:8px;color:var(--t4);
+  letter-spacing:1.5px;height:12px;overflow:hidden;
+}
+
+/* score ring */
+.score-ring-wrap{
+  display:flex;align-items:center;gap:16px;margin-bottom:4px;
+}
+.score-ring-svg-wrap{
+  position:relative;width:100px;height:100px;flex-shrink:0;
+  display:grid;place-items:center;
+}
+.score-ring-svg{
+  position:absolute;inset:0;width:100%;height:100%;
+  transform:rotate(-90deg);
+}
+.ring-bg{fill:none;stroke:#141414;stroke-width:5}
+.ring-fill{
+  fill:none;stroke:var(--wh);stroke-width:5;stroke-linecap:round;
+  stroke-dasharray:283;stroke-dashoffset:283;
+  transition:stroke-dashoffset 1.6s cubic-bezier(.16,1,.3,1);
+}
+.score-num-center{text-align:center;z-index:1}
+.score-num-big{
+  font-family:'IBM Plex Mono',monospace;font-size:38px;font-weight:600;
+  line-height:1;letter-spacing:-3px;color:var(--t1);
+}
+.score-num-lbl{font-family:'IBM Plex Mono',monospace;font-size:7px;color:var(--t4);letter-spacing:2px}
+.score-ring-right{flex:1}
+.srr-verdict{
+  font-family:'IBM Plex Mono',monospace;font-size:8px;font-weight:600;
+  letter-spacing:2px;text-transform:uppercase;color:var(--t4);margin-bottom:4px;
+}
+.srr-conviction{
+  font-size:18px;font-weight:700;color:var(--t1);letter-spacing:-.4px;margin-bottom:8px;
+}
+.demo-segs{display:flex;gap:2px}
+.dseg{flex:1;height:3px;background:#141414;transition:background .4s}
+.dseg.on{background:var(--wh)}.dseg.half{background:#383838}
+
+/* SIGNAL CONFIRMED sticky banner */
+.hd-confirmed{
+  position:sticky;bottom:0;
+  background:var(--wh);color:var(--bk);
+  padding:13px 16px;
+  display:flex;align-items:center;justify-content:space-between;
+  margin:16px -16px 0;
+  transform:translateY(110%);
+  transition:transform .55s cubic-bezier(.16,1,.3,1);
+}
+.hd-confirmed.show{transform:translateY(0)}
+.hc-lbl{font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:700;letter-spacing:.5px;margin-bottom:2px}
+.hc-sub{font-family:'IBM Plex Mono',monospace;font-size:7px;color:rgba(0,0,0,.5);letter-spacing:2px}
+.hc-big{font-family:'IBM Plex Mono',monospace;font-size:42px;font-weight:700;line-height:1;letter-spacing:-3px}
+
+/* ── AGENT DEMO PANEL ── */
+.ad-layout{padding:16px 16px 100px}
+/* live stats bar */
+.ad-live-pill{
+  display:flex;align-items:center;gap:6px;margin-bottom:10px;
+  font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:2px;color:var(--green);
+}
+.ad-live-dot-g{width:5px;height:5px;border-radius:50%;background:var(--green);animation:blink 1s step-end infinite}
+.ad-live-bar{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  border:1px solid var(--ln);margin-bottom:16px;
+}
+.ad-lstat{padding:10px 8px;border-right:1px solid var(--ln);text-align:center}
+.ad-lstat:last-child{border-right:none}
+.ad-lstat-n{font-family:'IBM Plex Mono',monospace;font-size:15px;font-weight:600;color:var(--t1);margin-bottom:2px}
+.ad-lstat-l{font-family:'IBM Plex Mono',monospace;font-size:6px;color:var(--t4);letter-spacing:1.5px;text-transform:uppercase}
 
 .hd-title-row{
   display:flex;align-items:center;justify-content:space-between;
@@ -1339,41 +1492,44 @@ textarea::placeholder{color:var(--t5);font-size:13px}
     <!-- HUMAN DEMO -->
     <div class="demo-panel active" id="dp-human">
       <div class="hd-layout">
-        <div class="hd-title-row">
-          <span class="hd-title">Live Analysis Demo</span>
+        <!-- Status bar -->
+        <div class="hd-status-bar">
           <div class="hd-status">
             <div class="hd-status-dot idle" id="demo-dot"></div>
-            <span id="demo-status-txt" style="font-family:'IBM Plex Mono',monospace;font-size:9px">Idle</span>
+            <span id="demo-status-txt" style="font-family:'IBM Plex Mono',monospace;font-size:9px">Standby</span>
+          </div>
+          <span class="hd-phase-lbl" id="demo-phase-lbl">STANDBY</span>
+        </div>
+
+        <!-- TikTok Signal Card -->
+        <div class="htk-card">
+          <div class="htk-vid">
+            <div class="htk-beam" id="htk-beam"></div>
+            <div class="htk-user-lbl">@cryptowatcher</div>
+            <div class="htk-text" id="htk-text"></div>
+            <div class="htk-tags-lbl">#crypto #AIagents #web3 #NEAR #FET</div>
+          </div>
+          <div class="htk-right">
+            <div class="htk-av">CW</div>
+            <div class="htk-ic"><span class="htk-ic-s">❤</span><span class="htk-ic-n">48.2K</span></div>
+            <div class="htk-ic"><span class="htk-ic-s">💬</span><span class="htk-ic-n">892</span></div>
+            <div class="htk-ic"><span class="htk-ic-s">↗</span><span class="htk-ic-n">Share</span></div>
+            <div class="htk-disc" id="htk-disc">♪</div>
           </div>
         </div>
 
-        <!-- Mock input -->
-        <div class="demo-ibox">
-          <div class="demo-textarea" id="demo-textarea"><span class="demo-cursor" id="demo-cursor"></span></div>
-          <div class="demo-ifoot">
-            <span>Transcript Input</span>
-            <span id="demo-char-count" style="font-size:9px;color:var(--t4)">0 chars</span>
-          </div>
+        <!-- Scan steps -->
+        <div class="htk-steps" id="htk-steps">
+          <div class="htk-step-bars" id="htk-step-bars"></div>
+          <div class="htk-step-txt" id="htk-step-txt"></div>
         </div>
 
-        <!-- Mock CTA -->
-        <div class="demo-cta" id="demo-cta-btn">
-          <span id="demo-cta-lbl">ANALYZE SIGNAL</span>
-          <span id="demo-cta-arr" style="font-family:'IBM Plex Mono',monospace">&rarr;</span>
-        </div>
-
-        <!-- Scan -->
-        <div class="scan-wrap" id="demo-scan" style="margin:0 0 10px;padding:10px 12px">
-          <div class="scan-segs" id="demo-scan-segs"></div>
-          <div class="scan-txt"><span id="demo-scan-txt">Initializing</span><span class="scan-cur">_</span></div>
-        </div>
-
-        <!-- Result -->
+        <!-- Result blocks -->
         <div class="demo-result" id="demo-result">
 
-          <div class="dr-blk">
+          <div class="dr-blk" id="dr-narrative" style="opacity:0;transform:translateY(12px);transition:all .4s">
             <div class="dr-hd">
-              <span>01 Narrative</span>
+              <span>01 Narrative Detected</span>
               <span style="color:var(--red);font-size:8px;letter-spacing:1.5px">BULLISH</span>
             </div>
             <div class="dr-bd">
@@ -1383,20 +1539,33 @@ textarea::placeholder{color:var(--t5);font-size:13px}
             </div>
           </div>
 
-          <div class="dr-blk">
+          <div class="dr-blk" id="dr-score" style="opacity:0;transform:translateY(12px);transition:all .4s .1s">
             <div class="dr-hd">
-              <span>02 Market Relevance</span>
+              <span>02 Market Relevance Score</span>
               <span style="background:var(--wh);color:var(--bk);padding:2px 9px;font-size:8px;letter-spacing:1.5px">HIGH CONVICTION</span>
             </div>
             <div class="dr-bd">
-              <div class="demo-score-big" id="demo-score-num">0.0</div>
-              <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--t4);margin-bottom:8px">/10 relevance score</div>
-              <div class="demo-score-bar"><div class="demo-score-fill" id="demo-fill"></div></div>
-              <div class="demo-segs" id="demo-segs"></div>
+              <div class="score-ring-wrap">
+                <div class="score-ring-svg-wrap">
+                  <svg class="score-ring-svg" viewBox="0 0 100 100">
+                    <circle class="ring-bg" cx="50" cy="50" r="45"/>
+                    <circle class="ring-fill" cx="50" cy="50" r="45" id="demo-ring"/>
+                  </svg>
+                  <div class="score-num-center">
+                    <div class="score-num-big" id="demo-score-num">0.0</div>
+                    <div class="score-num-lbl">/ 10</div>
+                  </div>
+                </div>
+                <div class="score-ring-right">
+                  <div class="srr-verdict">Relevance</div>
+                  <div class="srr-conviction">High Conviction</div>
+                  <div class="demo-segs" id="demo-segs"></div>
+                </div>
+              </div>
             </div>
           </div>
 
-          <div class="dr-blk">
+          <div class="dr-blk" id="dr-tokens" style="opacity:0;transform:translateY(12px);transition:all .4s .2s">
             <div class="dr-hd"><span>03 Tokens and Keywords</span></div>
             <div class="dr-bd">
               <div style="font-family:'IBM Plex Mono',monospace;font-size:7px;color:var(--t4);letter-spacing:2px;margin-bottom:6px">DETECTED TOKENS</div>
@@ -1417,23 +1586,23 @@ textarea::placeholder{color:var(--t5);font-size:13px}
             </div>
           </div>
 
-          <div class="dr-blk">
+          <div class="dr-blk" id="dr-why" style="opacity:0;transform:translateY(12px);transition:all .4s .3s">
             <div class="dr-hd"><span>04 Why It Matters</span></div>
             <div class="dr-bd">
-              <p class="demo-why" id="demo-why">AI agent narratives are driving significant on-chain activity. Autonomous protocols are becoming the default execution layer. Infrastructure plays are positioned for outsized returns as adoption accelerates exponentially.</p>
+              <p class="demo-why" id="demo-why">AI agent narratives are driving significant on-chain activity. Autonomous protocols are becoming the default execution layer. Infrastructure plays are positioned for outsized returns as adoption accelerates.</p>
             </div>
-          </div>
-
-          <div class="demo-action-blk" id="demo-action">
-            <div>
-              <div class="dact-lbl">05 Signal Action</div>
-              <div class="dact-name">EARLY SIGNAL</div>
-              <div class="dact-sub">High conviction entry window open. Early positioning with managed risk recommended now.</div>
-            </div>
-            <div class="dact-g">&uarr;</div>
           </div>
 
         </div><!-- /demo-result -->
+
+        <!-- SIGNAL CONFIRMED sticky banner -->
+        <div class="hd-confirmed" id="hd-confirmed">
+          <div>
+            <div class="hc-lbl">SIGNAL CONFIRMED</div>
+            <div class="hc-sub">BULLISH &middot; AI NARRATIVE &middot; HIGH CONVICTION</div>
+          </div>
+          <div class="hc-big">8.7</div>
+        </div>
 
       </div><!-- /hd-layout -->
 
@@ -1448,6 +1617,18 @@ textarea::placeholder{color:var(--t5);font-size:13px}
     <!-- AGENT DEMO -->
     <div class="demo-panel" id="dp-agent">
       <div class="ad-layout">
+
+        <!-- Live stats bar -->
+        <div class="ad-live-pill">
+          <div class="ad-live-dot-g"></div>
+          AGENT ENGINE · CONNECTED
+        </div>
+        <div class="ad-live-bar">
+          <div class="ad-lstat"><div class="ad-lstat-n" id="ad-latency">847ms</div><div class="ad-lstat-l">Avg Latency</div></div>
+          <div class="ad-lstat"><div class="ad-lstat-n" id="ad-reqs">2.4K</div><div class="ad-lstat-l">Req / Day</div></div>
+          <div class="ad-lstat"><div class="ad-lstat-n" id="ad-tokens">18.7K</div><div class="ad-lstat-l">Tokens Used</div></div>
+          <div class="ad-lstat"><div class="ad-lstat-n" style="color:var(--green)">99.7%</div><div class="ad-lstat-l">Uptime</div></div>
+        </div>
 
         <div class="ad-section">
           <div class="ad-section-lbl">Request</div>
@@ -2528,9 +2709,10 @@ function submitWaitlist() {
 }
 
 function stopDemo() {
-  demoTimers.forEach(clearTimeout);
+  demoTimers.forEach(id=>{ clearTimeout(id); clearInterval(id); });
   demoTimers = [];
   demoRunning = false;
+  if(agentWsInterval){ clearInterval(agentWsInterval); agentWsInterval=null; }
 }
 
 function dt(fn, delay) {
@@ -2540,152 +2722,159 @@ function dt(fn, delay) {
 }
 
 /* ─── HUMAN DEMO ─── */
-const DEMO_TRANSCRIPT = `AI agents are literally taking over crypto right now. I'm seeing autonomous agents trading, bridging, and writing smart contracts on their own. Every major protocol is integrating agent infrastructure. This is the next 100x narrative. $NEAR, $FET, and $VIRTUAL are all positioned perfectly. Get in early or get left behind.`;
+const DEMO_TRANSCRIPT = `AI agents are literally taking over crypto right now. I'm seeing autonomous agents trading, bridging, and writing smart contracts on their own. Every major protocol is integrating agent infrastructure. This is the next 100x narrative. $NEAR, $FET, and $VIRTUAL are all positioned perfectly.`;
 
-const SCAN_STEPS_D = ['Normalizing input signal','Detecting narrative patterns','Scoring market relevance','Extracting token signals','Generating report'];
+const SCAN_STEPS = [
+  'Normalizing signal input',
+  'Detecting narrative patterns',
+  'Scoring market relevance',
+  'Extracting token mentions',
+  'Generating intelligence report'
+];
 
-function setDemoStatus(state) {
+function setPhase(label, cls) {
   const dot = document.getElementById('demo-dot');
   const txt = document.getElementById('demo-status-txt');
-  dot.className = 'hd-status-dot ' + state;
-  txt.textContent = state==='idle'?'Idle':state==='busy'?'Analyzing...':'Complete';
+  const ph  = document.getElementById('demo-phase-lbl');
+  if(dot) dot.className = 'hd-status-dot ' + (cls==='scanning'?'busy':cls==='done'?'complete':'idle');
+  if(txt) txt.textContent = cls==='scanning'?'Scanning...':cls==='done'?'Signal Confirmed':'Standby';
+  if(ph)  { ph.textContent = label; ph.className = 'hd-phase-lbl ' + cls; }
 }
 
 function startHumanDemo() {
   if(demoRunning) return;
   demoRunning = true;
 
-  // reset
-  const ta    = document.getElementById('demo-textarea');
-  const cta   = document.getElementById('demo-cta-btn');
-  const scan  = document.getElementById('demo-scan');
-  const res   = document.getElementById('demo-result');
-  const fill  = document.getElementById('demo-fill');
-  const score = document.getElementById('demo-score-num');
+  /* ── RESET ── */
+  const textEl   = document.getElementById('htk-text');
+  const beam     = document.getElementById('htk-beam');
+  const disc     = document.getElementById('htk-disc');
+  const stepsEl  = document.getElementById('htk-steps');
+  const stepBars = document.getElementById('htk-step-bars');
+  const stepTxt  = document.getElementById('htk-step-txt');
+  const res      = document.getElementById('demo-result');
+  const scoreEl  = document.getElementById('demo-score-num');
+  const ring     = document.getElementById('demo-ring');
+  const confirmed = document.getElementById('hd-confirmed');
 
-  ta.innerHTML = '<span class="demo-cursor" id="demo-cursor"></span>';
-  document.getElementById('demo-char-count').textContent = '0 chars';
-  document.getElementById('demo-cta-lbl').textContent = 'ANALYZE SIGNAL';
-  document.getElementById('demo-cta-arr').style.opacity = '1';
-  cta.classList.remove('pulsing');
-  scan.classList.remove('show');
+  textEl.textContent = '';
+  beam.className = 'htk-beam';
+  disc.className = 'htk-disc';
+  stepsEl.classList.remove('show');
   res.classList.remove('show');
-  fill.style.width = '0';
-  score.textContent = '0.0';
+  if(scoreEl) scoreEl.textContent = '0.0';
+  if(ring)    ring.style.strokeDashoffset = '283';
+  if(confirmed) confirmed.classList.remove('show');
+  ['dr-narrative','dr-score','dr-tokens','dr-why'].forEach(id => {
+    const el = document.getElementById(id);
+    if(el) { el.style.opacity='0'; el.style.transform='translateY(12px)'; }
+  });
   document.querySelectorAll('.dtag-tok,.dtag-kw').forEach(el=>el.classList.remove('in'));
   document.getElementById('demo-why').classList.remove('in');
-  document.getElementById('demo-action').classList.remove('in');
-  setDemoStatus('idle');
+  setPhase('STANDBY', '');
 
-  // phase 1: type transcript
+  /* ── PHASE 1: TYPE INTO TIKTOK CARD ── */
+  disc.classList.add('spin');
+  setPhase('INGESTING SIGNAL', '');
   let i = 0;
-  const cursor = () => document.getElementById('demo-cursor');
-
   function typeNext() {
     if(!demoRunning) return;
-    if(i >= DEMO_TRANSCRIPT.length) {
-      // done typing
-      dt(triggerAnalyze, 700);
-      return;
-    }
-    const chunk = DEMO_TRANSCRIPT.slice(0, ++i);
-    const cur   = cursor();
-    if(cur) cur.remove();
-    ta.innerHTML = chunk + '<span class="demo-cursor" id="demo-cursor"></span>';
-    document.getElementById('demo-char-count').textContent = i + ' chars';
-    const speed = i < 60 ? 28 : i < 150 ? 18 : 10;
+    if(i >= DEMO_TRANSCRIPT.length) { dt(triggerScan, 500); return; }
+    textEl.textContent = DEMO_TRANSCRIPT.slice(0, ++i);
+    const speed = i < 50 ? 22 : i < 120 ? 14 : 8;
     dt(typeNext, speed);
   }
+  dt(typeNext, 400);
 
-  dt(typeNext, 500);
-
-  function triggerAnalyze() {
+  /* ── PHASE 2: RED BEAM SCAN ── */
+  function triggerScan() {
     if(!demoRunning) return;
-    setDemoStatus('busy');
-    cta.classList.add('pulsing');
-    document.getElementById('demo-cta-lbl').textContent = 'ANALYZING';
-    document.getElementById('demo-cta-arr').style.opacity = '0';
-
-    dt(()=>{
-      cta.classList.remove('pulsing');
-      scan.classList.add('show');
-      runScanAnim(0);
-    }, 400);
+    setPhase('SCANNING', 'scanning');
+    beam.className = 'htk-beam active';
+    stepsEl.classList.add('show');
+    runStep(0);
   }
 
-  function runScanAnim(step) {
+  function runStep(step) {
     if(!demoRunning) return;
-    const segs = document.getElementById('demo-scan-segs');
-    segs.innerHTML = SCAN_STEPS_D.map((_,i)=>`<div class="sseg${i<step?' done':i===step?' active':''}"></div>`).join('');
-    document.getElementById('demo-scan-txt').textContent = SCAN_STEPS_D[Math.min(step, SCAN_STEPS_D.length-1)];
-    if(step < SCAN_STEPS_D.length) {
-      dt(()=>runScanAnim(step+1), 450);
+    const bars = Array.from({length:5},(_,j)=>
+      `<div class="htk-step-bar${j<step?' done':j===step?' act':''}"></div>`
+    ).join('');
+    if(stepBars) stepBars.innerHTML = bars;
+    if(stepTxt)  stepTxt.textContent = SCAN_STEPS[Math.min(step, SCAN_STEPS.length-1)];
+    if(step < SCAN_STEPS.length) {
+      dt(()=>runStep(step+1), 440);
     } else {
       dt(revealResult, 300);
     }
   }
 
+  /* ── PHASE 3: CINEMATIC RESULT REVEAL ── */
   function revealResult() {
     if(!demoRunning) return;
-    scan.classList.remove('show');
-    document.getElementById('demo-cta-lbl').textContent = 'ANALYZE SIGNAL';
-    document.getElementById('demo-cta-arr').style.opacity = '1';
-    setDemoStatus('complete');
-
+    setPhase('SIGNAL CONFIRMED', 'done');
+    stepsEl.classList.remove('show');
     res.classList.add('show');
 
-    // animate score counter
-    dt(()=>{
-      fill.style.width = '87%';
-      animateScore(0, 8.7, 1400);
-    }, 100);
+    // block 1 - narrative
+    dt(()=>{ const el=document.getElementById('dr-narrative'); if(el){el.style.opacity='1';el.style.transform='none';} }, 100);
 
-    // animate segs
+    // block 2 - score ring + counter
     dt(()=>{
+      const el=document.getElementById('dr-score');
+      if(el){el.style.opacity='1';el.style.transform='none';}
+    }, 400);
+    dt(()=>{
+      // SVG ring: circumference = 2*PI*45 ≈ 283; 8.7/10 = 87% fill
+      if(ring) ring.style.strokeDashoffset = String(283 * (1 - 0.87));
+      // counter
+      let val = 0;
+      const target = 8.7;
+      const step = target / (1400/16);
+      function tick() {
+        if(!demoRunning) return;
+        val = Math.min(val+step, target);
+        if(scoreEl) scoreEl.textContent = val.toFixed(1);
+        if(val < target) dt(tick, 16);
+      }
+      tick();
+      // segs
       const segs = document.getElementById('demo-segs');
-      segs.innerHTML = Array.from({length:10},(_,i)=>`<div class="dseg${i<8?' on':i===8?' half':''}"></div>`).join('');
-    }, 200);
+      if(segs) segs.innerHTML = Array.from({length:10},(_,i)=>
+        `<div class="dseg${i<8?' on':i===8?' half':''}"></div>`
+      ).join('');
+    }, 450);
 
-    // token tags
+    // block 3 - tokens
+    dt(()=>{ const el=document.getElementById('dr-tokens'); if(el){el.style.opacity='1';el.style.transform='none';} }, 900);
     document.querySelectorAll('#demo-toks .dtag-tok').forEach((el,i)=>{
-      dt(()=>el.classList.add('in'), 900 + i*120);
+      dt(()=>el.classList.add('in'), 1000 + i*130);
     });
-
-    // keyword tags
     document.querySelectorAll('#demo-kws .dtag-kw').forEach((el,i)=>{
-      dt(()=>el.classList.add('in'), 1400 + i*80);
+      dt(()=>el.classList.add('in'), 1500 + i*90);
     });
 
-    // why
-    dt(()=>document.getElementById('demo-why').classList.add('in'), 1800);
+    // block 4 - why
+    dt(()=>{
+      const el=document.getElementById('dr-why');
+      if(el){el.style.opacity='1';el.style.transform='none';}
+      document.getElementById('demo-why').classList.add('in');
+    }, 1900);
 
-    // action
-    dt(()=>document.getElementById('demo-action').classList.add('in'), 2200);
+    // SIGNAL CONFIRMED banner
+    dt(()=>{ if(confirmed) confirmed.classList.add('show'); }, 2400);
 
-    // loop after 6s
-    dt(()=>{ stopDemo(); demoRunning=false; dt(startHumanDemo, 800); }, 6500);
+    // loop
+    dt(()=>{ stopDemo(); dt(startHumanDemo, 1000); }, 7500);
   }
-}
-
-function animateScore(current, target, duration) {
-  const el  = document.getElementById('demo-score-num');
-  const step = target / (duration / 16);
-  let val   = current;
-  function tick() {
-    if(!demoRunning) return;
-    val = Math.min(val + step, target);
-    el.textContent = val.toFixed(1);
-    if(val < target) dt(tick, 16);
-  }
-  dt(tick, 16);
 }
 
 /* ─── AGENT DEMO ─── */
 const REQUEST_LINES = [
-  {cls:'t-comment', txt:'# Authenticate with your API key'},
+  {cls:'t-comment', txt:'# TokGraph Intelligence API v2'},
   {cls:'t-cmd',     txt:'curl \\'},
   {cls:'t-flag',    txt:'  -X POST \\'},
-  {cls:'t-url',     txt:'  https://api.tokgraph.fun/analyze \\'},
+  {cls:'t-url',     txt:'  https://api.tokgraph.fun/v2/analyze \\'},
   {cls:'t-flag',    txt:'  -H "Authorization: Bearer tg_sk_..." \\'},
   {cls:'t-flag',    txt:'  -H "Content-Type: application/json" \\'},
   {cls:'t-string',  txt:"  -d '{\"text\": \"AI agents are taking over...\"}'"},
@@ -2697,22 +2886,31 @@ const RESPONSE_LINES = [
   {cls:'',          txt:'  <span class="t-key">"narrative_category"</span><span class="t-punc">:</span> <span class="t-val-str">"AI"</span><span class="t-punc">,</span>'},
   {cls:'',          txt:'  <span class="t-key">"sentiment"</span><span class="t-punc">:</span> <span class="t-val-str">"Bullish"</span><span class="t-punc">,</span>'},
   {cls:'',          txt:'  <span class="t-key">"market_relevance_score"</span><span class="t-punc">:</span> <span class="t-val-num">8.7</span><span class="t-punc">,</span>'},
+  {cls:'',          txt:'  <span class="t-key">"conviction"</span><span class="t-punc">:</span> <span class="t-val-str">"HIGH"</span><span class="t-punc">,</span>'},
   {cls:'',          txt:'  <span class="t-key">"action"</span><span class="t-punc">:</span> <span class="t-val-str">"Early Signal"</span><span class="t-punc">,</span>'},
   {cls:'',          txt:'  <span class="t-key">"tokens_mentioned"</span><span class="t-punc">:</span> <span class="t-punc">[</span><span class="t-val-str">"NEAR"</span><span class="t-punc">,</span><span class="t-val-str">"FET"</span><span class="t-punc">,</span><span class="t-val-str">"VIRTUAL"</span><span class="t-punc">],</span>'},
   {cls:'',          txt:'  <span class="t-key">"keywords"</span><span class="t-punc">:</span> <span class="t-punc">[</span><span class="t-val-str">"agents"</span><span class="t-punc">,</span><span class="t-val-str">"autonomous"</span><span class="t-punc">,</span><span class="t-val-str">"infrastructure"</span><span class="t-punc">],</span>'},
-  {cls:'',          txt:'  <span class="t-key">"why_it_matters"</span><span class="t-punc">:</span> <span class="t-val-str">"AI agent narratives driving..."</span><span class="t-punc">,</span>'},
+  {cls:'',          txt:'  <span class="t-key">"latency_ms"</span><span class="t-punc">:</span> <span class="t-val-num">847</span><span class="t-punc">,</span>'},
   {cls:'',          txt:'  <span class="t-key">"timestamp"</span><span class="t-punc">:</span> <span class="t-val-str">"2026-06-13T11:46:40.174Z"</span>'},
   {cls:'t-punc',    txt:'}'},
 ];
 
-const WS_ENTRIES = [
-  {time:'11:47:02', name:'AI Agents',        score:'9.1', up:true},
-  {time:'11:47:15', name:'RWA Tokenization', score:'8.8', up:true},
-  {time:'11:47:31', name:'DeFi Restaking',   score:'7.9', up:true},
-  {time:'11:47:44', name:'Memecoin Season',  score:'6.5', up:true},
-  {time:'11:47:58', name:'Layer 2 Wars',     score:'7.1', up:true},
-  {time:'11:48:12', name:'ZK Privacy',       score:'-2.1',up:false},
+const WS_POOL = [
+  {name:'AI Agents',           score:9.1,  up:true},
+  {name:'RWA Tokenization',    score:8.8,  up:true},
+  {name:'DeFi Restaking',      score:7.9,  up:true},
+  {name:'Memecoin Season',     score:6.5,  up:true},
+  {name:'Layer 2 Scaling',     score:7.4,  up:true},
+  {name:'ZK Privacy',          score:-2.1, up:false},
+  {name:'GameFi Revival',      score:8.1,  up:true},
+  {name:'DePIN Infrastructure',score:9.3,  up:true},
+  {name:'Liquid Staking',      score:7.2,  up:true},
+  {name:'Perp DEX Narrative',  score:6.8,  up:true},
+  {name:'AI x DeFi Hybrid',   score:9.0,  up:true},
+  {name:'Stablecoin Yield',    score:-1.4, up:false},
 ];
+
+let agentWsInterval = null;
 
 function startAgentDemo() {
   if(demoRunning) return;
@@ -2727,6 +2925,24 @@ function startAgentDemo() {
   resEl.innerHTML = '';
   wsEl.innerHTML  = '';
   if(cur) cur.style.display='inline-block';
+  if(agentWsInterval) { clearInterval(agentWsInterval); agentWsInterval=null; }
+
+  // animate live stats numbers subtly
+  const latEl = document.getElementById('ad-latency');
+  const reqsEl = document.getElementById('ad-reqs');
+  const toksEl = document.getElementById('ad-tokens');
+  let latBase=847, reqBase=2400, tokBase=18700;
+  const statsInterval = setInterval(()=>{
+    if(!demoRunning){ clearInterval(statsInterval); return; }
+    latBase  += Math.floor(Math.random()*60-30);
+    reqBase  += Math.floor(Math.random()*4);
+    tokBase  += Math.floor(Math.random()*12);
+    latBase   = Math.max(600, Math.min(1200, latBase));
+    if(latEl)  latEl.textContent  = latBase+'ms';
+    if(reqsEl) reqsEl.textContent = (reqBase/1000).toFixed(1)+'K';
+    if(toksEl) toksEl.textContent = (tokBase/1000).toFixed(1)+'K';
+  }, 1800);
+  demoTimers.push(statsInterval);
 
   // type request lines
   REQUEST_LINES.forEach((line, i) => {
@@ -2734,15 +2950,15 @@ function startAgentDemo() {
       if(!demoRunning) return;
       const el = document.createElement('div');
       el.innerHTML = `<span class="${line.cls}">${line.txt}</span>`;
-      el.style.opacity='0';el.style.transform='translateX(-4px)';el.style.transition='all .25s';
+      el.style.opacity='0';el.style.transform='translateX(-4px)';el.style.transition='all .22s';
       reqEl.appendChild(el);
       requestAnimationFrame(()=>{ el.style.opacity='1'; el.style.transform='none'; });
-    }, i*180);
+    }, i*160);
   });
 
-  const reqDone = REQUEST_LINES.length * 180 + 300;
+  const reqDone = REQUEST_LINES.length * 160 + 280;
 
-  // hide cursor, show response
+  // cursor off, response lines
   dt(()=>{ if(cur) cur.style.display='none'; }, reqDone);
 
   RESPONSE_LINES.forEach((line, i) => {
@@ -2750,36 +2966,47 @@ function startAgentDemo() {
       if(!demoRunning) return;
       const el = document.createElement('div');
       el.innerHTML = line.cls ? `<span class="${line.cls}">${line.txt}</span>` : line.txt;
-      el.style.opacity='0';el.style.transition='opacity .2s';
+      el.style.opacity='0';el.style.transition='opacity .18s';
       resEl.appendChild(el);
       requestAnimationFrame(()=>el.style.opacity='1');
-    }, reqDone + 200 + i*130);
+    }, reqDone + 180 + i*110);
   });
 
-  const resDone = reqDone + 200 + RESPONSE_LINES.length * 130 + 400;
+  const resDone = reqDone + 180 + RESPONSE_LINES.length * 110 + 350;
 
-  // websocket stream
+  // start live WS stream
   dt(()=>{
+    if(!demoRunning) return;
     const hdr = document.createElement('div');
     hdr.className='ws-line';
-    hdr.innerHTML='<span class="wst">// ws://api.tokgraph.fun/stream — connected</span>';
+    hdr.innerHTML='<span class="wst">// ws://api.tokgraph.fun/stream</span> <span style="color:var(--green);font-size:9px">CONNECTED</span>';
     wsEl.appendChild(hdr);
-  }, resDone);
 
-  WS_ENTRIES.forEach((entry, i) => {
-    dt(()=>{
+    let wsIdx = 0;
+    function addWsEntry() {
       if(!demoRunning) return;
+      const entry = WS_POOL[wsIdx % WS_POOL.length];
+      wsIdx++;
+      const now = new Date();
+      const ts = now.getHours().toString().padStart(2,'0')+':'+
+                 now.getMinutes().toString().padStart(2,'0')+':'+
+                 now.getSeconds().toString().padStart(2,'0');
       const el = document.createElement('div');
       el.className='ws-line';
-      el.style.animationDelay= i*0.05+'s';
-      el.innerHTML=`<span class="wst">${entry.time}</span> <span class="wsn">${entry.name}</span> <span class="${entry.up?'wss':'wsr'}">${entry.up?'+':''}${entry.score}</span>`;
+      el.style.opacity='0';el.style.transition='opacity .3s';
+      el.innerHTML=`<span class="wst">${ts}</span> <span class="wsn">${entry.name}</span> <span class="${entry.up?'wss':'wsr'}">${entry.up?'+':''}${entry.score}</span>`;
       wsEl.appendChild(el);
-    }, resDone + 300 + i*700);
-  });
+      requestAnimationFrame(()=>el.style.opacity='1');
+      // keep only last 8 visible
+      while(wsEl.children.length > 9) wsEl.removeChild(wsEl.children[1]);
+      wsEl.scrollTop = wsEl.scrollHeight;
+    }
 
-  // loop
-  const totalDone = resDone + 300 + WS_ENTRIES.length * 700 + 2000;
-  dt(()=>{ stopDemo(); dt(startAgentDemo, 600); }, totalDone);
+    // first 4 fast, then keep streaming every 1.4s
+    [0,600,1100,1600].forEach((d,i)=>dt(addWsEntry,d));
+    agentWsInterval = setInterval(addWsEntry, 1400);
+    demoTimers.push(agentWsInterval);
+  }, resDone);
 }
 </script>
 </body>
