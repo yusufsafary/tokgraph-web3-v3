@@ -42,16 +42,17 @@
     /* ─── NAVIGATION ─── */
     nav {
       position: fixed; top: 0; left: 0; right: 0; z-index: 200;
-      height: 48px;
       background: var(--black);
       border-bottom: 1px solid var(--line);
-      display: flex; align-items: center;
-      padding: 0 16px;
+    }
+
+    .nav-row1 {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 16px; height: 46px;
     }
 
     .nav-logo {
       display: flex; align-items: center; gap: 9px;
-      flex: 1;
     }
 
     .logo-icon {
@@ -71,27 +72,8 @@
       color: var(--g400); letter-spacing: 1.5px; text-transform: uppercase;
     }
 
-    .nav-tabs {
-      position: absolute; left: 50%; transform: translateX(-50%);
-      display: flex;
-    }
-
-    .tab-btn {
-      background: none; border: none;
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 12px; font-weight: 600;
-      color: var(--g400);
-      padding: 6px 14px; cursor: pointer;
-      border-bottom: 2px solid transparent;
-      transition: color 0.15s, border-color 0.15s;
-      letter-spacing: 0.2px;
-    }
-
-    .tab-btn.active { color: var(--white); border-bottom-color: var(--white); }
-    .tab-btn:hover:not(.active) { color: var(--g200); }
-
     .nav-status {
-      flex: 1; display: flex; justify-content: flex-end; align-items: center; gap: 6px;
+      display: flex; align-items: center; gap: 6px;
       font-family: 'IBM Plex Mono', monospace;
       font-size: 9px; color: var(--g400); letter-spacing: 1px;
     }
@@ -104,8 +86,26 @@
 
     @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.4;transform:scale(.75)} }
 
+    .nav-row2 {
+      display: flex; border-top: 1px solid var(--line);
+    }
+
+    .tab-btn {
+      flex: 1; background: none; border: none;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 12px; font-weight: 600;
+      color: var(--g600);
+      padding: 10px 0; cursor: pointer;
+      border-bottom: 2px solid transparent;
+      transition: color 0.15s, border-color 0.15s;
+      letter-spacing: 0.2px; text-align: center;
+    }
+
+    .tab-btn.active { color: var(--white); border-bottom-color: var(--white); }
+    .tab-btn:hover:not(.active) { color: var(--g400); }
+
     /* ─── SCREENS ─── */
-    .screen { display: none; padding-top: 48px; min-height: 100vh; }
+    .screen { display: none; padding-top: 83px; min-height: 100vh; }
     .screen.active { display: block; animation: fadeUp .2s ease; }
     @keyframes fadeUp { from{opacity:0;transform:translateY(5px)} to{opacity:1;transform:translateY(0)} }
 
@@ -651,8 +651,13 @@
 
     /* ─── RESPONSIVE ─── */
     @media (min-width: 540px) {
-      body, nav, .bottom-bar { max-width: 500px; }
-      nav, .bottom-bar { left: 50%; transform: translateX(-50%); }
+      body { max-width: 500px; margin: 0 auto; }
+      nav, .bottom-bar {
+        max-width: 500px;
+        left: 50%; right: auto;
+        transform: translateX(-50%);
+        width: 500px;
+      }
     }
   </style>
 </head>
@@ -660,29 +665,29 @@
 
 <!-- NAV -->
 <nav>
-  <div class="nav-logo">
-    <div class="logo-icon">
-      <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-        <rect x="1" y="1" width="4" height="12" fill="black"/>
-        <rect x="7" y="5" width="4" height="8" fill="black"/>
-        <rect x="7" y="1" width="4" height="3" fill="#FE2C55"/>
-      </svg>
+  <div class="nav-row1">
+    <div class="nav-logo">
+      <div class="logo-icon">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+          <rect x="1" y="1" width="4" height="12" fill="black"/>
+          <rect x="7" y="5" width="4" height="8" fill="black"/>
+          <rect x="7" y="1" width="4" height="3" fill="#FE2C55"/>
+        </svg>
+      </div>
+      <div>
+        <div class="logo-name">TokGraph</div>
+        <div class="logo-tag mono">Web3 V3</div>
+      </div>
     </div>
-    <div>
-      <div class="logo-name">TokGraph</div>
-      <div class="logo-tag mono">Web3 V3</div>
+    <div class="nav-status">
+      <div class="pulse"></div>
+      <span>LIVE</span>
     </div>
   </div>
-
-  <div class="nav-tabs">
+  <div class="nav-row2">
     <button class="tab-btn active" onclick="switchTab(this,'analyze')">Analyze</button>
     <button class="tab-btn" onclick="switchTab(this,'trends')">Trends</button>
     <button class="tab-btn" onclick="switchTab(this,'history')">History</button>
-  </div>
-
-  <div class="nav-status">
-    <div class="pulse"></div>
-    <span>LIVE</span>
   </div>
 </nav>
 
@@ -705,7 +710,7 @@
     <div class="textarea-wrap">
       <textarea id="input" placeholder="Paste TikTok text, caption, or transcript…&#10;&#10;Try: &quot;AI agents are taking over crypto, $NEAR and $FET are the plays…&quot;" oninput="onType()"></textarea>
       <div class="textarea-footer">
-        <span class="shortcuts mono">⌘↵ to run</span>
+        <span class="shortcuts mono">Ctrl+Enter to run</span>
         <button class="clear-btn" onclick="clearAll()">CLEAR ×</button>
       </div>
     </div>
