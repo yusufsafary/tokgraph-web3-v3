@@ -10,654 +10,747 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --black:   #000000;
-      --white:   #ffffff;
-      --red:     #FE2C55;
-      --g100:    #f2f2f2;
-      --g200:    #e0e0e0;
-      --g400:    #888888;
-      --g600:    #444444;
-      --g800:    #1c1c1c;
-      --g900:    #111111;
-      --line:    #222222;
+      --black:  #000;
+      --white:  #fff;
+      --red:    #FE2C55;
+      --dim1:   #cccccc; /* primary readable text */
+      --dim2:   #999999; /* secondary labels      */
+      --dim3:   #666666; /* tertiary / placeholders*/
+      --line:   #1f1f1f;
+      --surface:#111111;
+      --surface2:#161616;
     }
 
     html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
 
     body {
-      background: var(--black);
-      color: var(--white);
+      background: var(--black); color: var(--white);
       font-family: 'Space Grotesk', sans-serif;
-      min-height: 100vh;
+      min-height: 100vh; overflow-x: hidden;
       -webkit-font-smoothing: antialiased;
-      overflow-x: hidden;
     }
 
     .mono { font-family: 'IBM Plex Mono', monospace; }
 
     ::-webkit-scrollbar { width: 2px; }
     ::-webkit-scrollbar-track { background: var(--black); }
-    ::-webkit-scrollbar-thumb { background: var(--g600); }
+    ::-webkit-scrollbar-thumb { background: #333; }
 
-    /* ─── NAVIGATION ─── */
+    /* ── NAV ── */
     nav {
       position: fixed; top: 0; left: 0; right: 0; z-index: 200;
       background: var(--black);
       border-bottom: 1px solid var(--line);
     }
 
-    .nav-row1 {
+    .nav-top {
+      height: 46px; padding: 0 16px;
       display: flex; align-items: center; justify-content: space-between;
-      padding: 0 16px; height: 46px;
     }
 
-    .nav-logo {
-      display: flex; align-items: center; gap: 9px;
+    .nav-logo { display: flex; align-items: center; gap: 10px; }
+
+    .logo-box {
+      width: 28px; height: 28px; background: var(--white);
+      border-radius: 6px; display: grid; place-items: center; flex-shrink: 0;
     }
 
-    .logo-icon {
-      width: 26px; height: 26px; background: var(--white);
-      border-radius: 5px; display: grid; place-items: center; flex-shrink: 0;
-    }
+    .logo-box svg { display: block; }
 
-    .logo-icon svg { display: block; }
-
-    .logo-name {
-      font-size: 14px; font-weight: 700; letter-spacing: -0.3px;
-    }
-
-    .logo-tag {
+    .logo-name { font-size: 15px; font-weight: 700; letter-spacing: -.4px; }
+    .logo-ver  {
       font-family: 'IBM Plex Mono', monospace;
-      font-size: 9px; font-weight: 500;
-      color: var(--g400); letter-spacing: 1.5px; text-transform: uppercase;
+      font-size: 9px; color: var(--dim2); letter-spacing: 1.5px; text-transform: uppercase;
     }
 
-    .nav-status {
-      display: flex; align-items: center; gap: 6px;
+    .live-pill {
+      display: flex; align-items: center; gap: 5px;
       font-family: 'IBM Plex Mono', monospace;
-      font-size: 9px; color: var(--g400); letter-spacing: 1px;
+      font-size: 9px; color: var(--dim2); letter-spacing: 1px;
     }
 
-    .pulse {
-      width: 6px; height: 6px; border-radius: 50%;
-      background: var(--red);
-      animation: pulse 2s ease-in-out infinite;
+    .live-dot {
+      width: 6px; height: 6px; border-radius: 50%; background: var(--red);
+      animation: blink 1.8s ease-in-out infinite;
     }
 
-    @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.4;transform:scale(.75)} }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.3} }
 
-    .nav-row2 {
+    .nav-tabs {
       display: flex; border-top: 1px solid var(--line);
     }
 
-    .tab-btn {
+    .tab {
       flex: 1; background: none; border: none;
       font-family: 'Space Grotesk', sans-serif;
       font-size: 12px; font-weight: 600;
-      color: var(--g600);
-      padding: 10px 0; cursor: pointer;
+      color: var(--dim3); padding: 9px 0;
       border-bottom: 2px solid transparent;
-      transition: color 0.15s, border-color 0.15s;
-      letter-spacing: 0.2px; text-align: center;
+      cursor: pointer; transition: color .15s, border-color .15s;
+      letter-spacing: .3px; text-align: center;
     }
 
-    .tab-btn.active { color: var(--white); border-bottom-color: var(--white); }
-    .tab-btn:hover:not(.active) { color: var(--g400); }
+    .tab.active { color: var(--white); border-bottom-color: var(--white); }
+    .tab:hover:not(.active) { color: var(--dim1); }
 
-    /* ─── SCREENS ─── */
-    .screen { display: none; padding-top: 83px; min-height: 100vh; }
-    .screen.active { display: block; animation: fadeUp .2s ease; }
-    @keyframes fadeUp { from{opacity:0;transform:translateY(5px)} to{opacity:1;transform:translateY(0)} }
+    /* ── SCREENS ── */
+    .screen { display: none; padding-top: 84px; min-height: 100vh; }
+    .screen.active { display: block; animation: up .22s ease; }
+    @keyframes up { from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:translateY(0)} }
 
-    /* ══════════════════════════════════
-       SCREEN: ANALYZE
-    ══════════════════════════════════ */
+    /* ════════════════════════════════════
+       ANALYZE SCREEN
+    ════════════════════════════════════ */
 
-    /* Hero strip */
+    /* Hero */
     .hero {
-      padding: 32px 16px 24px;
+      padding: 28px 16px 22px;
       border-bottom: 1px solid var(--line);
     }
 
-    .hero-kicker {
+    .kicker {
       font-family: 'IBM Plex Mono', monospace;
       font-size: 9px; font-weight: 600;
-      letter-spacing: 2.5px; text-transform: uppercase;
+      letter-spacing: 3px; text-transform: uppercase;
       color: var(--red); margin-bottom: 12px;
-      display: flex; align-items: center; gap: 6px;
+      display: flex; align-items: center; gap: 8px;
     }
 
-    .hero-kicker::before {
-      content: ''; display: block;
-      width: 16px; height: 1px; background: var(--red);
+    .kicker::before { content:''; width:18px; height:1px; background:var(--red); }
+
+    .hero h1 {
+      font-size: clamp(26px, 8vw, 38px);
+      font-weight: 700; letter-spacing: -1.5px;
+      line-height: 1.0; margin-bottom: 12px;
     }
 
-    h1 {
-      font-size: clamp(28px, 8vw, 40px);
-      font-weight: 700; letter-spacing: -1.5px; line-height: 1.0;
-      margin-bottom: 14px;
-    }
-
-    h1 .outline {
+    .hero h1 .hollow {
       -webkit-text-stroke: 1.5px var(--white);
       color: transparent;
     }
 
-    .hero-desc {
-      font-size: 13px; color: var(--g400);
-      line-height: 1.6; max-width: 300px;
+    .hero p {
+      font-size: 13px; color: var(--dim1);
+      line-height: 1.65; max-width: 310px;
+    }
+
+    /* Stats row */
+    .stats-row {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .stat-cell {
+      padding: 12px 16px;
+      border-right: 1px solid var(--line);
+    }
+
+    .stat-cell:last-child { border-right: none; }
+
+    .stat-num {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 18px; font-weight: 600;
+      line-height: 1; margin-bottom: 3px;
+    }
+
+    .stat-lbl {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 9px; color: var(--dim2);
+      letter-spacing: 1px; text-transform: uppercase;
     }
 
     /* Input */
-    .input-section { padding: 16px 16px 0; }
+    .field { padding: 14px 16px 0; }
 
-    .field-label {
+    .field-head {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 8px;
+    }
+
+    .field-lbl {
       font-family: 'IBM Plex Mono', monospace;
       font-size: 9px; font-weight: 600;
       letter-spacing: 2px; text-transform: uppercase;
-      color: var(--g600); margin-bottom: 8px;
-      display: flex; justify-content: space-between; align-items: center;
+      color: var(--dim2);
     }
 
-    .field-label .counter { color: var(--g600); transition: color .2s; }
-    .field-label .counter.active { color: var(--white); }
+    .char-bar-wrap {
+      display: flex; align-items: center; gap: 6px;
+    }
 
-    .textarea-wrap {
-      background: var(--g900);
+    .char-num {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 9px; color: var(--dim2);
+      transition: color .2s;
+    }
+
+    .char-num.has-text { color: var(--white); }
+
+    .char-mini {
+      width: 40px; height: 2px; background: #222; overflow: hidden;
+    }
+
+    .char-mini-fill {
+      height: 100%; background: var(--white);
+      width: 0; transition: width .3s ease;
+    }
+
+    .input-box {
+      background: var(--surface);
       border: 1px solid var(--line);
       transition: border-color .2s;
     }
 
-    .textarea-wrap:focus-within { border-color: var(--white); }
+    .input-box:focus-within { border-color: #444; }
 
     textarea {
-      display: block; width: 100%; min-height: 120px;
+      display: block; width: 100%; min-height: 110px;
       background: none; border: none; outline: none;
-      color: var(--white);
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 14px; line-height: 1.6;
-      padding: 14px; resize: none;
+      color: var(--white); font-family: 'Space Grotesk', sans-serif;
+      font-size: 14px; line-height: 1.65; padding: 14px;
+      resize: none;
     }
 
-    textarea::placeholder { color: var(--g600); }
+    textarea::placeholder { color: var(--dim3); }
 
-    .textarea-footer {
-      border-top: 1px solid var(--line);
+    .input-foot {
       display: flex; align-items: center; justify-content: space-between;
-      padding: 8px 14px;
+      padding: 7px 12px; border-top: 1px solid var(--line);
     }
 
-    .shortcuts {
+    .input-hint {
       font-family: 'IBM Plex Mono', monospace;
-      font-size: 9px; color: var(--g600); letter-spacing: 0.5px;
+      font-size: 9px; color: var(--dim3);
     }
 
     .clear-btn {
-      background: none; border: none;
+      background: none; border: none; cursor: pointer;
       font-family: 'IBM Plex Mono', monospace;
-      font-size: 9px; letter-spacing: 1px;
-      color: var(--g600); cursor: pointer; transition: color .15s;
+      font-size: 9px; color: var(--dim3);
+      letter-spacing: 1px; transition: color .15s;
     }
 
     .clear-btn:hover { color: var(--red); }
 
-    /* Demo pills */
+    /* Demo chips */
     .demo-row {
       padding: 10px 16px 0;
-      display: flex; gap: 6px; overflow-x: auto;
-      -ms-overflow-style: none; scrollbar-width: none;
+      display: flex; gap: 5px; overflow-x: auto;
+      scrollbar-width: none;
     }
 
     .demo-row::-webkit-scrollbar { display: none; }
 
-    .demo-pill {
-      flex-shrink: 0;
-      background: none; border: 1px solid var(--line);
+    .demo-chip {
+      flex-shrink: 0; background: none;
+      border: 1px solid var(--line);
       font-family: 'IBM Plex Mono', monospace;
       font-size: 9px; font-weight: 600;
       letter-spacing: 1.5px; text-transform: uppercase;
-      color: var(--g600); padding: 5px 10px;
+      color: var(--dim2); padding: 5px 10px;
       cursor: pointer; transition: all .15s;
     }
 
-    .demo-pill:hover { border-color: var(--g400); color: var(--white); }
+    .demo-chip:hover { border-color: #555; color: var(--white); }
+    .demo-chip:active { background: var(--surface); }
 
-    /* CTA button */
+    /* CTA */
     .cta-wrap { padding: 12px 16px 0; }
 
-    .cta-btn {
+    .cta {
       width: 100%; background: var(--white); border: none;
       font-family: 'Space Grotesk', sans-serif;
-      font-size: 13px; font-weight: 700; letter-spacing: 0.5px;
-      color: var(--black); padding: 14px 20px;
-      cursor: pointer; transition: opacity .15s, transform .1s;
-      display: flex; align-items: center; justify-content: space-between;
+      font-size: 13px; font-weight: 700; letter-spacing: .5px;
+      color: var(--black); padding: 14px 16px;
+      cursor: pointer; display: flex;
+      align-items: center; justify-content: space-between;
+      transition: opacity .15s, transform .1s;
     }
 
-    .cta-btn:hover { opacity: .92; }
-    .cta-btn:active { transform: scale(.99); }
-    .cta-btn.loading { opacity: .6; pointer-events: none; }
+    .cta:hover { opacity: .9; }
+    .cta:active { transform: scale(.99); }
+    .cta.busy { opacity: .6; pointer-events: none; }
 
-    .cta-right {
-      display: flex; align-items: center; gap: 8px;
-    }
+    .cta-r { display: flex; align-items: center; gap: 8px; }
 
-    .spinner {
-      width: 14px; height: 14px;
+    .spin {
+      width: 13px; height: 13px;
       border: 2px solid rgba(0,0,0,.2);
       border-top-color: var(--black);
-      border-radius: 50%;
-      animation: spin .6s linear infinite;
+      border-radius: 50%; animation: rot .6s linear infinite;
       display: none;
     }
 
-    @keyframes spin { to{transform:rotate(360deg)} }
+    @keyframes rot { to{transform:rotate(360deg)} }
 
-    /* Agent API block */
-    .api-block {
-      margin: 12px 16px 0;
+    /* Scanning animation overlay */
+    .scan-line {
+      display: none; margin: 0 16px;
+      background: var(--surface); border: 1px solid var(--line);
+      padding: 10px 14px;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px; color: var(--dim1);
+      position: relative; overflow: hidden;
+    }
+
+    .scan-line.show { display: block; }
+
+    .scan-line::after {
+      content: '';
+      position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,.04), transparent);
+      animation: scan 1.4s linear infinite;
+    }
+
+    @keyframes scan { to{left:200%} }
+
+    .scan-text { animation: blink-text .8s step-end infinite; }
+
+    @keyframes blink-text { 0%,100%{opacity:1} 50%{opacity:0} }
+
+    /* API pill row */
+    .api-row {
+      margin: 10px 16px 0;
+      display: grid; grid-template-columns: repeat(3,1fr);
       border: 1px solid var(--line);
-      display: grid; grid-template-columns: 1fr 1fr 1fr;
     }
 
     .api-cell {
-      padding: 10px 12px;
+      padding: 9px 12px;
       border-right: 1px solid var(--line);
     }
 
     .api-cell:last-child { border-right: none; }
 
     .api-method {
+      display: inline-block;
       font-family: 'IBM Plex Mono', monospace;
-      font-size: 8px; font-weight: 600;
-      letter-spacing: 1px; background: var(--white);
-      color: var(--black); display: inline-block;
-      padding: 1px 4px; margin-bottom: 4px;
+      font-size: 8px; font-weight: 600; letter-spacing: .5px;
+      padding: 1px 5px; margin-bottom: 3px;
+      background: var(--white); color: var(--black);
     }
 
-    .api-method.get { background: var(--g200); }
+    .api-method.get { background: #ddd; }
 
     .api-path {
       font-family: 'IBM Plex Mono', monospace;
-      font-size: 10px; color: var(--g400); display: block;
+      font-size: 10px; color: var(--dim1); display: block;
+    }
+
+    .api-desc {
+      font-size: 9px; color: var(--dim3); display: block; margin-top: 1px;
     }
 
     /* Error */
-    .err-strip {
-      margin: 8px 16px 0;
-      padding: 9px 12px;
+    .err {
+      margin: 8px 16px 0; padding: 9px 12px;
       border-left: 2px solid var(--red);
-      background: rgba(254,44,85,.06);
+      background: rgba(254,44,85,.07);
       font-family: 'IBM Plex Mono', monospace;
-      font-size: 10px; color: var(--red);
+      font-size: 10px; color: #ff6b85;
       display: none;
     }
 
-    .err-strip.show { display: block; }
+    .err.show { display: block; }
 
-    /* ─── RESULT PANEL ─── */
-    #result { margin: 16px 16px 90px; display: none; }
-    #result.show { display: block; animation: fadeUp .3s ease; }
+    /* ════════════════════════════════════
+       RESULT PANEL
+    ════════════════════════════════════ */
+    #result { margin: 14px 16px 90px; display: none; }
+    #result.show { display: block; animation: up .35s ease; }
 
-    .result-top {
+    .r-topbar {
       display: flex; align-items: center; justify-content: space-between;
-      padding-bottom: 12px; border-bottom: 1px solid var(--line); margin-bottom: 12px;
+      padding-bottom: 10px; border-bottom: 1px solid var(--line);
+      margin-bottom: 10px;
     }
 
-    .result-label {
+    .r-label {
       font-family: 'IBM Plex Mono', monospace;
-      font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: var(--red);
+      font-size: 9px; letter-spacing: 2.5px;
+      text-transform: uppercase; color: var(--red);
     }
 
-    .result-meta {
+    .r-actions { display: flex; gap: 6px; }
+
+    .icon-btn {
+      background: none; border: 1px solid var(--line);
       font-family: 'IBM Plex Mono', monospace;
-      font-size: 9px; color: var(--g600);
-      display: flex; gap: 10px;
+      font-size: 9px; color: var(--dim2); letter-spacing: .5px;
+      padding: 5px 9px; cursor: pointer; transition: all .15s;
     }
 
-    /* Section blocks */
-    .r-block { border: 1px solid var(--line); margin-bottom: 6px; }
+    .icon-btn:hover { border-color: #555; color: var(--white); }
 
-    .r-block-head {
-      padding: 7px 12px;
-      border-bottom: 1px solid var(--line);
+    .r-meta {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 9px; color: var(--dim3);
+    }
+
+    /* Blocks */
+    .rblock { border: 1px solid var(--line); margin-bottom: 6px; }
+
+    .rblock-head {
+      padding: 7px 12px; border-bottom: 1px solid var(--line);
+      display: flex; align-items: center; justify-content: space-between;
+    }
+
+    .rblock-head-lbl {
       font-family: 'IBM Plex Mono', monospace;
       font-size: 8px; letter-spacing: 2px; text-transform: uppercase;
-      color: var(--g600);
-      display: flex; align-items: center; justify-content: space-between;
+      color: var(--dim2);
     }
 
-    .r-block-body { padding: 14px 12px; }
+    .rblock-body { padding: 14px 12px; }
 
-    /* Narrative */
-    .narr-grid {
-      display: grid; grid-template-columns: 1fr auto; gap: 12px; align-items: start;
+    /* 01 Narrative */
+    .narr-split {
+      display: grid; grid-template-columns: 1fr auto;
+      gap: 10px; align-items: start;
     }
 
     .narr-cat {
-      font-size: 28px; font-weight: 700;
-      letter-spacing: -1px; line-height: 1;
-      margin-bottom: 5px;
+      font-size: 30px; font-weight: 700;
+      letter-spacing: -1.2px; line-height: 1; margin-bottom: 5px;
     }
 
     .narr-key {
-      font-size: 12px; color: var(--g400);
-      font-style: italic; line-height: 1.4;
+      font-size: 12px; color: var(--dim1);
+      font-style: italic; line-height: 1.45;
     }
 
-    .sent-badge {
+    .sent {
       font-family: 'IBM Plex Mono', monospace;
       font-size: 9px; font-weight: 600;
       letter-spacing: 1.5px; text-transform: uppercase;
-      padding: 5px 10px; white-space: nowrap;
-      margin-top: 2px;
+      padding: 5px 10px; white-space: nowrap; margin-top: 3px;
     }
 
-    .sent-badge.bullish { background: var(--white); color: var(--black); }
-    .sent-badge.bearish { background: var(--red); color: var(--white); }
-    .sent-badge.neutral { border: 1px solid var(--g600); color: var(--g400); }
+    .sent.bullish { background: var(--white); color: var(--black); }
+    .sent.bearish { background: var(--red); color: var(--white); }
+    .sent.neutral { border: 1px solid #555; color: var(--dim1); }
 
-    /* Score */
-    .score-grid {
-      display: grid; grid-template-columns: auto 1fr; gap: 16px; align-items: center;
-      margin-bottom: 10px;
+    /* 02 Score */
+    .score-layout {
+      display: grid; grid-template-columns: auto 1fr;
+      gap: 14px; align-items: center; margin-bottom: 12px;
     }
 
     .score-big {
       font-family: 'IBM Plex Mono', monospace;
-      font-size: 56px; font-weight: 600;
-      line-height: 1; letter-spacing: -4px;
+      font-size: 60px; font-weight: 600;
+      line-height: 1; letter-spacing: -5px;
     }
 
-    .score-info { }
+    .score-right { }
 
-    .score-denom {
+    .score-max {
       font-family: 'IBM Plex Mono', monospace;
-      font-size: 12px; color: var(--g600); margin-bottom: 6px;
+      font-size: 11px; color: var(--dim2); margin-bottom: 6px;
     }
 
-    .score-verdict {
+    .verdict-tag {
       font-family: 'IBM Plex Mono', monospace;
-      font-size: 10px; font-weight: 600; letter-spacing: 1px;
-      text-transform: uppercase;
+      font-size: 10px; font-weight: 600;
+      letter-spacing: 1.5px; text-transform: uppercase;
+      padding: 4px 10px; display: inline-block;
     }
 
-    .score-verdict.high { color: var(--white); }
-    .score-verdict.mid { color: var(--g400); }
-    .score-verdict.low { color: var(--g600); }
+    .verdict-tag.v-high { background: var(--white); color: var(--black); }
+    .verdict-tag.v-strong { border: 1px solid var(--white); color: var(--white); }
+    .verdict-tag.v-mid { border: 1px solid #555; color: var(--dim1); }
+    .verdict-tag.v-low { border: 1px solid #333; color: var(--dim2); }
 
-    .score-bar { height: 2px; background: var(--g800); overflow: hidden; }
+    .score-track {
+      height: 2px; background: #222; overflow: hidden; margin-top: 12px;
+    }
+
     .score-fill {
-      height: 100%; background: var(--white);
-      width: 0; transition: width 1.1s cubic-bezier(.16,1,.3,1);
+      height: 100%; background: var(--white); width: 0;
+      transition: width 1.1s cubic-bezier(.16,1,.3,1);
     }
 
-    /* Tickers + Keywords */
-    .tag-row { display: flex; flex-wrap: wrap; gap: 5px; }
+    /* Confidence segments */
+    .seg-row {
+      display: flex; gap: 2px; margin-top: 8px;
+    }
+
+    .seg {
+      flex: 1; height: 3px; background: #222;
+      transition: background .3s ease;
+    }
+
+    .seg.on { background: var(--white); }
+    .seg.on.partial { background: #555; }
+
+    /* 03 Tags */
+    .tag-section { margin-bottom: 10px; }
+    .tag-section:last-child { margin-bottom: 0; }
+
+    .tag-sub {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 8px; letter-spacing: 1.5px; text-transform: uppercase;
+      color: var(--dim2); margin-bottom: 6px;
+    }
+
+    .tags { display: flex; flex-wrap: wrap; gap: 5px; }
 
     .tag {
       font-family: 'IBM Plex Mono', monospace;
-      font-size: 11px; padding: 4px 9px;
+      font-size: 11px; padding: 4px 9px; line-height: 1;
     }
 
     .tag.tok { border: 1px solid var(--white); color: var(--white); }
-    .tag.kw { border: 1px solid var(--g800); color: var(--g600); }
-    .tag.empty { color: var(--g800); font-style: italic; font-size: 11px; }
+    .tag.kw  { border: 1px solid #333; color: var(--dim1); }
+    .tag.nil { color: var(--dim3); font-size: 11px; font-style: italic; }
 
-    /* Why */
-    .why-text { font-size: 13px; color: var(--g200); line-height: 1.7; }
+    /* 04 Why */
+    .why { font-size: 13px; color: var(--dim1); line-height: 1.7; }
 
-    /* Action */
+    /* 05 Action */
     .action-card {
       border: 1px solid var(--line);
-      display: grid; grid-template-columns: 1fr auto;
-      align-items: center; gap: 14px;
       padding: 16px 14px;
+      display: grid; grid-template-columns: 1fr auto;
+      gap: 14px; align-items: center;
+      margin-bottom: 6px;
     }
 
     .action-card.early-signal { border-color: var(--white); }
-    .action-card.research { border-color: var(--g400); }
-    .action-card.watch { border-color: var(--line); }
-    .action-card.ignore { border-color: var(--g800); }
+    .action-card.research     { border-color: #666; }
+    .action-card.watch        { border-color: var(--line); }
+    .action-card.ignore       { border-color: var(--line); opacity: .7; }
 
-    .act-kicker {
+    .act-head {
       font-family: 'IBM Plex Mono', monospace;
       font-size: 8px; letter-spacing: 2px; text-transform: uppercase;
-      color: var(--g600); margin-bottom: 4px;
+      color: var(--dim2); margin-bottom: 4px;
     }
 
     .act-name {
-      font-size: 22px; font-weight: 700; letter-spacing: -0.5px;
-      margin-bottom: 3px;
+      font-size: 22px; font-weight: 700; letter-spacing: -.5px; margin-bottom: 3px;
     }
 
-    .action-card.ignore .act-name { color: var(--g600); }
+    .action-card.ignore .act-name { color: var(--dim2); }
 
-    .act-desc { font-size: 11px; color: var(--g600); line-height: 1.4; }
+    .act-sub { font-size: 11px; color: var(--dim1); line-height: 1.5; }
 
     .act-glyph {
       font-family: 'IBM Plex Mono', monospace;
-      font-size: 22px; font-weight: 600; color: var(--g400);
+      font-size: 24px; color: var(--dim2);
     }
 
     .action-card.early-signal .act-glyph { color: var(--white); }
+    .action-card.research .act-glyph { color: var(--dim1); }
 
-    .result-ts {
+    /* Copy success flash */
+    .copy-flash {
+      position: fixed; top: 90px; right: 16px;
+      background: var(--white); color: var(--black);
       font-family: 'IBM Plex Mono', monospace;
-      font-size: 9px; color: var(--g800);
-      text-align: right; margin-top: 8px; padding-bottom: 4px;
+      font-size: 10px; font-weight: 600; letter-spacing: .5px;
+      padding: 7px 12px; z-index: 500;
+      opacity: 0; transition: opacity .2s;
+      pointer-events: none;
     }
 
-    /* ══════════════════════════════════
-       SCREEN: TRENDS
-    ══════════════════════════════════ */
+    .copy-flash.show { opacity: 1; }
+
+    .r-footer {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-top: 6px; padding-bottom: 4px;
+    }
+
+    .r-ts {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 9px; color: var(--dim3);
+    }
+
+    .r-share-btn {
+      background: none; border: 1px solid var(--line);
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 9px; color: var(--dim2); letter-spacing: .5px;
+      padding: 4px 9px; cursor: pointer; transition: all .15s;
+    }
+
+    .r-share-btn:hover { border-color: #555; color: var(--white); }
+
+    /* ════════════════════════════════════
+       TRENDS SCREEN
+    ════════════════════════════════════ */
 
     .pg-head {
-      padding: 24px 16px 16px;
-      border-bottom: 1px solid var(--line);
+      padding: 22px 16px 14px; border-bottom: 1px solid var(--line);
       display: flex; align-items: flex-end; justify-content: space-between;
     }
 
-    .pg-title {
-      font-size: 20px; font-weight: 700; letter-spacing: -0.6px;
-      margin-bottom: 2px;
-    }
-
+    .pg-title { font-size: 20px; font-weight: 700; letter-spacing: -.6px; }
     .pg-sub {
       font-family: 'IBM Plex Mono', monospace;
-      font-size: 9px; color: var(--g600); letter-spacing: 0.5px;
+      font-size: 9px; color: var(--dim2); margin-top: 2px;
     }
 
-    .icon-btn {
-      background: none;
-      border: 1px solid var(--line);
+    .refresh-btn {
+      background: none; border: 1px solid var(--line);
       font-family: 'IBM Plex Mono', monospace;
-      font-size: 9px; letter-spacing: 1px;
-      color: var(--g400); padding: 7px 10px;
-      cursor: pointer; transition: all .15s;
+      font-size: 9px; color: var(--dim2); letter-spacing: 1px;
+      padding: 7px 10px; cursor: pointer; transition: all .15s;
     }
 
-    .icon-btn:hover { border-color: var(--white); color: var(--white); }
+    .refresh-btn:hover { border-color: #555; color: var(--white); }
 
-    /* Trend table */
-    .trend-table { padding-bottom: 80px; }
+    .trend-list { padding-bottom: 80px; }
 
-    .trend-row {
+    .trend-item {
       border-bottom: 1px solid var(--line);
       padding: 14px 16px;
-      display: grid;
-      grid-template-areas:
-        "rank name growth"
-        "rank bar bar"
-        "rank sum sum";
-      grid-template-columns: 24px 1fr auto;
-      gap: 4px 12px;
       transition: background .15s, padding-left .2s;
-      animation: fadeUp .3s ease both;
+      animation: up .3s ease both;
     }
 
-    .trend-row:hover { background: var(--g900); padding-left: 20px; }
+    .trend-item:hover { background: var(--surface); padding-left: 20px; }
 
-    .tr-rank {
-      grid-area: rank;
+    .t-row1 {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 6px;
+    }
+
+    .t-left { display: flex; align-items: center; gap: 10px; }
+
+    .t-rank {
       font-family: 'IBM Plex Mono', monospace;
-      font-size: 10px; color: var(--g800);
-      display: flex; align-items: center;
+      font-size: 10px; color: #333; width: 20px;
     }
 
-    .tr-name { grid-area: name; font-size: 15px; font-weight: 700; letter-spacing: -.3px; }
+    .t-name { font-size: 15px; font-weight: 700; letter-spacing: -.3px; }
 
-    .tr-growth {
-      grid-area: growth;
+    .t-growth {
       font-family: 'IBM Plex Mono', monospace;
-      font-size: 12px; font-weight: 600;
-      color: var(--white); text-align: right;
-      align-self: center;
+      font-size: 12px; font-weight: 600; color: var(--white);
     }
 
-    .tr-bar-wrap {
-      grid-area: bar;
+    .t-row2 {
       display: flex; align-items: center; gap: 8px;
+      margin-bottom: 6px; padding-left: 30px;
     }
 
-    .tr-bar {
-      flex: 1; height: 1px; background: var(--g800); overflow: hidden;
-    }
-
-    .tr-bar-fill { height: 100%; background: var(--white); }
-
-    .tr-score {
+    .t-signals {
       font-family: 'IBM Plex Mono', monospace;
-      font-size: 10px; font-weight: 600; color: var(--g400);
-      white-space: nowrap;
+      font-size: 9px; color: var(--dim2); white-space: nowrap;
     }
 
-    .tr-sum {
-      grid-area: sum;
-      font-size: 11px; color: var(--g400); line-height: 1.5;
+    .t-track {
+      flex: 1; height: 1px; background: #222; overflow: hidden;
     }
 
-    .trend-skeleton {
-      border-bottom: 1px solid var(--line);
-      padding: 14px 16px;
+    .t-fill { height: 100%; background: var(--white); }
+
+    .t-score {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px; font-weight: 600; color: var(--dim1);
     }
 
+    .t-sum {
+      font-size: 12px; color: var(--dim1); line-height: 1.5;
+      padding-left: 30px;
+    }
+
+    /* Skeleton */
+    .skel-item { border-bottom: 1px solid var(--line); padding: 14px 16px; }
     .skel {
-      background: linear-gradient(90deg, var(--g900) 25%, var(--g800) 50%, var(--g900) 75%);
+      background: linear-gradient(90deg, #111 25%, #1a1a1a 50%, #111 75%);
       background-size: 200% 100%;
       animation: shimmer 1.4s infinite;
-      height: 10px; margin-bottom: 6px;
+      height: 10px; margin-bottom: 7px;
     }
 
     @keyframes shimmer { from{background-position:-200% 0} to{background-position:200% 0} }
 
-    /* ══════════════════════════════════
-       SCREEN: HISTORY
-    ══════════════════════════════════ */
+    /* ════════════════════════════════════
+       HISTORY SCREEN
+    ════════════════════════════════════ */
+
+    .hist-head {
+      padding: 22px 16px 14px; border-bottom: 1px solid var(--line);
+      display: flex; align-items: flex-end; justify-content: space-between;
+    }
 
     .hist-list { padding-bottom: 80px; }
 
     .hist-item {
       border-bottom: 1px solid var(--line);
-      padding: 14px 16px;
-      cursor: pointer;
+      padding: 13px 16px; cursor: pointer;
       transition: background .15s, padding-left .2s;
-      animation: fadeUp .3s ease both;
+      animation: up .25s ease both;
     }
 
-    .hist-item:hover { background: var(--g900); padding-left: 20px; }
+    .hist-item:hover { background: var(--surface); padding-left: 20px; }
 
-    .hist-row1 {
-      display: flex; align-items: center;
-      justify-content: space-between; margin-bottom: 4px;
-    }
+    .h-row1 { display: flex; align-items: center; justify-content: space-between; margin-bottom: 3px; }
+    .h-cat { font-size: 14px; font-weight: 700; letter-spacing: -.3px; }
+    .h-time { font-family: 'IBM Plex Mono', monospace; font-size: 9px; color: var(--dim2); }
+    .h-narr { font-size: 12px; color: var(--dim1); font-style: italic; margin-bottom: 8px; }
+    .h-row2 { display: flex; align-items: center; gap: 7px; }
 
-    .hist-cat { font-size: 14px; font-weight: 700; letter-spacing: -.3px; }
-
-    .hist-time {
+    .h-score {
       font-family: 'IBM Plex Mono', monospace;
-      font-size: 9px; color: var(--g600);
+      font-size: 9px; color: var(--dim2);
+      border: 1px solid var(--line); padding: 2px 7px;
     }
 
-    .hist-narr {
-      font-size: 11px; color: var(--g400);
-      font-style: italic; margin-bottom: 8px;
-    }
-
-    .hist-row2 { display: flex; align-items: center; gap: 8px; }
-
-    .hist-score {
+    .h-sent {
       font-family: 'IBM Plex Mono', monospace;
-      font-size: 9px; color: var(--g600);
-      border: 1px solid var(--g800); padding: 2px 7px;
+      font-size: 9px; padding: 2px 8px;
+      letter-spacing: 1px; text-transform: uppercase;
     }
 
-    .hist-sent {
+    .h-sent.bullish { background: var(--white); color: var(--black); }
+    .h-sent.bearish { background: var(--red); color: var(--white); }
+    .h-sent.neutral { border: 1px solid #444; color: var(--dim1); }
+
+    .h-action {
       font-family: 'IBM Plex Mono', monospace;
-      font-size: 9px; padding: 2px 8px; letter-spacing: 1px; text-transform: uppercase;
+      font-size: 9px; color: var(--white); margin-left: auto;
     }
 
-    .hist-sent.bullish { background: var(--white); color: var(--black); }
-    .hist-sent.bearish { background: var(--red); color: var(--white); }
-    .hist-sent.neutral { border: 1px solid var(--g800); color: var(--g600); }
-
-    .hist-action {
+    .empty-msg {
+      padding: 60px 16px; text-align: center;
       font-family: 'IBM Plex Mono', monospace;
-      font-size: 9px; color: var(--white);
-      margin-left: auto; letter-spacing: 0.5px;
+      font-size: 10px; color: #333; letter-spacing: 2px; text-transform: uppercase;
     }
 
-    .empty-state {
-      padding: 64px 16px; text-align: center;
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 10px; color: var(--g800);
-      letter-spacing: 2px; text-transform: uppercase;
-    }
-
-    /* ─── BOTTOM BAR ─── */
-    .bottom-bar {
+    /* ── BOTTOM BAR ── */
+    .bottom {
       position: fixed; bottom: 0; left: 0; right: 0; z-index: 100;
-      background: var(--black);
-      border-top: 1px solid var(--line);
+      background: var(--black); border-top: 1px solid var(--line);
       padding: 9px 16px;
       display: flex; align-items: center; justify-content: space-between;
     }
 
     .tagline {
       font-family: 'IBM Plex Mono', monospace;
-      font-size: 9px; color: var(--g600); letter-spacing: 0.5px;
+      font-size: 9px; color: var(--dim2);
     }
 
-    .tagline b { color: var(--white); font-weight: 600; }
+    .tagline strong { color: var(--white); font-weight: 600; }
+    .ver { font-family: 'IBM Plex Mono', monospace; font-size: 9px; color: #2a2a2a; }
 
-    .version-tag {
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 9px; color: var(--g800); letter-spacing: 1px;
-    }
-
-    /* ─── TOAST ─── */
+    /* ── TOAST ── */
     .toast {
-      position: fixed; bottom: 44px; left: 50%;
-      transform: translateX(-50%) translateY(6px);
+      position: fixed; bottom: 46px; left: 50%;
+      transform: translateX(-50%) translateY(8px);
       background: var(--white); color: var(--black);
       font-family: 'IBM Plex Mono', monospace;
-      font-size: 10px; font-weight: 600; letter-spacing: 0.3px;
-      padding: 8px 14px; pointer-events: none;
-      opacity: 0; transition: all .2s; z-index: 300;
-      white-space: nowrap;
+      font-size: 10px; font-weight: 600; letter-spacing: .3px;
+      padding: 8px 14px; z-index: 400;
+      opacity: 0; transition: all .2s; pointer-events: none; white-space: nowrap;
     }
 
     .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
-    /* ─── RESPONSIVE ─── */
     @media (min-width: 540px) {
       body { max-width: 500px; margin: 0 auto; }
-      nav, .bottom-bar {
-        max-width: 500px;
-        left: 50%; right: auto;
-        transform: translateX(-50%);
-        width: 500px;
-      }
+      nav, .bottom { max-width: 500px; width: 500px; left: 50%; right: auto; transform: translateX(-50%); }
     }
   </style>
 </head>
@@ -665,9 +758,9 @@
 
 <!-- NAV -->
 <nav>
-  <div class="nav-row1">
+  <div class="nav-top">
     <div class="nav-logo">
-      <div class="logo-icon">
+      <div class="logo-box">
         <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
           <rect x="1" y="1" width="4" height="12" fill="black"/>
           <rect x="7" y="5" width="4" height="8" fill="black"/>
@@ -676,291 +769,379 @@
       </div>
       <div>
         <div class="logo-name">TokGraph</div>
-        <div class="logo-tag mono">Web3 V3</div>
+        <div class="logo-ver mono">Web3 V3</div>
       </div>
     </div>
-    <div class="nav-status">
-      <div class="pulse"></div>
+    <div class="live-pill">
+      <div class="live-dot"></div>
       <span>LIVE</span>
     </div>
   </div>
-  <div class="nav-row2">
-    <button class="tab-btn active" onclick="switchTab(this,'analyze')">Analyze</button>
-    <button class="tab-btn" onclick="switchTab(this,'trends')">Trends</button>
-    <button class="tab-btn" onclick="switchTab(this,'history')">History</button>
+  <div class="nav-tabs">
+    <button class="tab active" onclick="goTab(this,'analyze')">Analyze</button>
+    <button class="tab" onclick="goTab(this,'trends')">Trends</button>
+    <button class="tab" onclick="goTab(this,'history')">History</button>
   </div>
 </nav>
 
 <div class="toast" id="toast"></div>
+<div class="copy-flash" id="copy-flash">COPIED</div>
 
-<!-- ══════════════ ANALYZE ══════════════ -->
+<!-- ════════ ANALYZE ════════ -->
 <div class="screen active" id="screen-analyze">
 
   <div class="hero">
-    <div class="hero-kicker">Narrative Intelligence</div>
-    <h1>Turn <span class="outline">Attention</span><br/>Into Signals.</h1>
-    <p class="hero-desc">Paste any TikTok transcript. Extract structured crypto market signals in seconds.</p>
+    <div class="kicker">Narrative Intelligence</div>
+    <h1>Turn <span class="hollow">Attention</span><br/>Into Signals.</h1>
+    <p>Paste any TikTok transcript. Extract Web3 market narratives with precision.</p>
   </div>
 
-  <div class="input-section">
-    <div class="field-label">
-      <span>Transcript Input</span>
-      <span class="counter mono" id="counter">0 chars</span>
+  <!-- Stats -->
+  <div class="stats-row">
+    <div class="stat-cell">
+      <div class="stat-num mono" id="stat-total">0</div>
+      <div class="stat-lbl">Analyses</div>
     </div>
-    <div class="textarea-wrap">
-      <textarea id="input" placeholder="Paste TikTok text, caption, or transcript…&#10;&#10;Try: &quot;AI agents are taking over crypto, $NEAR and $FET are the plays…&quot;" oninput="onType()"></textarea>
-      <div class="textarea-footer">
-        <span class="shortcuts mono">Ctrl+Enter to run</span>
+    <div class="stat-cell">
+      <div class="stat-num mono" id="stat-signals">0</div>
+      <div class="stat-lbl">Signals</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-num mono" id="stat-avg">—</div>
+      <div class="stat-lbl">Avg Score</div>
+    </div>
+  </div>
+
+  <!-- Input -->
+  <div class="field">
+    <div class="field-head">
+      <span class="field-lbl">Transcript Input</span>
+      <div class="char-bar-wrap">
+        <div class="char-mini"><div class="char-mini-fill" id="cbar"></div></div>
+        <span class="char-num" id="cnum">0</span>
+      </div>
+    </div>
+    <div class="input-box">
+      <textarea id="inp" rows="5"
+        placeholder="Paste TikTok text or transcript here…&#10;&#10;e.g. &quot;AI agents are taking over crypto right now. $NEAR and $FET are the plays…&quot;"
+        oninput="onType()"></textarea>
+      <div class="input-foot">
+        <span class="input-hint mono">Ctrl+Enter to run</span>
         <button class="clear-btn" onclick="clearAll()">CLEAR ×</button>
       </div>
     </div>
   </div>
 
+  <!-- Demos -->
   <div class="demo-row">
-    <button class="demo-pill" onclick="demo(0)">AI AGENTS</button>
-    <button class="demo-pill" onclick="demo(1)">MEMECOIN</button>
-    <button class="demo-pill" onclick="demo(2)">DEFI</button>
-    <button class="demo-pill" onclick="demo(3)">RWA</button>
-    <button class="demo-pill" onclick="demo(4)">GAMING</button>
+    <button class="demo-chip" onclick="loadDemo(0)">AI AGENTS</button>
+    <button class="demo-chip" onclick="loadDemo(1)">MEMECOIN</button>
+    <button class="demo-chip" onclick="loadDemo(2)">DEFI</button>
+    <button class="demo-chip" onclick="loadDemo(3)">RWA</button>
+    <button class="demo-chip" onclick="loadDemo(4)">GAMING</button>
+    <button class="demo-chip" onclick="loadDemo(5)">L2</button>
   </div>
 
+  <!-- CTA -->
   <div class="cta-wrap">
-    <button class="cta-btn" id="cta" onclick="run()">
-      <span id="cta-label">ANALYZE SIGNAL</span>
-      <div class="cta-right">
-        <div class="spinner" id="spinner"></div>
-        <span id="cta-arrow">→</span>
+    <button class="cta" id="cta" onclick="runAnalysis()">
+      <span id="cta-lbl">ANALYZE SIGNAL</span>
+      <div class="cta-r">
+        <div class="spin" id="spin"></div>
+        <span id="cta-arr">→</span>
       </div>
     </button>
   </div>
 
-  <div class="api-block">
+  <!-- Scanning status -->
+  <div class="scan-line" id="scan">
+    <span id="scan-txt">Extracting narrative patterns</span><span class="scan-text">_</span>
+  </div>
+
+  <!-- API endpoints -->
+  <div class="api-row">
     <div class="api-cell">
       <span class="api-method mono">POST</span>
       <span class="api-path">/analyze</span>
+      <span class="api-desc">Extract signal</span>
     </div>
     <div class="api-cell">
       <span class="api-method get mono">GET</span>
       <span class="api-path">/trend</span>
+      <span class="api-desc">Narratives</span>
     </div>
     <div class="api-cell">
       <span class="api-method get mono">GET</span>
       <span class="api-path">/history</span>
+      <span class="api-desc">Past signals</span>
     </div>
   </div>
 
-  <div class="err-strip" id="err"></div>
+  <div class="err" id="err"></div>
 
   <!-- RESULT -->
   <div id="result">
-
-    <div class="result-top">
-      <span class="result-label">Signal Output</span>
-      <div class="result-meta">
-        <span id="r-id">#——</span>
-        <span id="r-ts-inline">——</span>
+    <div class="r-topbar">
+      <span class="r-label">Signal Output</span>
+      <div class="r-actions">
+        <button class="icon-btn" onclick="copyResult()">COPY JSON</button>
+        <span class="r-meta" id="r-id">#——</span>
       </div>
     </div>
 
-    <!-- 01 Narrative -->
-    <div class="r-block">
-      <div class="r-block-head">
-        <span>01 · Narrative</span>
+    <!-- 01 -->
+    <div class="rblock">
+      <div class="rblock-head">
+        <span class="rblock-head-lbl">01 · Narrative</span>
+        <span class="r-meta mono" id="r-ts-inline"></span>
       </div>
-      <div class="r-block-body">
-        <div class="narr-grid">
+      <div class="rblock-body">
+        <div class="narr-split">
           <div>
             <div class="narr-cat" id="r-cat">—</div>
-            <div class="narr-key" id="r-key">—</div>
+            <div class="narr-key" id="r-key">"—"</div>
           </div>
-          <div class="sent-badge neutral" id="r-sent">—</div>
+          <div class="sent neutral" id="r-sent">—</div>
         </div>
       </div>
     </div>
 
-    <!-- 02 Score -->
-    <div class="r-block">
-      <div class="r-block-head">
-        <span>02 · Market Relevance</span>
-        <span id="r-verdict" class="score-verdict mid">—</span>
+    <!-- 02 -->
+    <div class="rblock">
+      <div class="rblock-head">
+        <span class="rblock-head-lbl">02 · Market Relevance</span>
+        <span class="verdict-tag v-mid" id="r-verdict">—</span>
       </div>
-      <div class="r-block-body">
-        <div class="score-grid">
+      <div class="rblock-body">
+        <div class="score-layout">
           <div class="score-big" id="r-score">0.0</div>
-          <div class="score-info">
-            <div class="score-denom mono">/10 relevance score</div>
-            <div class="score-bar"><div class="score-fill" id="r-bar"></div></div>
+          <div class="score-right">
+            <div class="score-max mono">/10 score</div>
+            <div class="verdict-tag v-mid" id="r-verdict2" style="margin-top:6px">—</div>
           </div>
+        </div>
+        <div class="score-track"><div class="score-fill" id="r-fill"></div></div>
+        <div class="seg-row" id="r-segs"></div>
+      </div>
+    </div>
+
+    <!-- 03 -->
+    <div class="rblock">
+      <div class="rblock-head"><span class="rblock-head-lbl">03 · Tokens &amp; Keywords</span></div>
+      <div class="rblock-body">
+        <div class="tag-section">
+          <div class="tag-sub">Tokens</div>
+          <div class="tags" id="r-toks"></div>
+        </div>
+        <div class="tag-section">
+          <div class="tag-sub">Keywords</div>
+          <div class="tags" id="r-kws"></div>
         </div>
       </div>
     </div>
 
-    <!-- 03 Tokens + Keywords -->
-    <div class="r-block">
-      <div class="r-block-head">03 · Tokens &amp; Keywords</div>
-      <div class="r-block-body">
-        <div class="tag-row" id="r-tokens" style="margin-bottom:8px"></div>
-        <div class="tag-row" id="r-keywords"></div>
+    <!-- 04 -->
+    <div class="rblock">
+      <div class="rblock-head"><span class="rblock-head-lbl">04 · Why It Matters</span></div>
+      <div class="rblock-body">
+        <p class="why" id="r-why">—</p>
       </div>
     </div>
 
-    <!-- 04 Why -->
-    <div class="r-block">
-      <div class="r-block-head">04 · Why It Matters</div>
-      <div class="r-block-body">
-        <p class="why-text" id="r-why">—</p>
-      </div>
-    </div>
-
-    <!-- 05 Action -->
+    <!-- 05 -->
     <div class="action-card watch" id="r-action">
       <div>
-        <div class="act-kicker">05 · Signal Action</div>
-        <div class="act-name" id="r-act-name">—</div>
-        <div class="act-desc" id="r-act-desc">—</div>
+        <div class="act-head">05 · Signal Action</div>
+        <div class="act-name" id="r-actname">—</div>
+        <div class="act-sub" id="r-actsub">—</div>
       </div>
-      <div class="act-glyph" id="r-act-glyph">→</div>
+      <div class="act-glyph" id="r-actglyph">→</div>
     </div>
 
-    <div class="result-ts mono" id="r-ts-bottom"></div>
+    <div class="r-footer">
+      <span class="r-ts" id="r-ts"></span>
+      <button class="r-share-btn" onclick="shareResult()">SHARE SIGNAL ↗</button>
+    </div>
   </div>
 
 </div>
 
-<!-- ══════════════ TRENDS ══════════════ -->
+<!-- ════════ TRENDS ════════ -->
 <div class="screen" id="screen-trends">
   <div class="pg-head">
     <div>
       <div class="pg-title">Trend Feed</div>
-      <div class="pg-sub mono" id="trend-sub">Narrative momentum · Web3 markets</div>
+      <div class="pg-sub" id="trend-sub">Narrative momentum · Web3 markets</div>
     </div>
-    <button class="icon-btn" onclick="loadTrends()">↺ REFRESH</button>
+    <button class="refresh-btn" onclick="loadTrends(true)">↺ REFRESH</button>
   </div>
-  <div class="trend-table" id="trend-table">
-    <div class="empty-state">Loading…</div>
+  <div class="trend-list" id="trend-list">
+    <div class="empty-msg">Loading…</div>
   </div>
 </div>
 
-<!-- ══════════════ HISTORY ══════════════ -->
+<!-- ════════ HISTORY ════════ -->
 <div class="screen" id="screen-history">
-  <div class="pg-head">
+  <div class="hist-head">
     <div>
       <div class="pg-title">History</div>
-      <div class="pg-sub mono" id="hist-sub">0 analyses stored</div>
+      <div class="pg-sub" id="hist-sub">0 analyses stored</div>
     </div>
-    <button class="icon-btn" onclick="clearHistory()">✕ CLEAR</button>
+    <button class="refresh-btn" onclick="clearHist()">✕ CLEAR</button>
   </div>
   <div class="hist-list" id="hist-list">
-    <div class="empty-state">No analyses yet</div>
+    <div class="empty-msg">No analyses yet</div>
   </div>
 </div>
 
-<!-- BOTTOM BAR -->
-<div class="bottom-bar">
-  <div class="tagline"><b>TokGraph</b> — attention into tradable signals.</div>
-  <div class="version-tag mono">V3</div>
+<!-- BOTTOM -->
+<div class="bottom">
+  <div class="tagline"><strong>TokGraph</strong> — attention into tradable signals.</div>
+  <div class="ver">V3</div>
 </div>
 
 <script>
-// ═══════════════════════════════
-//  DATA
-// ═══════════════════════════════
+/* ═══════════════════════════════════════
+   DEMO CONTENT
+═══════════════════════════════════════ */
 const DEMOS = [
-  { label: 'AI AGENTS', text: `AI agents are literally taking over crypto right now. I'm seeing autonomous agents trading, bridging, and writing smart contracts on their own. Every major protocol is integrating agent infrastructure. This is the next 100x narrative. $NEAR, $FET, and $VIRTUAL are all positioned perfectly. Get in early or get left behind.` },
-  { label: 'MEMECOIN',  text: `Okay so this memecoin launched 2 hours ago and it's already 50x. The dog with hat meta is back and it's bigger than ever. CT is going crazy. Devs doxxed, liquidity locked, contract renounced. This could be the next $WIF or $BONK. I'm aping in small just to have a bag.` },
-  { label: 'DEFI',      text: `DeFi yields are insane right now. I'm getting 40% APY on stablecoins through this new protocol. They're using real-world assets as backing. No inflationary emissions. Just pure organic yield from on-chain lending markets. $AAVE and $COMP are mooning on this narrative.` },
-  { label: 'RWA',       text: `Real world assets are the biggest narrative of the next bull run. BlackRock is tokenizing everything. Treasury bonds, real estate, private credit. TVL in RWA protocols has 10x'd in 6 months. $ONDO, $CENTRIFUGE, $MAPLE — these are the picks. Institutions are finally here.` },
-  { label: 'GAMING',    text: `Web3 gaming is having its moment. Major studios launching on Immutable and Ronin. NFT assets with real in-game utility. Play-to-earn is back but sustainable this time. $IMX and $RONIN are accumulating quietly before the meta explodes.` }
+  { label:'AI AGENTS', text:`AI agents are literally taking over crypto right now. I'm seeing autonomous agents trading, bridging, and writing smart contracts on their own. Every major protocol is integrating agent infrastructure. This is the next 100x narrative. $NEAR, $FET, and $VIRTUAL are all positioned perfectly. Get in early or get left behind.` },
+  { label:'MEMECOIN',  text:`Okay so this memecoin launched 2 hours ago and it's already 50x. The dog with hat meta is back and it's bigger than ever. CT is going crazy. Devs doxxed, liquidity locked, contract renounced. This could be the next $WIF or $BONK. I'm aping in small just to have a bag.` },
+  { label:'DEFI',      text:`DeFi yields are insane right now. I'm getting 40% APY on stablecoins through this new protocol. They're using real-world assets as backing. No inflationary emissions. Just pure organic yield from on-chain lending markets. $AAVE and $COMP are mooning on this narrative.` },
+  { label:'RWA',       text:`Real world assets are the biggest narrative of the next bull run. BlackRock is tokenizing everything. Treasury bonds, real estate, private credit. TVL in RWA protocols has 10x'd in 6 months. $ONDO, $CENTRIFUGE, $MAPLE — these are the picks. Institutions are finally here.` },
+  { label:'GAMING',    text:`Web3 gaming is having its moment. Major studios are launching on Immutable and Ronin. NFT assets with real in-game utility. Play-to-earn is back but sustainable this time. $IMX and $RONIN are accumulating quietly before the meta explodes.` },
+  { label:'L2',        text:`Layer 2 wars are heating up. Arbitrum, Base, and zkSync are all fighting for TVL dominance. Bridging volume is up 4x month over month. The fragmentation is creating real arbitrage opportunities right now. $ARB and $OP still undervalued relative to their ecosystems.` }
 ];
 
-let history = JSON.parse(localStorage.getItem('tg_v3') || '[]');
+const MOCK_TRENDS = [
+  { name:'AI Agents',        mentions:142, growth:'+280%', signal_strength:9.4, summary:'Autonomous on-chain agents dominating CT. Infrastructure plays seeing 3× volume increases across major protocols.' },
+  { name:'RWA Tokenization', mentions:98,  growth:'+165%', signal_strength:8.8, summary:'Institutional RWA protocols attracting major capital. BlackRock effect creating sustained narrative momentum.' },
+  { name:'DeFi Restaking',   mentions:76,  growth:'+120%', signal_strength:7.9, summary:'Liquid restaking protocols in exponential TVL growth phase. ETH yield narrative returning with institutional backing.' },
+  { name:'Memecoin Season',  mentions:210, growth:'+95%',  signal_strength:6.5, summary:'Dog and frog meta cycling again. Fast money flows with extreme volatility — sizing is everything here.' },
+  { name:'Layer 2 Wars',     mentions:63,  growth:'+78%',  signal_strength:7.1, summary:'L2 fragmentation creating arbitrage. Bridge volume up 4× MoM — follow TVL migration to spot rotation.' },
+  { name:'ZK Privacy',       mentions:45,  growth:'+55%',  signal_strength:6.8, summary:'Zero-knowledge tech moving to production. Privacy narrative gaining institutional traction for the first time.' }
+];
 
-// ═══════════════════════════════
-//  NAV
-// ═══════════════════════════════
-function switchTab(btn, name) {
-  document.querySelectorAll('.tab-btn').forEach(t => t.classList.remove('active'));
+/* ═══════════════════════════════════════
+   STATE
+═══════════════════════════════════════ */
+let hist   = JSON.parse(localStorage.getItem('tg4') || '[]');
+let lastResult = null;
+const MAX_CHARS = 2000;
+
+/* ═══════════════════════════════════════
+   STATS
+═══════════════════════════════════════ */
+function updateStats() {
+  document.getElementById('stat-total').textContent = hist.length;
+  const signals = hist.filter(h => h.action === 'Early Signal').length;
+  document.getElementById('stat-signals').textContent = signals;
+  if (hist.length > 0) {
+    const avg = hist.reduce((s,h) => s + parseFloat(h.market_relevance_score||0), 0) / hist.length;
+    document.getElementById('stat-avg').textContent = avg.toFixed(1);
+  } else {
+    document.getElementById('stat-avg').textContent = '—';
+  }
+}
+
+updateStats();
+
+/* ═══════════════════════════════════════
+   NAV
+═══════════════════════════════════════ */
+function goTab(btn, name) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   btn.classList.add('active');
   document.getElementById('screen-' + name).classList.add('active');
-  if (name === 'trends') loadTrends();
-  if (name === 'history') renderHistory();
+  if (name === 'trends')  loadTrends();
+  if (name === 'history') renderHist();
 }
 
-// ═══════════════════════════════
-//  INPUT
-// ═══════════════════════════════
+/* ═══════════════════════════════════════
+   INPUT
+═══════════════════════════════════════ */
 function onType() {
-  const v = document.getElementById('input').value;
-  const el = document.getElementById('counter');
-  el.textContent = v.length + ' chars';
-  el.classList.toggle('active', v.length > 0);
+  const v  = document.getElementById('inp').value;
+  const n  = document.getElementById('cnum');
+  const b  = document.getElementById('cbar');
+  n.textContent = v.length;
+  n.classList.toggle('has-text', v.length > 0);
+  b.style.width = Math.min(v.length / MAX_CHARS * 100, 100) + '%';
 }
 
 function clearAll() {
-  document.getElementById('input').value = '';
+  document.getElementById('inp').value = '';
   onType();
   document.getElementById('result').classList.remove('show');
   document.getElementById('err').classList.remove('show');
-  document.getElementById('r-bar').style.width = '0';
+  document.getElementById('scan').classList.remove('show');
+  document.getElementById('r-fill').style.width = '0';
 }
 
-function demo(i) {
-  document.getElementById('input').value = DEMOS[i].text;
+function loadDemo(i) {
+  document.getElementById('inp').value = DEMOS[i].text;
   onType();
   document.getElementById('result').classList.remove('show');
   document.getElementById('err').classList.remove('show');
-  toast(DEMOS[i].label);
+  toast(DEMOS[i].label + ' loaded');
 }
 
-// ═══════════════════════════════
-//  ANALYZE
-// ═══════════════════════════════
-async function run() {
-  const text = document.getElementById('input').value.trim();
-  if (!text) { toast('Paste content first'); return; }
-  if (text.length < 15) { toast('Too short — need more context'); return; }
+/* ═══════════════════════════════════════
+   ANALYZE
+═══════════════════════════════════════ */
+const SCAN_STEPS = [
+  'Normalizing input signal',
+  'Detecting narrative patterns',
+  'Scoring market relevance',
+  'Extracting token signals',
+  'Generating intelligence report'
+];
 
-  setLoading(true);
+async function runAnalysis() {
+  const text = document.getElementById('inp').value.trim();
+  if (!text)          { toast('Paste content first'); return; }
+  if (text.length < 15){ toast('Content too short'); return; }
+
+  setBusy(true);
   document.getElementById('result').classList.remove('show');
   document.getElementById('err').classList.remove('show');
+  document.getElementById('scan').classList.add('show');
+
+  let step = 0;
+  const stepTimer = setInterval(() => {
+    document.getElementById('scan-txt').textContent = SCAN_STEPS[Math.min(step++, SCAN_STEPS.length-1)];
+  }, 500);
 
   try {
     const res = await fetch(location.origin + '/analyze', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ text })
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({text})
     });
     if (!res.ok) throw new Error(res.status);
     const d = await res.json();
-    render(d);
-    save(d, text);
+    showResult(d); saveHist(d, text);
   } catch {
-    const d = mock(text);
-    render(d);
-    save(d, text);
+    const d = mockEngine(text);
+    showResult(d); saveHist(d, text);
     showErr('Backend offline — simulated signal');
   } finally {
-    setLoading(false);
+    clearInterval(stepTimer);
+    setBusy(false);
+    document.getElementById('scan').classList.remove('show');
   }
 }
 
-function setLoading(on) {
-  const btn = document.getElementById('cta');
-  const sp  = document.getElementById('spinner');
-  const lbl = document.getElementById('cta-label');
-  const arr = document.getElementById('cta-arrow');
-  if (on) {
-    btn.classList.add('loading');
-    sp.style.display = 'block';
-    lbl.textContent = 'EXTRACTING SIGNAL';
-    arr.style.opacity = '0';
-  } else {
-    btn.classList.remove('loading');
-    sp.style.display = 'none';
-    lbl.textContent = 'ANALYZE SIGNAL';
-    arr.style.opacity = '1';
-  }
+function setBusy(on) {
+  const btn  = document.getElementById('cta');
+  const sp   = document.getElementById('spin');
+  const lbl  = document.getElementById('cta-lbl');
+  const arr  = document.getElementById('cta-arr');
+  btn.classList.toggle('busy', on);
+  sp.style.display  = on ? 'block' : 'none';
+  lbl.textContent   = on ? 'ANALYZING' : 'ANALYZE SIGNAL';
+  arr.style.opacity = on ? '0' : '1';
 }
 
 function showErr(msg) {
@@ -969,245 +1150,255 @@ function showErr(msg) {
   el.classList.add('show');
 }
 
-// ═══════════════════════════════
-//  MOCK ANALYSIS ENGINE
-// ═══════════════════════════════
-function mock(text) {
+/* ═══════════════════════════════════════
+   MOCK ENGINE
+═══════════════════════════════════════ */
+function mockEngine(text) {
   const t = text.toLowerCase();
-  const signals = [
-    { test: w => w.includes('ai') || w.includes('agent') || w.includes('autonomous') || w.includes('fetch') || w.includes('virtual'),
+  const rules = [
+    { match: w => w.includes('ai') || w.includes('agent') || w.includes('autonomous') || w.includes('fetch') || w.includes('virtual') || w.includes('near'),
       out: { narrative_category:'AI', key_narrative:'AI agent infrastructure emerging', sentiment:'Bullish', market_relevance_score:8.7, action:'Early Signal',
-             tokens_mentioned:['NEAR','FET','VIRTUAL','TAO'],
-             keywords:['autonomous','agents','infrastructure','protocol'],
-             why_it_matters:'AI agent narratives are driving significant on-chain activity. Infrastructure plays are positioned for outsized returns as autonomous protocols become the default execution layer.' }
-    },
-    { test: w => w.includes('meme') || w.includes('bonk') || w.includes('wif') || w.includes('pepe') || w.includes('aping') || w.includes('dog with hat'),
+             tokens_mentioned:['NEAR','FET','VIRTUAL','TAO'], keywords:['autonomous','agents','infrastructure','protocol','on-chain'],
+             why_it_matters:'AI agent narratives are driving significant on-chain activity. Autonomous protocols are becoming the default execution layer — infrastructure plays are positioned for outsized returns as adoption accelerates exponentially.' }},
+    { match: w => w.includes('meme') || w.includes('bonk') || w.includes('wif') || w.includes('pepe') || w.includes('aping') || w.includes('dog with hat'),
       out: { narrative_category:'Memecoin', key_narrative:'Memecoin meta cycling again', sentiment:'Bullish', market_relevance_score:6.2, action:'Watch',
-             tokens_mentioned:['WIF','BONK','PEPE','DOGE'],
-             keywords:['memecoin','meta','aping','CT','liquidity'],
-             why_it_matters:'Memecoin narratives cycle fast. High volatility, asymmetric reward. Monitor community sentiment and position size accordingly — entries matter here.' }
-    },
-    { test: w => w.includes('defi') || w.includes('yield') || w.includes('apy') || w.includes('lending') || w.includes('stablecoin'),
+             tokens_mentioned:['WIF','BONK','PEPE','DOGE'], keywords:['memecoin','meta','aping','CT','liquidity'],
+             why_it_matters:'Memecoin narratives cycle rapidly with high volatility. This pattern signals a risk-on environment. Fast entries and exits required — position sizing is critical. Monitor community sentiment daily.' }},
+    { match: w => w.includes('defi') || w.includes('yield') || w.includes('apy') || w.includes('lending') || w.includes('stablecoin') || w.includes('aave'),
       out: { narrative_category:'DeFi', key_narrative:'Organic yield resurgence on-chain', sentiment:'Bullish', market_relevance_score:7.8, action:'Research',
-             tokens_mentioned:['AAVE','COMP','UNI','MKR'],
-             keywords:['yield','APY','liquidity','stablecoin','lending'],
-             why_it_matters:'Organic DeFi yield signals capital rotation into productive on-chain assets. Emission-free yield at scale is a structural indicator of healthy protocol growth.' }
-    },
-    { test: w => w.includes('rwa') || w.includes('real world') || w.includes('tokeniz') || w.includes('blackrock') || w.includes('ondo'),
+             tokens_mentioned:['AAVE','COMP','UNI','MKR'], keywords:['yield','APY','liquidity','stablecoin','organic'],
+             why_it_matters:'Organic DeFi yield signals capital rotation into productive on-chain assets. Emission-free yield at scale indicates healthy protocol growth — a strong risk-adjusted opportunity emerging now.' }},
+    { match: w => w.includes('rwa') || w.includes('real world') || w.includes('tokeniz') || w.includes('blackrock') || w.includes('ondo'),
       out: { narrative_category:'RWA', key_narrative:'Institutional RWA tokenization wave', sentiment:'Bullish', market_relevance_score:9.1, action:'Early Signal',
-             tokens_mentioned:['ONDO','CENTRIFUGE','MAPLE'],
-             keywords:['tokenization','RWA','institutions','BlackRock','treasury'],
-             why_it_matters:'Institutional RWA adoption is a structural shift. This is the on-ramp for trillions in traditional assets — only the beginning of capital flows at this scale.' }
-    },
-    { test: w => w.includes('gaming') || w.includes('immutable') || w.includes('ronin') || w.includes('play') || w.includes('nft') && w.includes('game'),
-      out: { narrative_category:'Gaming', key_narrative:'Web3 gaming quiet accumulation phase', sentiment:'Neutral', market_relevance_score:6.8, action:'Research',
-             tokens_mentioned:['IMX','RONIN','GALA','BEAM'],
-             keywords:['gaming','NFT','utility','play-to-earn','studio'],
-             why_it_matters:'Web3 gaming narratives accumulate quietly before explosive cycles. Studio partnerships and sustainable economies are the signal to watch for catalyst timing.' }
-    },
-    { test: w => w.includes('layer 2') || w.includes('l2') || w.includes('rollup') || w.includes('arbitrum') || w.includes('optimism'),
-      out: { narrative_category:'Infra', key_narrative:'L2 ecosystem fragmentation ongoing', sentiment:'Neutral', market_relevance_score:6.5, action:'Watch',
-             tokens_mentioned:['ARB','OP','MATIC','BASE'],
-             keywords:['layer2','rollup','scaling','bridge','TVL'],
-             why_it_matters:'L2 competition is creating capital fragmentation and arbitrage opportunities. Monitor bridge flows and TVL migration to identify rotation patterns.' }
-    },
-    { test: w => w.includes('bear') || w.includes('dump') || w.includes('crash') || w.includes('scam') || w.includes('rug'),
+             tokens_mentioned:['ONDO','CENTRIFUGE','MAPLE'], keywords:['tokenization','RWA','institutions','BlackRock','treasury'],
+             why_it_matters:'Institutional RWA adoption represents a structural shift in global finance. This is the on-ramp for trillions in traditional assets — only the very beginning of capital flows at this scale. Multi-year narrative.' }},
+    { match: w => w.includes('gaming') || (w.includes('nft') && w.includes('game')) || w.includes('immutable') || w.includes('ronin') || w.includes('imx'),
+      out: { narrative_category:'Gaming', key_narrative:'Web3 gaming quiet accumulation', sentiment:'Neutral', market_relevance_score:6.8, action:'Research',
+             tokens_mentioned:['IMX','RONIN','GALA','BEAM'], keywords:['gaming','NFT','utility','play-to-earn','studio'],
+             why_it_matters:'Web3 gaming narratives historically accumulate quietly before explosive rotations. Studio partnerships and sustainable token economies are the signal to track for catalyst timing.' }},
+    { match: w => w.includes('layer 2') || w.includes('l2') || w.includes('arbitrum') || w.includes('optimism') || w.includes('base') || w.includes('rollup'),
+      out: { narrative_category:'Infra', key_narrative:'L2 ecosystem TVL fragmentation', sentiment:'Neutral', market_relevance_score:7.1, action:'Research',
+             tokens_mentioned:['ARB','OP','BASE','MATIC'], keywords:['layer2','rollup','scaling','bridge','TVL'],
+             why_it_matters:'L2 competition is creating capital fragmentation and arbitrage opportunities. Track bridge flows and TVL migration patterns — rotation signals precede 30-60 day price catalysts historically.' }},
+    { match: w => w.includes('bear') || w.includes('dump') || w.includes('crash') || w.includes('rug') || w.includes('scam'),
       out: { narrative_category:'Unknown', key_narrative:'Bearish/risk content detected', sentiment:'Bearish', market_relevance_score:2.0, action:'Ignore',
-             tokens_mentioned:[],
-             keywords:['bearish','risk','caution'],
-             why_it_matters:'Content exhibits bearish framing with minimal actionable signal value. No positioning recommended based on this input.' }
-    }
+             tokens_mentioned:[], keywords:['bearish','risk','caution'],
+             why_it_matters:'Content exhibits bearish framing with minimal actionable signal value. No positioning recommended. Monitor for reversal signals before re-entering this narrative.' }}
   ];
 
-  const match = signals.find(s => s.test(t));
-  const base = match ? match.out : {
-    narrative_category:'Unknown', key_narrative:'Unclear Web3 narrative', sentiment:'Neutral', market_relevance_score:3.5, action:'Ignore',
+  const match = rules.find(r => r.match(t));
+  const base  = match ? match.out : {
+    narrative_category:'Unknown', key_narrative:'Unclear Web3 narrative signal',
+    sentiment:'Neutral', market_relevance_score:3.5, action:'Ignore',
     tokens_mentioned:[], keywords:[],
-    why_it_matters:'Content does not map to a recognized Web3 narrative pattern. Low signal clarity — more context needed for meaningful extraction.'
+    why_it_matters:'Content does not map clearly to a recognized Web3 narrative pattern. Low signal quality — more specific content or additional context needed for meaningful signal extraction.'
   };
 
-  return { id: 'sim_' + Date.now(), ...base, timestamp: new Date().toISOString() };
+  return { id:'sim_'+Date.now(), ...base, timestamp: new Date().toISOString() };
 }
 
-// ═══════════════════════════════
-//  RENDER RESULT
-// ═══════════════════════════════
-function render(d) {
+/* ═══════════════════════════════════════
+   RENDER
+═══════════════════════════════════════ */
+function showResult(d) {
+  lastResult = d;
+
   // Header
-  document.getElementById('r-id').textContent = '#' + String(d.id||'').replace('sim_','').slice(-6).toUpperCase();
+  document.getElementById('r-id').textContent    = '#'+String(d.id||'').replace('sim_','').slice(-6).toUpperCase();
   const ts = d.timestamp ? new Date(d.timestamp) : new Date();
   const tsStr = ts.toLocaleString('en-US',{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'});
   document.getElementById('r-ts-inline').textContent = tsStr;
-  document.getElementById('r-ts-bottom').textContent = 'Generated ' + tsStr;
+  document.getElementById('r-ts').textContent = 'Generated ' + tsStr;
 
   // Narrative
   document.getElementById('r-cat').textContent = d.narrative_category || '—';
-  document.getElementById('r-key').textContent = '"' + (d.key_narrative || '—') + '"';
-
-  const s = (d.sentiment || '').toLowerCase();
+  document.getElementById('r-key').textContent = '"' + (d.key_narrative||'—') + '"';
+  const s   = (d.sentiment||'').toLowerCase();
   const sEl = document.getElementById('r-sent');
-  sEl.textContent = (d.sentiment || '—').toUpperCase();
-  sEl.className = 'sent-badge ' + (s === 'bullish' ? 'bullish' : s === 'bearish' ? 'bearish' : 'neutral');
+  sEl.textContent = (d.sentiment||'—').toUpperCase();
+  sEl.className   = 'sent ' + (s==='bullish'?'bullish':s==='bearish'?'bearish':'neutral');
 
   // Score
-  const score = parseFloat(d.market_relevance_score) || 0;
+  const score = parseFloat(d.market_relevance_score)||0;
   document.getElementById('r-score').textContent = score.toFixed(1);
-  const vMap = [[0,3,'LOW'],[3,5,'WEAK'],[5,7,'MODERATE'],[7,8.5,'STRONG'],[8.5,10.1,'HIGH CONVICTION']];
-  const verdict = vMap.find(([lo,hi]) => score >= lo && score < hi);
-  const vEl = document.getElementById('r-verdict');
-  vEl.textContent = verdict ? verdict[2] : 'MODERATE';
-  vEl.className = 'score-verdict ' + (score >= 7 ? 'high' : score >= 4 ? 'mid' : 'low');
-  setTimeout(() => { document.getElementById('r-bar').style.width = (score / 10 * 100) + '%'; }, 80);
 
-  // Tags
-  const toks = d.tokens_mentioned || [];
-  document.getElementById('r-tokens').innerHTML = toks.length
-    ? toks.map(t => `<span class="tag tok">$${t}</span>`).join('')
-    : `<span class="tag empty">No tokens detected</span>`;
+  const verdicts = [[0,3,'LOW','v-low'],[3,5,'WEAK','v-low'],[5,7,'MODERATE','v-mid'],[7,8.5,'STRONG','v-strong'],[8.5,11,'HIGH CONVICTION','v-high']];
+  const vv = verdicts.find(([lo,hi]) => score >= lo && score < hi) || ['','','MODERATE','v-mid'];
+  ['r-verdict','r-verdict2'].forEach(id => {
+    const el = document.getElementById(id);
+    el.textContent = vv[2];
+    el.className   = 'verdict-tag ' + vv[3];
+  });
 
-  const kws = d.keywords || [];
-  document.getElementById('r-keywords').innerHTML = kws.map(k => `<span class="tag kw">${k}</span>`).join('');
+  setTimeout(() => { document.getElementById('r-fill').style.width = (score/10*100)+'%'; }, 80);
+
+  // Confidence segments (10 segments)
+  const segsEl = document.getElementById('r-segs');
+  segsEl.innerHTML = Array.from({length:10},(_,i) => {
+    const filled = i < Math.floor(score);
+    const partial = !filled && i === Math.floor(score) && score%1 > 0.3;
+    return `<div class="seg${filled?' on':partial?' on partial':''}"></div>`;
+  }).join('');
+
+  // Tokens
+  const toks = d.tokens_mentioned||[];
+  document.getElementById('r-toks').innerHTML = toks.length
+    ? toks.map(t=>`<span class="tag tok">$${t}</span>`).join('')
+    : '<span class="tag nil">None detected</span>';
+
+  // Keywords
+  const kws = d.keywords||[];
+  document.getElementById('r-kws').innerHTML = kws.length
+    ? kws.map(k=>`<span class="tag kw">${k}</span>`).join('')
+    : '<span class="tag nil">None detected</span>';
 
   // Why
-  document.getElementById('r-why').textContent = d.why_it_matters || '—';
+  document.getElementById('r-why').textContent = d.why_it_matters||'—';
 
   // Action
-  const ac = (d.action || 'Watch').toLowerCase().replace(' ', '-');
-  const acard = document.getElementById('r-action');
-  acard.className = 'action-card ' + ac;
-  document.getElementById('r-act-name').textContent = (d.action || '—').toUpperCase();
-
-  const descMap = {
-    'watch':        'Monitor this narrative for further development.',
-    'ignore':       'Low signal quality — not actionable right now.',
-    'research':     'Enough signal to investigate deeper. Do your own research.',
-    'early-signal': 'High conviction early entry window. Consider positioning.'
+  const ac = (d.action||'watch').toLowerCase().replace(' ','-');
+  const card = document.getElementById('r-action');
+  card.className = 'action-card ' + ac;
+  document.getElementById('r-actname').textContent = (d.action||'—').toUpperCase();
+  const descs = {
+    'watch':        'Monitor this narrative. Check back in 24–48h for confirmation signals.',
+    'ignore':       'Low signal quality. Insufficient data for actionable positioning.',
+    'research':     'Signal quality is sufficient. Investigate protocols, tokenomics, and catalysts.',
+    'early-signal': 'High conviction entry window. Early positioning with managed risk recommended.'
   };
-  const glyphMap = { 'watch':'○', 'ignore':'×', 'research':'◎', 'early-signal':'↑' };
-  document.getElementById('r-act-desc').textContent  = descMap[ac] || '';
-  document.getElementById('r-act-glyph').textContent = glyphMap[ac] || '→';
+  const glyphs = { 'watch':'○', 'ignore':'×', 'research':'◎', 'early-signal':'↑' };
+  document.getElementById('r-actsub').textContent   = descs[ac]||'';
+  document.getElementById('r-actglyph').textContent = glyphs[ac]||'→';
 
   // Show
   const rv = document.getElementById('result');
   rv.classList.add('show');
-  setTimeout(() => rv.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
+  setTimeout(() => rv.scrollIntoView({behavior:'smooth',block:'start'}), 120);
 }
 
-// ═══════════════════════════════
-//  HISTORY
-// ═══════════════════════════════
-function save(d, text) {
-  history.unshift({ ...d, _preview: text.slice(0, 90) });
-  if (history.length > 60) history = history.slice(0, 60);
-  localStorage.setItem('tg_v3', JSON.stringify(history));
+/* ═══════════════════════════════════════
+   COPY + SHARE
+═══════════════════════════════════════ */
+function copyResult() {
+  if (!lastResult) return;
+  const json = JSON.stringify(lastResult, null, 2);
+  navigator.clipboard.writeText(json).then(() => {
+    const el = document.getElementById('copy-flash');
+    el.classList.add('show');
+    setTimeout(() => el.classList.remove('show'), 1400);
+  });
 }
 
-function renderHistory() {
-  const el = document.getElementById('hist-list');
-  document.getElementById('hist-sub').textContent = history.length + ' analyses stored';
-  if (!history.length) {
-    el.innerHTML = '<div class="empty-state">No analyses yet</div>';
-    return;
+function shareResult() {
+  if (!lastResult) return;
+  const text = `TokGraph Signal\n━━━━━━━━━━━━━━\nCategory: ${lastResult.narrative_category}\nNarrative: ${lastResult.key_narrative}\nSentiment: ${lastResult.sentiment}\nScore: ${lastResult.market_relevance_score}/10\nAction: ${lastResult.action}\n\ntokgraph-web3-v3.vercel.app`;
+  if (navigator.share) {
+    navigator.share({ title:'TokGraph Signal', text });
+  } else {
+    navigator.clipboard.writeText(text).then(() => toast('Signal copied for sharing'));
   }
-  el.innerHTML = history.map((h, i) => {
+}
+
+/* ═══════════════════════════════════════
+   HISTORY
+═══════════════════════════════════════ */
+function saveHist(d, text) {
+  hist.unshift({...d, _preview: text.slice(0,90)});
+  if (hist.length > 60) hist = hist.slice(0,60);
+  localStorage.setItem('tg4', JSON.stringify(hist));
+  updateStats();
+}
+
+function renderHist() {
+  const el = document.getElementById('hist-list');
+  document.getElementById('hist-sub').textContent = hist.length + ' analyses stored';
+  if (!hist.length) { el.innerHTML='<div class="empty-msg">No analyses yet</div>'; return; }
+  el.innerHTML = hist.map((h,i) => {
     const ts = h.timestamp ? new Date(h.timestamp).toLocaleString('en-US',{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'}) : '';
-    const s = (h.sentiment || '').toLowerCase();
-    return `<div class="hist-item" onclick="restoreHistory(${i})" style="animation-delay:${Math.min(i,.3)*0.06}s">
-      <div class="hist-row1">
-        <span class="hist-cat">${h.narrative_category || 'Unknown'}</span>
-        <span class="hist-time mono">${ts}</span>
+    const s  = (h.sentiment||'').toLowerCase();
+    return `<div class="hist-item" onclick="restoreHist(${i})" style="animation-delay:${Math.min(i*0.04,.3)}s">
+      <div class="h-row1">
+        <span class="h-cat">${h.narrative_category||'Unknown'}</span>
+        <span class="h-time mono">${ts}</span>
       </div>
-      <div class="hist-narr">"${h.key_narrative || ''}"</div>
-      <div class="hist-row2">
-        <span class="hist-score mono">${parseFloat(h.market_relevance_score||0).toFixed(1)}/10</span>
-        <span class="hist-sent ${s}">${(h.sentiment||'').toUpperCase()}</span>
-        <span class="hist-action mono">${(h.action||'').toUpperCase()} →</span>
+      <div class="h-narr">"${h.key_narrative||''}"</div>
+      <div class="h-row2">
+        <span class="h-score mono">${parseFloat(h.market_relevance_score||0).toFixed(1)}/10</span>
+        <span class="h-sent ${s}">${(h.sentiment||'').toUpperCase()}</span>
+        <span class="h-action mono">${(h.action||'').toUpperCase()} →</span>
       </div>
     </div>`;
   }).join('');
 }
 
-function restoreHistory(i) {
-  const h = history[i];
-  document.querySelectorAll('.tab-btn')[0].click();
-  if (h._preview) {
-    document.getElementById('input').value = h._preview;
-    onType();
-  }
-  render(h);
+function restoreHist(i) {
+  const h = hist[i];
+  document.querySelectorAll('.tab')[0].click();
+  if (h._preview) { document.getElementById('inp').value = h._preview; onType(); }
+  showResult(h);
 }
 
-function clearHistory() {
-  if (!history.length) return;
-  history = [];
-  localStorage.removeItem('tg_v3');
-  renderHistory();
+function clearHist() {
+  if (!hist.length) return;
+  hist = [];
+  localStorage.removeItem('tg4');
+  renderHist(); updateStats();
   toast('History cleared');
 }
 
-// ═══════════════════════════════
-//  TRENDS
-// ═══════════════════════════════
-const MOCK_TRENDS = [
-  { name:'AI Agents',         mentions:142, growth:'+280%', signal_strength:9.4, summary:'Autonomous on-chain agents dominating CT attention. Infrastructure plays seeing 3× volume increases.' },
-  { name:'RWA Tokenization',  mentions:98,  growth:'+165%', signal_strength:8.8, summary:'Institutional-grade protocols attracting major capital. BlackRock effect amplifying signal strength.' },
-  { name:'DeFi Restaking',    mentions:76,  growth:'+120%', signal_strength:7.9, summary:'Liquid restaking protocols seeing exponential TVL growth. ETH yield narrative returning strongly.' },
-  { name:'Memecoin Season',   mentions:210, growth:'+95%',  signal_strength:6.5, summary:'Dog and frog meta cycling again. Fast money flows, extreme volatility. CT sentiment extremely elevated.' },
-  { name:'Layer 2 Wars',      mentions:63,  growth:'+78%',  signal_strength:7.1, summary:'L2 fragmentation creating arbitrage opportunities. Bridge volume up 4× month-over-month.' },
-  { name:'ZK Privacy',        mentions:45,  growth:'+55%',  signal_strength:6.8, summary:'Zero-knowledge proofs moving from research to production. Privacy narrative gaining institutional traction.' }
-];
-
-async function loadTrends() {
-  const table = document.getElementById('trend-table');
-  table.innerHTML = [1,2,3].map(() => `
-    <div class="trend-skeleton">
-      <div class="skel" style="width:40%;margin-bottom:8px"></div>
-      <div class="skel" style="width:70%"></div>
-    </div>`).join('');
+/* ═══════════════════════════════════════
+   TRENDS
+═══════════════════════════════════════ */
+async function loadTrends(force) {
+  const list = document.getElementById('trend-list');
+  list.innerHTML = [1,2,3].map(()=>`<div class="skel-item"><div class="skel" style="width:45%"></div><div class="skel" style="width:75%"></div></div>`).join('');
 
   let trends;
   try {
     const res = await fetch(location.origin + '/trend');
     if (!res.ok) throw new Error();
     const d = await res.json();
-    trends = (d.trends || []).length ? d.trends : MOCK_TRENDS;
-  } catch {
-    trends = MOCK_TRENDS;
-  }
+    trends = (d.trends||[]).length ? d.trends : MOCK_TRENDS;
+  } catch { trends = MOCK_TRENDS; }
 
   document.getElementById('trend-sub').textContent =
-    trends.length + ' narratives · updated ' + new Date().toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'});
+    trends.length + ' narratives · ' + new Date().toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'});
 
-  table.innerHTML = trends.map((t, i) => `
-    <div class="trend-row" style="animation-delay:${i*0.07}s">
-      <div class="tr-rank mono">${String(i+1).padStart(2,'0')}</div>
-      <div class="tr-name">${t.name}</div>
-      <div class="tr-growth">${t.growth}</div>
-      <div class="tr-bar-wrap">
-        <div class="tr-bar"><div class="tr-bar-fill" style="width:${t.signal_strength/10*100}%"></div></div>
-        <span class="tr-score mono">${t.signal_strength}</span>
+  list.innerHTML = trends.map((t,i) => `
+    <div class="trend-item" style="animation-delay:${i*0.07}s">
+      <div class="t-row1">
+        <div class="t-left">
+          <span class="t-rank mono">${String(i+1).padStart(2,'0')}</span>
+          <span class="t-name">${t.name}</span>
+        </div>
+        <span class="t-growth mono">${t.growth}</span>
       </div>
-      <div class="tr-sum">${t.summary}</div>
+      <div class="t-row2">
+        <span class="t-signals mono">${t.mentions} signals</span>
+        <div class="t-track"><div class="t-fill" style="width:${t.signal_strength/10*100}%"></div></div>
+        <span class="t-score mono">${t.signal_strength}</span>
+      </div>
+      <div class="t-sum">${t.summary}</div>
     </div>`).join('');
+
+  if (force) toast('Trends refreshed');
 }
 
-// ═══════════════════════════════
-//  TOAST
-// ═══════════════════════════════
+/* ═══════════════════════════════════════
+   TOAST
+═══════════════════════════════════════ */
 let _tt;
 function toast(msg) {
   const el = document.getElementById('toast');
-  el.textContent = msg;
-  el.classList.add('show');
-  clearTimeout(_tt);
-  _tt = setTimeout(() => el.classList.remove('show'), 2500);
+  el.textContent = msg; el.classList.add('show');
+  clearTimeout(_tt); _tt = setTimeout(() => el.classList.remove('show'), 2200);
 }
 
-// ═══════════════════════════════
-//  INIT
-// ═══════════════════════════════
+/* ═══════════════════════════════════════
+   INIT
+═══════════════════════════════════════ */
 document.addEventListener('keydown', e => {
-  if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') run();
+  if ((e.ctrlKey||e.metaKey) && e.key==='Enter') runAnalysis();
 });
 </script>
 </body>
