@@ -7,2673 +7,549 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
 <style>
-<style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --bk:#000;--wh:#fff;
-  --red:#FE2C55;--red-a:rgba(254,44,85,.1);
-  --t1:#ffffff;--t2:#e2e2e2;--t3:#ababab;--t4:#6e6e6e;--t5:#3a3a3a;
-  --ln:#1a1a1a;--ln2:#252525;
-  --sf:#0c0c0c;--sf2:#131313;
-  --green:#4ade80;
+  --bg:#080808;--sf:#111;--sf2:#161616;--sf3:#1a1a1a;
+  --t1:#ffffff;--t2:#aaaaaa;--t3:#666;--t4:#444;
+  --ln:#222;--ln2:#2a2a2a;--acc:#4ade80;--acc2:#22c55e;
+  --red:#f87171;--blue:#60a5fa;--orange:#fb923c;
+  --tg:#ff0050;
 }
-html{-webkit-text-size-adjust:100%}
-body{background:var(--bk);color:var(--t1);font-family:'Space Grotesk',sans-serif;min-height:100dvh;overflow-x:hidden;-webkit-font-smoothing:antialiased}
-.mono{font-family:'IBM Plex Mono',monospace}
-::-webkit-scrollbar{width:2px}::-webkit-scrollbar-thumb{background:#222}
+html,body{height:100%;overflow:hidden;background:var(--bg);font-family:'Space Grotesk',sans-serif;color:var(--t1);}
 
-/* ── GRID BACKGROUND ── */
-body::before{
-  content:'';position:fixed;inset:0;pointer-events:none;z-index:2;
-  background-image:linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),
-                   linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px);
-  background-size:48px 48px;
-}
-
-/* ══════════════════════════════════════════════
-   TIKTOK COLLAGE BACKGROUND
-══════════════════════════════════════════════ */
-#tiktok-bg{
-  position:fixed;inset:0;z-index:1;pointer-events:none;overflow:hidden;
-}
-.tk-overlay{
-  position:absolute;inset:0;
-  background:radial-gradient(ellipse 55% 65% at 50% 50%,
-    rgba(0,0,0,.55) 0%,rgba(0,0,0,.2) 70%,rgba(0,0,0,.05) 100%);
-  z-index:10;
-}
-.tk-phone{
-  position:absolute;width:140px;height:248px;
-  border-radius:18px;overflow:hidden;
-  border:1.5px solid rgba(255,255,255,.08);
-  box-shadow:0 12px 40px rgba(0,0,0,.7);
-  animation:tk-float var(--ta,10s) ease-in-out var(--td,0s) infinite;
-  transform:rotate(var(--tr,0deg));
-}
-@keyframes tk-float{
-  0%,100%{transform:rotate(var(--tr,0deg)) translateY(0px)}
-  50%{transform:rotate(var(--tr,0deg)) translateY(-14px)}
-}
-.tk-vid{position:absolute;inset:0;background:var(--tg)}
-.tk-vid::after{
-  content:'';position:absolute;inset:0;
-  background:linear-gradient(transparent 55%,rgba(0,0,0,.7) 100%);
-}
-/* scanline */
-.tk-scan{
-  position:absolute;left:0;right:0;height:2px;
-  background:rgba(255,255,255,.12);
-  animation:tk-scanline 4s linear infinite;
-  z-index:2;
-}
-@keyframes tk-scanline{from{top:0}to{top:100%}}
-/* right icons */
-.tk-right{
-  position:absolute;right:7px;bottom:60px;z-index:3;
-  display:flex;flex-direction:column;align-items:center;gap:14px;
-}
-.tk-av{
-  width:28px;height:28px;border-radius:50%;
-  background:rgba(255,255,255,.9);
-  border:1.5px solid #fff;overflow:hidden;
-  display:grid;place-items:center;
-  font-size:9px;font-weight:700;color:#000;
-  font-family:'IBM Plex Mono',monospace;
-}
-.tk-ic{text-align:center}
-.tk-ic-sym{font-size:17px;display:block;filter:drop-shadow(0 1px 3px rgba(0,0,0,.6))}
-.tk-ic-n{font-family:'IBM Plex Mono',monospace;font-size:7px;color:rgba(255,255,255,.8);display:block}
-.tk-disc{
-  width:24px;height:24px;border-radius:50%;
-  background:conic-gradient(#333,#777,#333);
-  border:2px solid rgba(255,255,255,.3);
-  animation:tk-spin 4s linear infinite;
-  display:grid;place-items:center;font-size:9px;
-}
-@keyframes tk-spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
-/* bottom text */
-.tk-bot{
-  position:absolute;bottom:0;left:0;right:0;z-index:3;
-  padding:8px 7px 8px;
-}
-.tk-user{font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:600;color:#fff;margin-bottom:3px}
-.tk-cap{font-size:9px;color:rgba(255,255,255,.85);line-height:1.4;margin-bottom:4px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-.tk-mus{font-size:8px;color:rgba(255,255,255,.6);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-
-/* phone positions */
-.tp1{left:0%;top:8%;--tr:-6deg;--ta:9s;--td:0s;--tg:linear-gradient(160deg,#ff9a56,#ff6b6b,#c0392b)}
-.tp2{right:0%;top:3%;--tr:5deg;--ta:11s;--td:1.5s;--tg:linear-gradient(160deg,#a29bfe,#6c5ce7,#4a0080)}
-.tp3{left:-1%;top:42%;--tr:-4deg;--ta:8s;--td:3s;--tg:linear-gradient(160deg,#55efc4,#00b894,#006b57)}
-.tp4{right:-1%;top:40%;--tr:7deg;--ta:10s;--td:.8s;--tg:linear-gradient(160deg,#fd79a8,#e84393,#8e0057)}
-.tp5{left:1%;top:72%;--tr:-3deg;--ta:12s;--td:2.2s;--tg:linear-gradient(160deg,#74b9ff,#0984e3,#023d7a)}
-.tp6{right:1%;top:69%;--tr:6deg;--ta:7s;--td:4s;--tg:linear-gradient(160deg,#ffeaa7,#fdcb6e,#c97d00)}
-
-@media(max-width:600px){
-  .tk-phone{width:100px;height:178px;border-radius:12px;opacity:.55}
-  .tp3,.tp4{opacity:.35}
-  .tp5,.tp6{opacity:.3}
-}
-
-/* ══════════════════════════════════════════════
-   LOGIN GATE
-══════════════════════════════════════════════ */
-#login-gate{
-  position:fixed;inset:0;z-index:999;
-  background:transparent;
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  padding:24px 20px;
-  animation:fadein .4s ease;
-}
-@keyframes fadein{from{opacity:0}to{opacity:1}}
-
-#login-gate.exit{
-  animation:fadeout .5s ease forwards;
-}
-@keyframes fadeout{from{opacity:1;transform:scale(1)}to{opacity:0;transform:scale(.98)}}
-
-.gate-logo{
-  display:flex;align-items:center;gap:12px;margin-bottom:40px;
-}
-.gate-logobox{
-  width:44px;height:44px;background:var(--wh);display:grid;place-items:center;
-}
-.gate-logobox svg{display:block}
-.gate-brandname{font-size:22px;font-weight:700;letter-spacing:-.6px;color:var(--t1)}
-.gate-brandver{font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--t4);letter-spacing:3px;text-transform:uppercase}
-
-.gate-card{
-  width:100%;max-width:420px;
-  border:1px solid var(--ln2);
-  background:var(--sf);
-}
-
-.gate-card-head{
-  padding:20px 22px 0;
-}
-
-.gate-mode-row{
-  display:grid;grid-template-columns:1fr 1fr;
-  border:1px solid var(--ln);
-  margin-bottom:22px;
-}
-
-.gate-mode-btn{
-  background:none;border:none;
-  font-family:'IBM Plex Mono',monospace;
-  font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;
-  color:var(--t4);padding:11px 0;cursor:pointer;
-  border-right:1px solid var(--ln);
-  transition:all .2s;text-align:center;
-}
-.gate-mode-btn:last-child{border-right:none}
-.gate-mode-btn.active{background:var(--wh);color:var(--bk)}
-.gate-mode-btn:not(.active):hover{color:var(--t2);background:var(--sf2)}
-
-.gate-body{padding:0 22px 22px}
-
-.gate-panel{display:none}
-.gate-panel.show{display:block}
-
-.gate-h1{
-  font-size:26px;font-weight:700;letter-spacing:-1px;
-  color:var(--t1);margin-bottom:5px;line-height:1.1;
-}
-.gate-sub{
-  font-size:13px;color:var(--t3);line-height:1.6;margin-bottom:20px;
-}
-
-.finput-label{
-  display:block;font-family:'IBM Plex Mono',monospace;
-  font-size:8px;font-weight:600;letter-spacing:2px;text-transform:uppercase;
-  color:var(--t3);margin-bottom:6px;
-}
-.finput{
-  display:block;width:100%;
-  background:var(--bk);border:1px solid var(--ln2);
-  color:var(--t1);font-family:'IBM Plex Mono',monospace;
-  font-size:13px;padding:12px 13px;outline:none;
-  transition:border-color .2s;margin-bottom:12px;
-}
-.finput:focus{border-color:#383838}
-.finput::placeholder{color:var(--t5)}
-
-.finput-row{display:grid;grid-template-columns:1fr auto;gap:0}
-.finput-row .finput{border-right:none}
-
-.reveal-btn{
-  background:var(--sf2);border:1px solid var(--ln2);
-  font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--t4);
-  padding:0 12px;cursor:pointer;transition:all .15s;border-left:none;
-}
-.reveal-btn:hover{color:var(--t2)}
-
-.gate-cta{
-  width:100%;background:var(--wh);border:none;
-  font-family:'Space Grotesk',sans-serif;
-  font-size:13px;font-weight:700;letter-spacing:.5px;
-  color:var(--bk);padding:14px;cursor:pointer;
-  display:flex;align-items:center;justify-content:center;gap:9px;
-  transition:opacity .15s,box-shadow .2s;
-  margin-top:16px;
-}
-.gate-cta:hover{box-shadow:0 0 24px rgba(255,255,255,.1)}
-.gate-cta:active{opacity:.85}
-.gate-cta.loading{opacity:.5;pointer-events:none}
-
-.gate-spin{
-  width:13px;height:13px;
-  border:2px solid rgba(0,0,0,.2);border-top-color:var(--bk);
-  border-radius:50%;animation:spin .6s linear infinite;display:none;
-}
-@keyframes spin{to{transform:rotate(360deg)}}
-
-.gate-err{
-  background:var(--red-a);border:1px solid rgba(254,44,85,.3);
-  font-family:'IBM Plex Mono',monospace;font-size:10px;color:#ff7090;
-  padding:9px 12px;margin-top:8px;display:none;
-}
-.gate-err.show{display:block}
-
-.gate-footer{
-  padding:12px 22px;border-top:1px solid var(--ln);
-  font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--t4);
-  text-align:center;letter-spacing:.5px;
-}
-/* Fixed demo button — always visible at bottom of screen */
-.gate-demo-cta{
-  position:fixed;bottom:0;left:0;right:0;
-  z-index:1001;
-  padding:0 20px 20px;
-  background:linear-gradient(transparent,rgba(0,0,0,.9) 38%);
-  display:none;
-}
-.gate-demo-cta.visible{display:block}
-.gate-demo-btn{
-  width:100%;max-width:420px;margin:0 auto;
-  background:#0d0d0d;
-  border:1px solid #2a2a2a;
-  cursor:pointer;padding:14px 18px;
-  display:flex;align-items:center;justify-content:space-between;
-  gap:12px;transition:border-color .2s,background .2s;text-align:left;
-}
-.gate-demo-btn:hover{border-color:#444;background:#141414}
-.gdb-left{flex:1}
-.gdb-label{
-  font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:600;
-  letter-spacing:2px;text-transform:uppercase;color:var(--t2);margin-bottom:3px;
-}
-.gdb-sub{font-size:12px;color:var(--t4)}
-.gdb-arrow{
-  font-family:'IBM Plex Mono',monospace;font-size:20px;color:var(--t3);
-  transition:transform .2s,color .2s;
-}
-.gate-demo-btn:hover .gdb-arrow{transform:translateX(5px);color:var(--t1)}
-
-/* ══════════════════════════════════════════════
-   DEMO OVERLAY
-══════════════════════════════════════════════ */
-#demo-overlay{
-  position:fixed;inset:0;z-index:1002;
-  background:var(--bk);
-  display:none;flex-direction:column;
-  overflow:hidden;
-}
-#demo-overlay.show{display:flex}
-
-/* demo top bar */
+/* TOP BAR */
 .demo-topbar{
-  flex-shrink:0;height:44px;
-  background:var(--sf);border-bottom:1px solid var(--ln);
+  position:fixed;top:0;left:0;right:0;height:44px;
   display:flex;align-items:center;justify-content:space-between;
-  padding:0 16px;
+  padding:0 16px;background:rgba(8,8,8,.95);border-bottom:1px solid var(--ln);
+  z-index:1000;backdrop-filter:blur(12px);
 }
+.demo-topbar-left{display:flex;align-items:center;gap:12px;}
+.demo-back{
+  display:inline-flex;align-items:center;gap:5px;
+  font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:600;
+  color:var(--t3);text-decoration:none;letter-spacing:.5px;
+  border:1px solid var(--ln2);padding:5px 10px;transition:all .15s;
+}
+.demo-back:hover{color:var(--t1);border-color:#3a3a3a;}
 .demo-badge{
-  display:flex;align-items:center;gap:7px;
-  font-family:'IBM Plex Mono',monospace;font-size:9px;
-  font-weight:600;letter-spacing:2px;
-}
-.demo-badge-pill{
-  background:var(--red);color:var(--wh);
-  padding:2px 8px;font-size:8px;letter-spacing:1.5px;
-}
-.demo-badge-name{color:var(--t3)}
-.demo-close{
-  background:none;border:1px solid var(--ln2);
-  font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--t3);
-  padding:5px 10px;cursor:pointer;letter-spacing:1px;transition:all .2s;
-}
-.demo-close:hover{border-color:#444;color:var(--t1)}
-
-/* demo mode tabs */
-.demo-tabs{
-  flex-shrink:0;display:grid;grid-template-columns:1fr 1fr 1fr;
-  border-bottom:1px solid var(--ln);
-}
-.demo-tab{
-  background:none;border:none;border-bottom:2px solid transparent;
-  font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:600;
-  letter-spacing:2px;text-transform:uppercase;color:var(--t4);
-  padding:11px 0;cursor:pointer;text-align:center;transition:all .2s;
-}
-.demo-tab.active{color:var(--t1);border-bottom-color:var(--t1)}
-.demo-tab:hover:not(.active){color:var(--t2)}
-.demo-tab .dtag{
-  font-size:7px;border:1px solid currentColor;padding:1px 5px;margin-left:6px;opacity:.7;
-}
-
-/* demo panels */
-.demo-panels{flex:1;overflow:hidden;position:relative}
-.demo-panel{
-  position:absolute;inset:0;overflow-y:auto;
-  opacity:0;pointer-events:none;transition:opacity .25s;
-}
-.demo-panel.active{opacity:1;pointer-events:all}
-
-/* ── HUMAN DEMO PANEL ── */
-.hd-layout{padding:16px 16px 120px}
-
-/* status bar */
-.hd-status-bar{
-  display:flex;align-items:center;justify-content:space-between;
-  margin-bottom:14px;
-}
-.hd-phase-lbl{
   font-family:'IBM Plex Mono',monospace;font-size:8px;font-weight:600;
-  letter-spacing:3px;text-transform:uppercase;
-  color:var(--t4);transition:color .3s;
+  color:var(--tg);letter-spacing:1px;border:1px solid rgba(255,0,80,.25);
+  padding:3px 7px;background:rgba(255,0,80,.07);
 }
-.hd-phase-lbl.scanning{color:var(--red)}
-.hd-phase-lbl.done{color:var(--green)}
+.demo-x-link{
+  display:inline-flex;align-items:center;gap:5px;
+  font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:600;
+  color:var(--t3);text-decoration:none;letter-spacing:.5px;
+  border:1px solid var(--ln2);padding:5px 10px;transition:all .15s;
+}
+.demo-x-link:hover{color:var(--t1);border-color:#3a3a3a;}
 
-/* TikTok-style signal scan card */
-.htk-card{
-  position:relative;margin-bottom:10px;
-  display:grid;grid-template-columns:1fr 50px;
-  height:210px;overflow:hidden;border-radius:4px;
-  border:1px solid #1e1e1e;
+/* LAYOUT */
+.demo-body{
+  position:fixed;top:44px;left:0;right:0;bottom:0;
+  display:flex;overflow:hidden;
+}
+
+/* PHONE MOCK */
+.demo-phone-col{
+  width:340px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  background:var(--bg);border-right:1px solid var(--ln);
+  padding:20px;
+}
+.phone-frame{
+  width:250px;height:450px;
+  background:var(--sf);border:1.5px solid var(--ln2);
+  position:relative;overflow:hidden;border-radius:4px;
 }
 .htk-vid{
-  position:relative;overflow:hidden;
-  background:linear-gradient(170deg,#d4380d 0%,#a8071a 45%,#4a0000 100%);
+  position:absolute;inset:0;
+  background:linear-gradient(170deg,#080808 0%,#1c0008 25%,#380010 50%,#1a0005 75%,#080808 100%);
+  z-index:0;
 }
-.htk-vid::after{
-  content:'';position:absolute;inset:0;
-  background:linear-gradient(transparent 30%,rgba(0,0,0,.85) 100%);
-}
-.htk-beam{
-  position:absolute;left:0;right:0;height:70px;z-index:5;
-  background:linear-gradient(transparent,rgba(254,44,85,.55),transparent);
-  filter:blur(6px);top:-70px;
-}
-@keyframes beam-move{from{top:-70px}to{top:calc(100% + 70px)}}
-.htk-beam.active{animation:beam-move 2.2s ease-in-out forwards}
-.htk-text{
-  position:absolute;bottom:28px;left:10px;right:6px;z-index:4;
-  font-size:10px;color:rgba(255,255,255,.92);line-height:1.6;
-}
-.htk-user-lbl{
-  font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:600;
-  color:#fff;margin-bottom:4px;
-}
-.htk-tags-lbl{
-  position:absolute;bottom:8px;left:10px;z-index:4;
-  font-size:9px;color:rgba(255,255,255,.5);
-}
-.htk-right{
-  background:#070707;border-left:1px solid #1a1a1a;
-  display:flex;flex-direction:column;align-items:center;
-  padding:10px 0;gap:12px;
-}
-.htk-av{
-  width:30px;height:30px;border-radius:50%;
-  background:var(--wh);border:2px solid var(--red);
-  display:grid;place-items:center;
-  font-size:7px;font-weight:700;color:#000;
-  font-family:'IBM Plex Mono',monospace;
-}
-.htk-ic{text-align:center;cursor:default}
-.htk-ic-s{font-size:16px;display:block}
-.htk-ic-n{font-family:'IBM Plex Mono',monospace;font-size:6px;color:rgba(255,255,255,.6);display:block}
-.htk-disc{
-  width:24px;height:24px;border-radius:50%;margin-top:auto;
-  background:conic-gradient(#222,#555,#222);
-  display:grid;place-items:center;font-size:9px;
-  border:1px solid rgba(255,255,255,.15);
-}
-.htk-disc.spin{animation:tk-spin 3s linear infinite}
-
-/* scan step bar */
-.htk-steps{
-  margin-bottom:8px;display:none;
-}
-.htk-steps.show{display:block}
-.htk-step-bars{display:grid;grid-template-columns:repeat(5,1fr);gap:3px;margin-bottom:5px}
-.htk-step-bar{height:3px;background:#1a1a1a;transition:background .35s}
-.htk-step-bar.done{background:var(--wh)}
-.htk-step-bar.act{background:var(--red);animation:pulse-seg .7s ease infinite}
-@keyframes pulse-seg{0%,100%{opacity:1}50%{opacity:.35}}
-.htk-step-txt{
-  font-family:'IBM Plex Mono',monospace;font-size:8px;color:var(--t4);
-  letter-spacing:1.5px;height:12px;overflow:hidden;
-}
-
-/* score ring */
-.score-ring-wrap{
-  display:flex;align-items:center;gap:16px;margin-bottom:4px;
-}
-.score-ring-svg-wrap{
-  position:relative;width:100px;height:100px;flex-shrink:0;
-  display:grid;place-items:center;
-}
-.score-ring-svg{
+.htk-chart-svg{
   position:absolute;inset:0;width:100%;height:100%;
-  transform:rotate(-90deg);
+  z-index:1;opacity:.35;pointer-events:none;
 }
-.ring-bg{fill:none;stroke:#141414;stroke-width:5}
-.ring-fill{
-  fill:none;stroke:var(--wh);stroke-width:5;stroke-linecap:round;
-  stroke-dasharray:283;stroke-dashoffset:283;
-  transition:stroke-dashoffset 1.6s cubic-bezier(.16,1,.3,1);
-}
-.score-num-center{text-align:center;z-index:1}
-.score-num-big{
-  font-family:'IBM Plex Mono',monospace;font-size:38px;font-weight:600;
-  line-height:1;letter-spacing:-3px;color:var(--t1);
-}
-.score-num-lbl{font-family:'IBM Plex Mono',monospace;font-size:7px;color:var(--t4);letter-spacing:2px}
-.score-ring-right{flex:1}
-.srr-verdict{
-  font-family:'IBM Plex Mono',monospace;font-size:8px;font-weight:600;
-  letter-spacing:2px;text-transform:uppercase;color:var(--t4);margin-bottom:4px;
-}
-.srr-conviction{
-  font-size:18px;font-weight:700;color:var(--t1);letter-spacing:-.4px;margin-bottom:8px;
-}
-.demo-segs{display:flex;gap:2px}
-.dseg{flex:1;height:3px;background:#141414;transition:background .4s}
-.dseg.on{background:var(--wh)}.dseg.half{background:#383838}
-
-/* SIGNAL CONFIRMED sticky banner */
-.hd-confirmed{
-  position:sticky;bottom:0;
-  background:var(--wh);color:var(--bk);
-  padding:13px 16px;
-  display:flex;align-items:center;justify-content:space-between;
-  margin:16px -16px 0;
-  transform:translateY(110%);
-  transition:transform .55s cubic-bezier(.16,1,.3,1);
-}
-.hd-confirmed.show{transform:translateY(0)}
-.hc-lbl{font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:700;letter-spacing:.5px;margin-bottom:2px}
-.hc-sub{font-family:'IBM Plex Mono',monospace;font-size:7px;color:rgba(0,0,0,.5);letter-spacing:2px}
-.hc-big{font-family:'IBM Plex Mono',monospace;font-size:42px;font-weight:700;line-height:1;letter-spacing:-3px}
-
-/* ── AGENT DEMO PANEL ── */
-.ad-layout{padding:16px 16px 100px}
-/* live stats bar */
-.ad-live-pill{
-  display:flex;align-items:center;gap:6px;margin-bottom:10px;
-  font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:2px;color:var(--green);
-}
-.ad-live-dot-g{width:5px;height:5px;border-radius:50%;background:var(--green);animation:blink 1s step-end infinite}
-.ad-live-bar{
-  display:grid;grid-template-columns:repeat(4,1fr);
-  border:1px solid var(--ln);margin-bottom:16px;
-}
-.ad-lstat{padding:10px 8px;border-right:1px solid var(--ln);text-align:center}
-.ad-lstat:last-child{border-right:none}
-.ad-lstat-n{font-family:'IBM Plex Mono',monospace;font-size:15px;font-weight:600;color:var(--t1);margin-bottom:2px}
-.ad-lstat-l{font-family:'IBM Plex Mono',monospace;font-size:6px;color:var(--t4);letter-spacing:1.5px;text-transform:uppercase}
-
-.hd-title-row{
-  display:flex;align-items:center;justify-content:space-between;
-  margin-bottom:14px;
-}
-.hd-title{
-  font-family:'IBM Plex Mono',monospace;font-size:8px;font-weight:600;
-  letter-spacing:2.5px;text-transform:uppercase;color:var(--red);
-}
-.hd-status{
-  display:flex;align-items:center;gap:5px;
-  font-family:'IBM Plex Mono',monospace;font-size:8px;color:var(--t3);
-}
-.hd-status-dot{width:5px;height:5px;border-radius:50%;background:var(--green)}
-.hd-status-dot.idle{background:var(--t5)}
-.hd-status-dot.busy{background:var(--red);animation:blink 1s infinite}
-
-/* mock textarea */
-.demo-ibox{
-  background:var(--sf);border:1px solid var(--ln2);margin-bottom:10px;
-}
-.demo-textarea{
-  width:100%;min-height:90px;padding:12px;
-  font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--t2);
-  line-height:1.65;display:block;
-  white-space:pre-wrap;word-break:break-word;
-}
-.demo-cursor{
-  display:inline-block;width:7px;height:13px;background:var(--t2);
-  animation:blink-c .7s step-end infinite;vertical-align:bottom;margin-left:1px;
-}
-
-.demo-ifoot{
-  display:flex;align-items:center;justify-content:space-between;
-  padding:6px 10px;border-top:1px solid var(--ln);
-  font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--t4);
-}
-
-/* mock CTA */
-.demo-cta{
-  width:100%;background:var(--wh);border:none;
-  font-family:'Space Grotesk',sans-serif;font-size:13px;font-weight:700;
-  color:var(--bk);padding:13px 16px;display:flex;
-  align-items:center;justify-content:space-between;margin-bottom:10px;
-  transition:box-shadow .3s;cursor:default;
-}
-.demo-cta.pulsing{box-shadow:0 0 24px rgba(255,255,255,.18)}
-
-/* demo result blocks */
-.demo-result{display:none}
-.demo-result.show{display:block}
-
-.dr-blk{border:1px solid var(--ln);margin-bottom:5px}
-.dr-hd{
-  padding:7px 12px;border-bottom:1px solid var(--ln);
-  display:flex;align-items:center;justify-content:space-between;
-  font-family:'IBM Plex Mono',monospace;font-size:7px;
-  letter-spacing:2.5px;text-transform:uppercase;color:var(--t4);
-}
-.dr-bd{padding:12px 12px}
-
-.demo-narr-cat{font-size:30px;font-weight:700;letter-spacing:-1.2px;color:var(--t1);margin-bottom:4px}
-.demo-narr-key{font-size:12px;color:var(--t2);font-style:italic}
-.demo-sent{
-  font-family:'IBM Plex Mono',monospace;font-size:8px;font-weight:600;
-  letter-spacing:1.5px;text-transform:uppercase;
-  background:var(--wh);color:var(--bk);padding:4px 9px;
-  display:inline-block;margin-top:8px;
-}
-
-.demo-score-big{
-  font-family:'IBM Plex Mono',monospace;font-size:64px;font-weight:600;
-  line-height:1;letter-spacing:-5px;color:var(--t1);margin-bottom:8px;
-}
-.demo-score-bar{height:2px;background:#141414;overflow:hidden}
-.demo-score-fill{height:100%;background:var(--wh);width:0;transition:width 1.4s cubic-bezier(.16,1,.3,1)}
-.demo-segs{display:flex;gap:2px;margin-top:8px}
-.dseg{flex:1;height:3px;background:#141414;transition:background .4s}
-.dseg.on{background:var(--wh)}.dseg.half{background:#383838}
-
-.demo-tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:6px}
-.dtag-tok{border:1px solid var(--t1);color:var(--t1);font-family:'IBM Plex Mono',monospace;font-size:10px;padding:3px 8px;opacity:0;transform:translateY(4px);transition:all .3s}
-.dtag-tok.in{opacity:1;transform:none}
-.dtag-kw{border:1px solid #222;color:var(--t3);font-family:'IBM Plex Mono',monospace;font-size:10px;padding:3px 8px;opacity:0;transition:all .3s}
-.dtag-kw.in{opacity:1}
-
-.demo-why{font-size:12px;color:var(--t2);line-height:1.7;opacity:0;transition:opacity .5s}
-.demo-why.in{opacity:1}
-
-.demo-action-blk{
-  border:1px solid var(--t1);background:rgba(255,255,255,.02);
-  padding:14px 12px;display:grid;grid-template-columns:1fr auto;gap:12px;
-  align-items:center;opacity:0;transition:opacity .4s;
-}
-.demo-action-blk.in{opacity:1}
-.dact-lbl{font-family:'IBM Plex Mono',monospace;font-size:7px;letter-spacing:2px;text-transform:uppercase;color:var(--t4);margin-bottom:4px}
-.dact-name{font-size:22px;font-weight:700;color:var(--t1);letter-spacing:-.4px;margin-bottom:3px}
-.dact-sub{font-size:11px;color:var(--t2);line-height:1.5}
-.dact-g{font-family:'IBM Plex Mono',monospace;font-size:26px;color:var(--t1)}
-
-/* ── AGENT DEMO PANEL ── */
-.ad-layout{padding:16px 16px 100px}
-
-.ad-section{margin-bottom:20px}
-.ad-section-lbl{
-  font-family:'IBM Plex Mono',monospace;font-size:8px;font-weight:600;
-  letter-spacing:2.5px;text-transform:uppercase;color:var(--t4);
-  margin-bottom:8px;display:flex;align-items:center;gap:8px;
-}
-.ad-section-lbl::after{content:'';flex:1;height:1px;background:var(--ln)}
-
-/* terminal */
-.term{
-  background:#080808;border:1px solid var(--ln2);
-  font-family:'IBM Plex Mono',monospace;font-size:11px;line-height:1.65;
-  padding:14px;position:relative;overflow:hidden;
-}
-.term-topbar{
-  display:flex;align-items:center;gap:5px;margin-bottom:12px;padding-bottom:10px;
-  border-bottom:1px solid var(--ln);
-}
-.term-dot{width:8px;height:8px;border-radius:50%}
-.term-title{font-size:9px;color:var(--t4);letter-spacing:1px;margin-left:6px}
-
-.t-comment{color:#444}
-.t-cmd{color:var(--t3)}
-.t-flag{color:#7ca}
-.t-url{color:#8ab4f8}
-.t-string{color:#ce9178}
-.t-key{color:#9cdcfe}
-.t-val{color:#4ade80}
-.t-val-str{color:#ce9178}
-.t-val-num{color:#b5cea8}
-.t-punc{color:var(--t4)}
-.t-method{color:var(--red);font-weight:600}
-
-.term-cursor{
-  display:inline-block;width:6px;height:12px;background:var(--t3);
-  animation:blink-c .8s step-end infinite;vertical-align:middle;
-}
-
-/* endpoints table */
-.ep-table{border:1px solid var(--ln);width:100%}
-.ep-row{
-  display:grid;grid-template-columns:auto auto 1fr;
-  border-bottom:1px solid var(--ln);padding:9px 12px;align-items:center;gap:10px;
-  transition:background .15s;
-}
-.ep-row:last-child{border-bottom:none}
-.ep-row:hover{background:var(--sf)}
-.ep-method{
-  font-family:'IBM Plex Mono',monospace;font-size:8px;font-weight:600;
-  letter-spacing:.5px;padding:2px 6px;white-space:nowrap;
-}
-.ep-method.p{background:var(--wh);color:var(--bk)}
-.ep-method.g{border:1px solid #2e2e2e;color:var(--t4)}
-.ep-path{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--t2)}
-.ep-desc{font-size:12px;color:var(--t3)}
-
-/* rate limits */
-.rl-grid{
-  display:grid;grid-template-columns:repeat(3,1fr);
-  border:1px solid var(--ln);
-}
-.rl-cell{
-  padding:12px 14px;border-right:1px solid var(--ln);text-align:center;
-}
-.rl-cell:last-child{border-right:none}
-.rl-num{
-  font-family:'IBM Plex Mono',monospace;font-size:22px;font-weight:600;
-  color:var(--t1);margin-bottom:3px;
-}
-.rl-lbl{font-family:'IBM Plex Mono',monospace;font-size:8px;color:var(--t3);letter-spacing:1.5px;text-transform:uppercase}
-
-/* ws stream */
-.ws-stream{
-  background:#080808;border:1px solid var(--ln2);
-  padding:12px 14px;
-  font-family:'IBM Plex Mono',monospace;font-size:10px;
-  color:var(--t3);line-height:1.8;
-  height:140px;overflow:hidden;position:relative;
-}
-.ws-stream::after{
-  content:'';position:absolute;bottom:0;left:0;right:0;height:40px;
-  background:linear-gradient(transparent,#080808);
-}
-.ws-line{display:block;animation:ws-appear .3s ease both}
-@keyframes ws-appear{from{opacity:0;transform:translateX(-6px)}to{opacity:1;transform:none}}
-.ws-line .wst{color:var(--t5)}
-.ws-line .wsn{color:var(--t1);font-weight:600}
-.ws-line .wss{color:var(--green)}
-.ws-line .wsr{color:var(--red)}
-
-/* demo bottom CTA */
-.demo-bottom{
-  position:absolute;bottom:0;left:0;right:0;
-  background:linear-gradient(transparent,var(--bk) 50%);
-  padding:30px 16px 16px;
-}
-.demo-get-access{
-  width:100%;background:var(--wh);border:none;
-  font-family:'Space Grotesk',sans-serif;
-  font-size:14px;font-weight:700;letter-spacing:.5px;
-  color:var(--bk);padding:15px 18px;cursor:pointer;
-  display:flex;align-items:center;justify-content:space-between;
-  transition:box-shadow .2s;
-}
-.demo-get-access:hover{box-shadow:0 0 28px rgba(255,255,255,.12)}
-
-/* ── WAITLIST PANEL ── */
-.wl-layout{padding:16px 16px 100px}
-
-.wl-hero{
-  text-align:center;padding:28px 16px 24px;
-  border-bottom:1px solid var(--ln);margin-bottom:24px;
-}
-.wl-eyebrow{
-  font-family:'IBM Plex Mono',monospace;font-size:8px;font-weight:600;
-  letter-spacing:3px;text-transform:uppercase;color:var(--red);margin-bottom:10px;
-}
-.wl-title{
-  font-size:28px;font-weight:700;letter-spacing:-1px;
-  color:var(--t1);margin-bottom:8px;line-height:1.2;
-}
-.wl-sub{font-size:13px;color:var(--t3);line-height:1.6;max-width:300px;margin:0 auto}
-
-.wl-stats{
-  display:grid;grid-template-columns:repeat(3,1fr);
-  border:1px solid var(--ln);margin-bottom:20px;
-}
-.wl-stat{padding:14px 10px;text-align:center;border-right:1px solid var(--ln)}
-.wl-stat:last-child{border-right:none}
-.wl-stat-n{
-  font-family:'IBM Plex Mono',monospace;font-size:20px;font-weight:600;
-  color:var(--t1);margin-bottom:3px;
-}
-.wl-stat-l{font-family:'IBM Plex Mono',monospace;font-size:7px;color:var(--t4);letter-spacing:1.5px;text-transform:uppercase}
-
-.wl-form-lbl{
-  font-family:'IBM Plex Mono',monospace;font-size:8px;font-weight:600;
-  letter-spacing:2px;text-transform:uppercase;color:var(--t4);
-  margin-bottom:6px;display:block;
-}
-.wl-input{
-  width:100%;background:var(--sf);border:1px solid var(--ln2);
-  font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--t1);
-  padding:12px 14px;margin-bottom:10px;outline:none;
-  transition:border-color .2s;
-}
-.wl-input:focus{border-color:#3a3a3a}
-.wl-input::placeholder{color:var(--t5)}
-
-.wl-roles{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:16px}
-.wl-role{
-  border:1px solid var(--ln2);background:none;
-  font-family:'IBM Plex Mono',monospace;font-size:8px;font-weight:600;
-  letter-spacing:1px;text-transform:uppercase;color:var(--t4);
-  padding:9px 6px;cursor:pointer;text-align:center;transition:all .2s;
-}
-.wl-role.sel{border-color:var(--t1);color:var(--t1);background:rgba(255,255,255,.04)}
-.wl-role:hover:not(.sel){border-color:#333;color:var(--t3)}
-
-.wl-submit{
-  width:100%;background:var(--wh);border:none;
-  font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:700;
-  color:var(--bk);padding:15px 18px;cursor:pointer;
-  display:flex;align-items:center;justify-content:space-between;
-  transition:box-shadow .2s;margin-bottom:12px;
-}
-.wl-submit:hover{box-shadow:0 0 28px rgba(255,255,255,.14)}
-.wl-submit:disabled{opacity:.4;cursor:not-allowed;box-shadow:none}
-.wl-note{
-  font-family:'IBM Plex Mono',monospace;font-size:8px;color:var(--t5);
-  text-align:center;line-height:1.6;
-}
-
-/* success state */
-.wl-success{
-  display:none;text-align:center;padding:40px 16px;
-}
-.wl-success.show{display:block}
-.wl-success-icon{font-size:48px;margin-bottom:16px}
-.wl-success-title{font-size:22px;font-weight:700;color:var(--t1);margin-bottom:8px;letter-spacing:-.5px}
-.wl-success-sub{font-size:13px;color:var(--t3);line-height:1.6;margin-bottom:20px}
-.wl-success-ref{
-  font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--t4);
-  border:1px solid var(--ln);padding:8px 14px;display:inline-block;letter-spacing:1px;
-}
-
-/* agent pill info */
-.agent-feature-row{
-  display:flex;flex-direction:column;gap:4px;margin-bottom:16px;
-}
-.agent-feature{
-  display:flex;align-items:center;gap:9px;
-  font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--t3);
-}
-.agent-feature::before{content:'>';color:var(--t4)}
-
-/* ══════════════════════════════════════════════
-   MAIN APP (hidden until auth)
-══════════════════════════════════════════════ */
-#app{display:none;position:relative;z-index:1}
-#app.show{display:block}
-
-/* ── TICKER ── */
-.ticker{
-  position:fixed;top:0;left:0;right:0;z-index:300;
-  height:22px;background:var(--sf);border-bottom:1px solid var(--ln);
-  display:flex;align-items:center;overflow:hidden;
-}
-.ticker-badge{
-  flex-shrink:0;height:100%;padding:0 10px;
-  background:var(--red);display:flex;align-items:center;
-  font-family:'IBM Plex Mono',monospace;font-size:7px;
-  font-weight:600;letter-spacing:2px;color:var(--wh);
-}
-.ticker-track{flex:1;overflow:hidden;mask-image:linear-gradient(90deg,transparent,black 30px,black calc(100% - 30px),transparent)}
-.ticker-inner{display:flex;animation:scroll 32s linear infinite;width:max-content}
-@keyframes scroll{to{transform:translateX(-50%)}}
-.tick-item{
-  display:flex;align-items:center;gap:7px;padding:0 20px;
-  font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--t3);
-  border-right:1px solid var(--ln);height:22px;white-space:nowrap;
-}
-.tick-item .up{color:var(--green);font-weight:600}
-.tick-item .dn{color:var(--red);font-weight:600}
-.tick-div{width:3px;height:3px;border-radius:50%;background:var(--t5)}
-
-/* ── NAV ── */
-nav{
-  position:fixed;top:22px;left:0;right:0;z-index:200;
-  background:rgba(0,0,0,.95);backdrop-filter:blur(14px);
-  border-bottom:1px solid var(--ln);
-}
-.nav-top{
-  height:46px;padding:0 16px;
-  display:flex;align-items:center;justify-content:space-between;
-}
-.nav-logo{display:flex;align-items:center;gap:9px;cursor:pointer}
-.logo-sq{
-  width:28px;height:28px;background:var(--wh);
-  display:grid;place-items:center;flex-shrink:0;
-}
-.logo-nm{font-size:15px;font-weight:700;letter-spacing:-.4px;color:var(--t1)}
-.logo-vr{font-family:'IBM Plex Mono',monospace;font-size:7px;color:var(--t4);letter-spacing:3px;text-transform:uppercase}
-.nav-right{display:flex;align-items:center;gap:8px}
-
-/* User badge */
-.user-badge{
-  display:flex;align-items:center;gap:5px;
-  font-family:'IBM Plex Mono',monospace;
-  font-size:8px;color:var(--t3);letter-spacing:.5px;
-  border:1px solid var(--ln2);padding:4px 8px;cursor:pointer;
-  transition:all .2s;
-}
-.user-badge:hover{border-color:#444;color:var(--t2)}
-.user-badge.human .ub-dot{background:var(--green)}
-.user-badge.agent .ub-dot{background:#60a5fa}
-.ub-dot{width:5px;height:5px;border-radius:50%;background:var(--t5)}
-
-.live-pill{
-  display:flex;align-items:center;gap:5px;
-  font-family:'IBM Plex Mono',monospace;font-size:8px;color:var(--t4);
-}
-.live-dot{
-  width:5px;height:5px;border-radius:50%;background:var(--red);
-  animation:blink 1.8s ease-in-out infinite;
-  box-shadow:0 0 5px var(--red);
-}
-@keyframes blink{0%,100%{opacity:1}50%{opacity:.25}}
-
-.nav-tabs{display:flex;border-top:1px solid var(--ln)}
-.tab{
-  flex:1;background:none;border:none;
-  font-family:'Space Grotesk',sans-serif;
-  font-size:11px;font-weight:600;color:var(--t4);
-  padding:9px 0;border-bottom:2px solid transparent;
-  cursor:pointer;transition:color .15s,border-color .15s;text-align:center;letter-spacing:.4px;
-}
-.tab.active{color:var(--t1);border-bottom-color:var(--wh)}
-.tab:hover:not(.active){color:var(--t2)}
-
-/* ── SCREENS ── */
-.screen{display:none;padding-top:106px;min-height:100dvh;padding-bottom:68px}
-.screen.active{display:block;animation:slideup .22s ease}
-@keyframes slideup{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
-
-/* ══════════════════════════════════════════════
-   ANALYZE SCREEN
-══════════════════════════════════════════════ */
-
-/* HERO */
-.hero{
-  padding:28px 16px 22px;border-bottom:1px solid var(--ln);
-  position:relative;overflow:hidden;
-}
-.hero::after{
-  content:'';position:absolute;
-  top:-80px;right:-60px;width:280px;height:280px;
-  border-radius:50%;
-  background:radial-gradient(circle,rgba(254,44,85,.06) 0%,transparent 70%);
+.htk-scanline{
+  position:absolute;inset:0;z-index:2;
+  background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,0,0,.08) 3px,rgba(0,0,0,.08) 4px);
   pointer-events:none;
 }
-.kicker{
-  display:flex;align-items:center;gap:9px;margin-bottom:13px;
+.htk-grain{
+  position:absolute;inset:0;z-index:2;opacity:.06;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  pointer-events:none;
 }
-.kicker-line{width:18px;height:1px;background:var(--red)}
-.kicker-txt{
-  font-family:'IBM Plex Mono',monospace;font-size:8px;font-weight:600;
-  letter-spacing:3.5px;text-transform:uppercase;color:var(--red);
+.htk-price-row{
+  position:absolute;top:9px;left:10px;z-index:4;
+  display:flex;align-items:center;gap:6px;
 }
-.hero-h1{
-  font-size:clamp(30px,10vw,46px);font-weight:700;
-  letter-spacing:-2px;line-height:.92;color:var(--t1);margin-bottom:13px;
+.htk-price-token{
+  font-family:'IBM Plex Mono',monospace;font-size:7px;font-weight:700;
+  color:#fff;background:rgba(254,44,85,.55);letter-spacing:.5px;padding:2px 5px;
 }
-.hero-h1 .outline{-webkit-text-stroke:1.5px var(--t1);color:transparent}
-.hero-p{font-size:13px;color:var(--t2);line-height:1.65;max-width:300px}
+.htk-price-val{
+  font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:700;color:#4ade80;
+}
+.htk-bottom{
+  position:absolute;bottom:12px;left:10px;right:50px;z-index:4;
+}
+.htk-user{display:flex;align-items:center;gap:6px;margin-bottom:6px;}
+.htk-avatar{
+  width:22px;height:22px;border-radius:50%;
+  background:linear-gradient(135deg,#ff0050,#ff6b35);
+  display:flex;align-items:center;justify-content:center;
+  font-size:9px;font-weight:700;color:#fff;
+}
+.htk-username{font-size:9px;font-weight:700;color:#fff;}
+.htk-desc{font-size:8px;color:rgba(255,255,255,.75);line-height:1.4;font-family:'IBM Plex Mono',monospace;}
+.htk-tags{margin-top:4px;display:flex;flex-wrap:wrap;gap:3px;}
+.htk-tag{font-size:7px;color:var(--tg);font-family:'IBM Plex Mono',monospace;}
+.htk-right-col{
+  position:absolute;right:8px;bottom:60px;
+  display:flex;flex-direction:column;align-items:center;gap:12px;z-index:4;
+}
+.htk-action{display:flex;flex-direction:column;align-items:center;gap:2px;}
+.htk-action-icon{
+  width:28px;height:28px;border-radius:50%;
+  background:rgba(255,255,255,.12);
+  display:flex;align-items:center;justify-content:center;font-size:13px;
+}
+.htk-action-val{font-size:7px;color:rgba(255,255,255,.6);font-family:'IBM Plex Mono',monospace;}
+.htk-signal-overlay{
+  position:absolute;top:0;right:0;width:115px;bottom:0;
+  background:linear-gradient(90deg,transparent,rgba(8,8,8,.92));
+  z-index:3;display:flex;flex-direction:column;justify-content:center;padding:8px;
+}
+.sig-label{font-family:'IBM Plex Mono',monospace;font-size:6px;color:var(--t4);letter-spacing:.8px;margin-bottom:4px;}
+.sig-score{font-family:'IBM Plex Mono',monospace;font-size:22px;font-weight:700;color:var(--acc);line-height:1;margin-bottom:2px;}
+.sig-grade{font-size:8px;font-weight:700;color:var(--acc);font-family:'IBM Plex Mono',monospace;letter-spacing:.5px;}
+.sig-coin{margin-top:8px;font-family:'IBM Plex Mono',monospace;font-size:7px;color:var(--t3);letter-spacing:.3px;}
+.sig-ticker{font-size:12px;font-weight:700;color:var(--t1);margin-top:2px;font-family:'IBM Plex Mono',monospace;}
+.sig-change{font-size:9px;color:var(--acc);font-family:'IBM Plex Mono',monospace;}
+.sig-divider{height:1px;background:var(--ln);margin:6px 0;}
+.sig-mini-label{font-family:'IBM Plex Mono',monospace;font-size:6px;color:var(--t4);letter-spacing:.5px;margin-bottom:3px;}
+.sig-bar-row{display:flex;align-items:center;gap:4px;margin-bottom:3px;}
+.sig-bar-bg{flex:1;height:3px;background:var(--ln2);border-radius:1px;overflow:hidden;}
+.sig-bar-fill{height:100%;border-radius:1px;}
+.sig-bar-pct{font-family:'IBM Plex Mono',monospace;font-size:6px;color:var(--t3);}
 
-/* STATS */
-.stats-grid{
-  display:grid;grid-template-columns:repeat(3,1fr);
-  border-bottom:1px solid var(--ln);
+/* PANELS */
+.demo-panels{
+  flex:1;overflow-y:auto;overflow-x:hidden;
+  padding:20px;display:flex;flex-direction:column;gap:16px;
 }
-.stat-cell{padding:13px 15px;border-right:1px solid var(--ln)}
-.stat-cell:last-child{border-right:none}
-.sn{
-  font-family:'IBM Plex Mono',monospace;
-  font-size:24px;font-weight:600;color:var(--t1);
-  line-height:1;margin-bottom:4px;letter-spacing:-1px;
-}
-.sl{
-  font-family:'IBM Plex Mono',monospace;
-  font-size:7px;color:var(--t3);letter-spacing:2px;text-transform:uppercase;
-}
+.demo-panels::-webkit-scrollbar{width:3px;}
+.demo-panels::-webkit-scrollbar-thumb{background:var(--ln2);}
 
-/* ALERT STRIP */
-.alert-strip{
+/* SIGNAL CARD */
+.signal-card{background:var(--sf);border:1px solid var(--ln2);padding:16px;}
+.sc-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px;}
+.sc-coin{display:flex;align-items:center;gap:10px;}
+.sc-icon{
+  width:36px;height:36px;border-radius:2px;
+  background:linear-gradient(135deg,rgba(74,222,128,.15),rgba(34,197,94,.05));
+  border:1px solid rgba(74,222,128,.2);
+  display:flex;align-items:center;justify-content:center;
+  font-size:14px;font-weight:700;color:var(--acc);font-family:'IBM Plex Mono',monospace;
+}
+.sc-name{font-size:13px;font-weight:700;color:var(--t1);}
+.sc-sym{font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--t3);letter-spacing:.5px;margin-top:1px;}
+.sc-score-col{text-align:right;}
+.sc-score{font-family:'IBM Plex Mono',monospace;font-size:26px;font-weight:700;color:var(--acc);line-height:1;}
+.sc-grade{font-size:9px;color:var(--acc);font-family:'IBM Plex Mono',monospace;letter-spacing:.5px;}
+.sc-metrics{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:12px;}
+.sc-metric{background:var(--sf2);border:1px solid var(--ln);padding:8px;text-align:center;}
+.sc-metric-label{font-family:'IBM Plex Mono',monospace;font-size:7px;color:var(--t4);letter-spacing:.5px;margin-bottom:4px;}
+.sc-metric-val{font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:700;color:var(--t1);}
+.sc-metric-val.up{color:var(--acc);}
+.sc-bar-row{display:flex;align-items:center;gap:8px;margin-bottom:6px;}
+.sc-bar-label{font-family:'IBM Plex Mono',monospace;font-size:8px;color:var(--t3);width:80px;flex-shrink:0;}
+.sc-bar-track{flex:1;height:4px;background:var(--ln2);border-radius:1px;overflow:hidden;}
+.sc-bar-fill{height:100%;border-radius:1px;transition:width 1.5s cubic-bezier(.4,0,.2,1);}
+.sc-bar-val{font-family:'IBM Plex Mono',monospace;font-size:8px;color:var(--t2);width:30px;text-align:right;flex-shrink:0;}
+.sc-footer{display:flex;align-items:center;justify-content:space-between;margin-top:12px;padding-top:10px;border-top:1px solid var(--ln);}
+.sc-time{font-family:'IBM Plex Mono',monospace;font-size:8px;color:var(--t4);letter-spacing:.3px;}
+.sc-action{
+  font-family:'IBM Plex Mono',monospace;font-size:8px;font-weight:700;
+  color:var(--acc);letter-spacing:.5px;cursor:pointer;
+  border:1px solid rgba(74,222,128,.25);padding:4px 10px;
+  background:rgba(74,222,128,.05);transition:all .15s;
+}
+.sc-action:hover{background:rgba(74,222,128,.1);}
+
+/* FEED CARD */
+.feed-card{background:var(--sf);border:1px solid var(--ln2);}
+.feed-header{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:10px 14px;border-bottom:1px solid var(--ln);
+}
+.feed-title{font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:600;color:var(--t3);letter-spacing:.8px;}
+.feed-dot{width:6px;height:6px;border-radius:50%;background:var(--tg);animation:pulse 1.5s infinite;}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.feed-item{
+  display:flex;align-items:flex-start;gap:10px;
+  padding:10px 14px;border-bottom:1px solid var(--ln);transition:background .15s;
+}
+.feed-item:last-child{border-bottom:none;}
+.feed-item:hover{background:var(--sf2);}
+.feed-avatar{
+  width:28px;height:28px;border-radius:50%;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  font-size:10px;font-weight:700;color:#fff;
+}
+.feed-right{flex:1;min-width:0;}
+.feed-user{display:flex;align-items:center;gap:6px;margin-bottom:3px;}
+.feed-handle{font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:700;color:var(--t2);}
+.feed-verified{font-size:8px;color:var(--tg);}
+.feed-text{font-size:10px;color:var(--t2);line-height:1.4;}
+.feed-text .coin{font-family:'IBM Plex Mono',monospace;font-weight:700;color:var(--acc);}
+.feed-text .tag{color:var(--tg);font-family:'IBM Plex Mono',monospace;}
+.feed-meta{display:flex;align-items:center;gap:10px;margin-top:5px;}
+.feed-signal-badge{font-family:'IBM Plex Mono',monospace;font-size:7px;font-weight:700;padding:2px 6px;letter-spacing:.3px;}
+.feed-signal-badge.bull{background:rgba(74,222,128,.1);color:var(--acc);border:1px solid rgba(74,222,128,.2);}
+.feed-signal-badge.bear{background:rgba(248,113,113,.1);color:var(--red);border:1px solid rgba(248,113,113,.2);}
+.feed-signal-badge.neutral{background:rgba(251,146,60,.1);color:var(--orange);border:1px solid rgba(251,146,60,.2);}
+.feed-views{font-family:'IBM Plex Mono',monospace;font-size:7px;color:var(--t4);}
+.feed-score{font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:700;}
+.feed-score.hi{color:var(--acc);}
+.feed-score.mid{color:var(--orange);}
+
+/* ABOUT CARD */
+.about-card{background:var(--sf);border:1px solid var(--ln2);overflow:hidden;}
+.about-header{
+  padding:14px 16px;border-bottom:1px solid var(--ln);
   display:flex;align-items:center;gap:10px;
-  padding:9px 14px;background:var(--sf);
+}
+.about-icon{
+  width:28px;height:28px;background:var(--tg);flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+}
+.about-title-text{font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:700;color:var(--t1);letter-spacing:.5px;}
+.about-sub{font-family:'IBM Plex Mono',monospace;font-size:7px;color:var(--t4);letter-spacing:.3px;margin-top:1px;}
+.about-body{padding:16px;display:flex;flex-direction:column;gap:14px;}
+.about-desc{font-size:11px;color:var(--t2);line-height:1.65;}
+.about-desc strong{color:var(--t1);font-weight:700;}
+.about-stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;}
+.about-stat{background:var(--sf2);border:1px solid var(--ln);padding:10px;text-align:center;}
+.about-stat-val{font-family:'IBM Plex Mono',monospace;font-size:16px;font-weight:700;color:var(--acc);}
+.about-stat-label{font-family:'IBM Plex Mono',monospace;font-size:7px;color:var(--t4);letter-spacing:.5px;margin-top:3px;}
+.about-features{display:flex;flex-direction:column;gap:8px;}
+.about-feature{display:flex;align-items:flex-start;gap:10px;padding:10px;background:var(--sf2);border:1px solid var(--ln);}
+.about-feature-icon{width:24px;height:24px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:12px;}
+.about-feature-name{font-size:11px;font-weight:700;color:var(--t1);margin-bottom:2px;}
+.about-feature-desc{font-size:9px;color:var(--t3);line-height:1.5;font-family:'IBM Plex Mono',monospace;}
+.about-links{display:flex;gap:8px;flex-wrap:wrap;}
+.about-link{
+  display:inline-flex;align-items:center;gap:6px;
+  font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:700;
+  color:var(--t1);text-decoration:none;
+  border:1px solid var(--ln2);padding:8px 14px;
+  background:var(--sf2);transition:all .15s;letter-spacing:.3px;
+}
+.about-link:hover{border-color:#3a3a3a;background:var(--sf3);}
+.about-link.primary{border-color:rgba(255,0,80,.35);color:var(--tg);background:rgba(255,0,80,.06);}
+.about-link.primary:hover{background:rgba(255,0,80,.12);}
+
+/* SECTION LABEL */
+.section-label{
+  font-family:'IBM Plex Mono',monospace;font-size:8px;font-weight:700;
+  color:var(--t4);letter-spacing:1.2px;padding-bottom:6px;
   border-bottom:1px solid var(--ln);
-  min-height:38px;transition:opacity .4s;
-}
-.alert-dot{width:5px;height:5px;border-radius:50%;background:var(--red);flex-shrink:0;animation:blink 1.4s infinite}
-.alert-txt{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--t2);flex:1;line-height:1.4}
-.alert-age{font-family:'IBM Plex Mono',monospace;font-size:8px;color:var(--t4);white-space:nowrap}
-
-/* INPUT */
-.field-wrap{padding:13px 16px 0}
-.field-lbl-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:7px}
-.fl{
-  font-family:'IBM Plex Mono',monospace;font-size:8px;font-weight:600;
-  letter-spacing:2.5px;text-transform:uppercase;color:var(--t3);
-}
-.cbar-wrap{display:flex;align-items:center;gap:6px}
-.cbar-track{width:40px;height:2px;background:var(--ln2);overflow:hidden}
-.cbar-fill{height:100%;background:var(--t2);width:0;transition:width .2s}
-.cbar-num{
-  font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--t4);
-  min-width:30px;text-align:right;transition:color .2s;
-}
-.cbar-num.lit{color:var(--t1)}
-
-.ibox{background:var(--sf);border:1px solid var(--ln2);transition:border-color .2s}
-.ibox:focus-within{border-color:#333}
-textarea{
-  display:block;width:100%;min-height:118px;
-  background:none;border:none;outline:none;
-  color:var(--t1);font-family:'Space Grotesk',sans-serif;
-  font-size:14px;line-height:1.7;padding:14px;resize:none;
-}
-textarea::placeholder{color:var(--t5);font-size:13px}
-.ifoot{
-  display:flex;align-items:center;justify-content:space-between;
-  padding:7px 12px;border-top:1px solid var(--ln);
-}
-.ihint{font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--t4)}
-.iclear{
-  background:none;border:none;cursor:pointer;
-  font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--t4);
-  letter-spacing:1px;transition:color .15s;
-}
-.iclear:hover{color:var(--red)}
-
-/* DEMO CHIPS */
-.chips{padding:9px 16px 0;display:flex;gap:5px;overflow-x:auto;scrollbar-width:none}
-.chips::-webkit-scrollbar{display:none}
-.chip{
-  flex-shrink:0;background:none;border:1px solid var(--ln2);
-  font-family:'IBM Plex Mono',monospace;font-size:8px;font-weight:600;
-  letter-spacing:2px;text-transform:uppercase;color:var(--t3);
-  padding:6px 10px;cursor:pointer;transition:all .15s;
-}
-.chip:hover{border-color:#3c3c3c;color:var(--t1);background:var(--sf2)}
-
-/* CTA */
-.cta-row{padding:11px 16px 0}
-.cta{
-  width:100%;background:var(--wh);border:none;
-  font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:700;
-  letter-spacing:.5px;color:var(--bk);padding:15px 18px;cursor:pointer;
-  display:flex;align-items:center;justify-content:space-between;
-  transition:box-shadow .2s,opacity .15s,transform .1s;
-}
-.cta:hover{box-shadow:0 0 22px rgba(255,255,255,.1)}
-.cta:active{transform:scale(.993)}
-.cta.busy{opacity:.45;pointer-events:none}
-.cta-r{display:flex;align-items:center;gap:8px}
-.cta-spin{width:13px;height:13px;border:2px solid rgba(0,0,0,.2);border-top-color:var(--bk);border-radius:50%;animation:spin .6s linear infinite;display:none}
-
-/* SCAN */
-.scan-wrap{
-  margin:9px 16px 0;background:var(--sf);border:1px solid var(--ln);
-  padding:11px 14px;display:none;position:relative;overflow:hidden;
-}
-.scan-wrap.show{display:block}
-.scan-wrap::after{
-  content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;
-  background:linear-gradient(90deg,transparent,rgba(255,255,255,.025),transparent);
-  animation:sweep 1.1s linear infinite;
-}
-@keyframes sweep{to{left:200%}}
-.scan-segs{display:flex;gap:2px;margin-bottom:8px}
-.sseg{flex:1;height:2px;background:#171717;transition:background .3s}
-.sseg.done{background:var(--wh)}.sseg.active{background:#3a3a3a}
-.scan-txt{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--t2)}
-.scan-cur{animation:blink-c .7s step-end infinite}
-@keyframes blink-c{0%,100%{opacity:1}50%{opacity:0}}
-
-/* API STRIP */
-.api-strip{
-  margin:9px 16px 0;
-  display:grid;grid-template-columns:repeat(3,1fr);
-  border:1px solid var(--ln);
-}
-.api-cell{padding:9px 12px;border-right:1px solid var(--ln)}
-.api-cell:last-child{border-right:none}
-.api-m{
-  display:inline-block;font-family:'IBM Plex Mono',monospace;
-  font-size:7px;font-weight:600;letter-spacing:.5px;
-  padding:2px 5px;margin-bottom:3px;
-}
-.api-m.p{background:var(--wh);color:var(--bk)}
-.api-m.g{border:1px solid #2e2e2e;color:var(--t4)}
-.api-ep{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--t2);display:block}
-.api-d{font-size:9px;color:var(--t4);display:block;margin-top:1px}
-
-/* ERROR */
-.err-box{
-  margin:7px 16px 0;padding:9px 12px;
-  border-left:2px solid var(--red);background:var(--red-a);
-  font-family:'IBM Plex Mono',monospace;font-size:10px;color:#ff7090;
-  display:none;
-}
-.err-box.show{display:block}
-
-/* ══════════════════════════════════════════════
-   RESULT
-══════════════════════════════════════════════ */
-#result{margin:13px 16px 10px;display:none}
-#result.show{display:block;animation:slideup .35s ease}
-
-.r-topbar{
-  display:flex;align-items:center;justify-content:space-between;
-  padding-bottom:9px;border-bottom:1px solid var(--ln);margin-bottom:9px;
-}
-.r-lbl{
-  font-family:'IBM Plex Mono',monospace;font-size:7px;
-  letter-spacing:3.5px;text-transform:uppercase;color:var(--red);
-}
-.r-acts{display:flex;gap:5px;align-items:center}
-.rbtn{
-  background:none;border:1px solid var(--ln2);
-  font-family:'IBM Plex Mono',monospace;font-size:8px;color:var(--t3);
-  padding:4px 9px;cursor:pointer;transition:all .15s;letter-spacing:.5px;
-}
-.rbtn:hover{border-color:#3c3c3c;color:var(--t1)}
-.rbtn.ok{border-color:var(--green);color:var(--green)}
-.r-id{font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--t4)}
-
-/* BLOCKS */
-.blk{border:1px solid var(--ln);margin-bottom:5px}
-.blk-hd{
-  padding:7px 12px;border-bottom:1px solid var(--ln);
-  display:flex;align-items:center;justify-content:space-between;
-}
-.blk-lbl{
-  font-family:'IBM Plex Mono',monospace;font-size:7px;
-  letter-spacing:2.5px;text-transform:uppercase;color:var(--t4);
-}
-.blk-bd{padding:14px 12px}
-
-/* 01 narrative */
-.narr-grid{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:start}
-.narr-cat{font-size:34px;font-weight:700;letter-spacing:-1.4px;line-height:1;margin-bottom:6px;color:var(--t1)}
-.narr-key{font-size:12px;color:var(--t2);font-style:italic;line-height:1.5}
-.sent-pill{
-  font-family:'IBM Plex Mono',monospace;font-size:8px;font-weight:600;
-  letter-spacing:1.5px;text-transform:uppercase;padding:5px 10px;white-space:nowrap;
-}
-.sent-pill.b{background:var(--wh);color:var(--bk)}
-.sent-pill.r{background:var(--red);color:var(--wh)}
-.sent-pill.n{border:1px solid #333;color:var(--t3)}
-
-/* 02 score */
-.score-row{display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:end;margin-bottom:14px}
-.score-num{
-  font-family:'IBM Plex Mono',monospace;font-size:72px;font-weight:600;
-  line-height:.88;letter-spacing:-6px;color:var(--t1);
-}
-.score-meta{padding-bottom:6px}
-.score-denom{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--t4);margin-bottom:10px}
-.verd{
-  font-family:'IBM Plex Mono',monospace;font-size:8px;font-weight:600;
-  letter-spacing:2px;text-transform:uppercase;padding:4px 10px;display:inline-block;
-}
-.vh{background:var(--wh);color:var(--bk)}
-.vs{border:1px solid var(--wh);color:var(--wh)}
-.vm{border:1px solid #444;color:var(--t2)}
-.vl{border:1px solid #2a2a2a;color:var(--t3)}
-.vn{border:1px solid #1e1e1e;color:var(--t4)}
-
-.score-bar{height:2px;background:#151515;overflow:hidden;margin-top:14px}
-.score-fill{height:100%;background:var(--wh);width:0;transition:width 1.3s cubic-bezier(.16,1,.3,1)}
-.segs-row{display:flex;gap:2px;margin-top:8px}
-.seg{flex:1;height:3px;background:#151515;transition:background .5s}
-.seg.on{background:var(--wh)}.seg.half{background:#383838}
-
-/* 03 tags */
-.tag-s{margin-bottom:10px}.tag-s:last-child{margin-bottom:0}
-.tag-sl{font-family:'IBM Plex Mono',monospace;font-size:7px;letter-spacing:2px;text-transform:uppercase;color:var(--t4);margin-bottom:6px}
-.tagset{display:flex;flex-wrap:wrap;gap:5px}
-.tag{font-family:'IBM Plex Mono',monospace;font-size:11px;padding:3px 9px}
-.tag.tok{border:1px solid var(--t1);color:var(--t1)}
-.tag.kw{border:1px solid #222;color:var(--t3)}
-.tag.nil{color:var(--t4);font-style:italic}
-
-/* 04 why */
-.why-p{font-size:13px;color:var(--t2);line-height:1.75}
-
-/* 05 action */
-.action-blk{
-  border:1px solid var(--ln);padding:15px 13px;
-  display:grid;grid-template-columns:1fr auto;gap:14px;align-items:center;
-  margin-bottom:5px;
-}
-.action-blk.es{border-color:var(--t1);background:rgba(255,255,255,.015)}
-.action-blk.re{border-color:#3d3d3d}
-.action-blk.wa{border-color:var(--ln2)}
-.action-blk.ig{border-color:var(--ln);opacity:.55}
-
-.act-lbl{font-family:'IBM Plex Mono',monospace;font-size:7px;letter-spacing:2px;text-transform:uppercase;color:var(--t4);margin-bottom:5px}
-.act-name{font-size:26px;font-weight:700;letter-spacing:-.6px;color:var(--t1);margin-bottom:4px}
-.action-blk.ig .act-name{color:var(--t4)}
-.act-sub{font-size:12px;color:var(--t2);line-height:1.55}
-.act-g{font-family:'IBM Plex Mono',monospace;font-size:28px;color:var(--t4)}
-.action-blk.es .act-g{color:var(--t1)}.action-blk.re .act-g{color:var(--t2)}
-
-.r-foot{display:flex;align-items:center;justify-content:space-between;margin-top:5px}
-.r-ts{font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--t4)}
-.share-b{
-  background:none;border:1px solid var(--ln2);
-  font-family:'IBM Plex Mono',monospace;font-size:8px;color:var(--t3);
-  padding:5px 10px;cursor:pointer;transition:all .15s;
-}
-.share-b:hover{border-color:#3c3c3c;color:var(--t1)}
-
-/* ══════════════════════════════════════════════
-   TRENDS
-══════════════════════════════════════════════ */
-.pg-hd{
-  padding:20px 16px 14px;border-bottom:1px solid var(--ln);
-  display:flex;align-items:flex-end;justify-content:space-between;
-}
-.pg-t{font-size:20px;font-weight:700;letter-spacing:-.6px;color:var(--t1)}
-.pg-s{font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--t3);margin-top:3px}
-.refr{
-  background:none;border:1px solid var(--ln2);
-  font-family:'IBM Plex Mono',monospace;font-size:8px;color:var(--t3);
-  letter-spacing:1px;padding:7px 10px;cursor:pointer;transition:all .15s;
-}
-.refr:hover{border-color:#3a3a3a;color:var(--t1)}
-
-.trend-item{
-  border-bottom:1px solid var(--ln);padding:13px 16px;
-  transition:background .15s,padding-left .2s;animation:slideup .28s ease both;
-}
-.trend-item:hover{background:var(--sf);padding-left:20px}
-.tr1{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
-.tl{display:flex;align-items:center;gap:10px}
-.trk{font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--t5);width:22px}
-.tnm{font-size:15px;font-weight:700;letter-spacing:-.3px;color:var(--t1)}
-.tgr{font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;color:var(--green)}
-.tr2{display:flex;align-items:center;gap:8px;margin-bottom:6px;padding-left:32px}
-.tsig{font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--t3);white-space:nowrap}
-.tbar{flex:1;height:1px;background:#141414;overflow:hidden}
-.tbfill{height:100%;background:var(--t3)}
-.tscr{font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:600;color:var(--t2)}
-.tsum{font-size:12px;color:var(--t2);line-height:1.55;padding-left:32px}
-
-.sk-item{border-bottom:1px solid var(--ln);padding:14px 16px}
-.sk{
-  background:linear-gradient(90deg,#0a0a0a 25%,#161616 50%,#0a0a0a 75%);
-  background-size:200% 100%;animation:shimmer 1.4s infinite;
-  height:9px;margin-bottom:7px;
-}
-@keyframes shimmer{from{background-position:-200% 0}to{background-position:200% 0}}
-
-/* ══════════════════════════════════════════════
-   HISTORY
-══════════════════════════════════════════════ */
-.hist-item{
-  border-bottom:1px solid var(--ln);padding:12px 16px;
-  cursor:pointer;transition:background .15s,padding-left .2s;
-  animation:slideup .22s ease both;
-}
-.hist-item:hover{background:var(--sf);padding-left:20px}
-.h1{display:flex;align-items:center;justify-content:space-between;margin-bottom:3px}
-.hcat{font-size:14px;font-weight:700;letter-spacing:-.3px;color:var(--t1)}
-.htime{font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--t3)}
-.hnarr{font-size:12px;color:var(--t2);font-style:italic;margin-bottom:7px}
-.h2{display:flex;align-items:center;gap:7px}
-.hscr{font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--t3);border:1px solid var(--ln);padding:2px 7px}
-.hsent{font-family:'IBM Plex Mono',monospace;font-size:8px;padding:2px 8px;letter-spacing:1px;text-transform:uppercase}
-.hsent.b{background:var(--wh);color:var(--bk)}
-.hsent.r{background:var(--red);color:var(--wh)}
-.hsent.n{border:1px solid #333;color:var(--t3)}
-.hact{font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--t2);margin-left:auto}
-
-.empty{padding:55px 16px;text-align:center;font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--t5);letter-spacing:2.5px;text-transform:uppercase}
-
-/* ── BOTTOM BAR ── */
-.bbar{
-  position:fixed;bottom:0;left:0;right:0;z-index:100;
-  background:rgba(0,0,0,.96);border-top:1px solid var(--ln);
-  padding:9px 16px;display:flex;align-items:center;justify-content:space-between;
-}
-.bbar-txt{font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--t3)}
-.bbar-txt strong{color:var(--t1);font-weight:600}
-.bbar-v{font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--t5)}
-
-/* ── TOAST ── */
-.toast{
-  position:fixed;bottom:52px;left:50%;
-  transform:translateX(-50%) translateY(6px);
-  background:var(--wh);color:var(--bk);
-  font-family:'IBM Plex Mono',monospace;
-  font-size:10px;font-weight:600;letter-spacing:.3px;
-  padding:8px 16px;z-index:600;
-  opacity:0;transition:all .2s;pointer-events:none;white-space:nowrap;
-}
-.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
-
-.copy-flash{
-  position:fixed;top:90px;right:16px;
-  background:var(--wh);color:var(--bk);
-  font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:600;
-  letter-spacing:1px;padding:6px 11px;z-index:700;
-  opacity:0;transition:opacity .2s;pointer-events:none;
-}
-.copy-flash.show{opacity:1}
-
-/* USER DROPDOWN */
-.user-menu{
-  position:fixed;top:92px;right:16px;z-index:500;
-  background:var(--sf);border:1px solid var(--ln2);
-  min-width:180px;display:none;
-}
-.user-menu.show{display:block;animation:slideup .15s ease}
-.umitem{
-  padding:10px 14px;font-family:'IBM Plex Mono',monospace;
-  font-size:10px;color:var(--t2);cursor:pointer;
-  border-bottom:1px solid var(--ln);transition:background .12s;
-  display:flex;align-items:center;gap:8px;
-}
-.umitem:last-child{border-bottom:none}
-.umitem:hover{background:var(--sf2)}
-.umitem.danger:hover{color:var(--red)}
-.um-dot{width:5px;height:5px;border-radius:50%;flex-shrink:0}
-
-@media(min-width:540px){
-  body{max-width:500px;margin:0 auto}
-  .ticker,nav,.bbar,#login-gate,.user-menu{max-width:500px;width:500px;left:50%;right:auto;transform:translateX(-50%)}
-  .user-menu{transform:none;right:auto;left:calc(50% + 500px/2 - 196px)}
-  .toast{max-width:360px}
 }
 
-.gate-x-link{display:inline-flex;align-items:center;gap:5px;font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--t3);text-decoration:none;letter-spacing:.5px;margin-top:7px;transition:color .15s;}
-.gate-x-link:hover{color:var(--t1)}
-</style>
-
-.htk-vid{background:linear-gradient(170deg,#080808 0%,#1c0008 25%,#380010 50%,#1a0005 75%,#080808 100%)!important;}
-.htk-chart-svg{position:absolute;inset:0;width:100%;height:100%;z-index:1;opacity:.35;pointer-events:none;}
-.htk-price-row{position:absolute;top:9px;left:10px;z-index:4;display:flex;align-items:center;gap:6px;}
-.htk-price-token{font-family:'IBM Plex Mono',monospace;font-size:7px;font-weight:700;color:#fff;background:rgba(254,44,85,.9);padding:2px 5px;letter-spacing:.5px;}
-.htk-price-val{font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:700;color:#4ade80;}
-.htk-scanline-overlay{position:absolute;inset:0;z-index:2;background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,0,0,.08) 3px,rgba(0,0,0,.08) 4px);pointer-events:none;}
-.htk-grain{position:absolute;inset:0;z-index:2;opacity:.06;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");pointer-events:none;}
-.tk-vid{background:var(--tg)!important;}
-.tk-phone .tk-price{position:absolute;top:8px;left:7px;font-family:'IBM Plex Mono',monospace;font-size:6px;font-weight:700;color:#fff;background:rgba(0,0,0,.55);padding:2px 4px;z-index:4;}
-.tk-phone .tk-live-dot{position:absolute;top:8px;right:7px;width:5px;height:5px;border-radius:50%;background:#fe2c55;animation:blink 1s step-end infinite;z-index:4;}
-@keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
-
-#demo-overlay{display:flex!important}
+@media (max-width: 700px) {
+  .demo-phone-col{display:none;}
+  .demo-body{flex-direction:column;}
+}
 </style>
 </head>
 <body>
-<!-- ══════ TIKTOK COLLAGE BACKGROUND ══════ -->
-<div id="tiktok-bg">
-  <!-- Phone 1: top-left, warm orange -->
-  <div class="tk-phone tp1">
-    <div class="tk-vid"></div><div class="tk-scan"></div>
-    <div class="tk-right">
-      <div class="tk-av">CW</div>
-      <div class="tk-ic"><span class="tk-ic-sym">❤</span><span class="tk-ic-n">48.2K</span></div>
-      <div class="tk-ic"><span class="tk-ic-sym">💬</span><span class="tk-ic-n">892</span></div>
-      <div class="tk-ic"><span class="tk-ic-sym">↗</span><span class="tk-ic-n">Share</span></div>
-      <div class="tk-disc">♪</div>
-    </div>
-    <div class="tk-bot">
-      <div class="tk-user">@cryptowatcher</div>
-      <div class="tk-cap">AI agents are running the market rn 👀</div>
-      <div class="tk-mus">♪ AI Trading Mix · Original</div>
-    </div>
-  </div>
-  <!-- Phone 2: top-right, purple -->
-  <div class="tk-phone tp2">
-    <div class="tk-vid"></div><div class="tk-scan" style="animation-delay:1.3s"></div>
-    <div class="tk-right">
-      <div class="tk-av">DM</div>
-      <div class="tk-ic"><span class="tk-ic-sym">❤</span><span class="tk-ic-n">112K</span></div>
-      <div class="tk-ic"><span class="tk-ic-sym">💬</span><span class="tk-ic-n">2.1K</span></div>
-      <div class="tk-ic"><span class="tk-ic-sym">↗</span><span class="tk-ic-n">Share</span></div>
-      <div class="tk-disc">♪</div>
-    </div>
-    <div class="tk-bot">
-      <div class="tk-user">@defimaxi</div>
-      <div class="tk-cap">3 narratives to watch this cycle 🚀</div>
-      <div class="tk-mus">♪ Crypto Vibes · DeFi Mix</div>
-    </div>
-  </div>
-  <!-- Phone 3: mid-left, green -->
-  <div class="tk-phone tp3">
-    <div class="tk-vid"></div><div class="tk-scan" style="animation-delay:2.1s"></div>
-    <div class="tk-right">
-      <div class="tk-av">W3</div>
-      <div class="tk-ic"><span class="tk-ic-sym">❤</span><span class="tk-ic-n">67.4K</span></div>
-      <div class="tk-ic"><span class="tk-ic-sym">💬</span><span class="tk-ic-n">1.4K</span></div>
-      <div class="tk-ic"><span class="tk-ic-sym">↗</span><span class="tk-ic-n">Share</span></div>
-      <div class="tk-disc">♪</div>
-    </div>
-    <div class="tk-bot">
-      <div class="tk-user">@web3alpha</div>
-      <div class="tk-cap">How I found 100x signals early 🎯</div>
-      <div class="tk-mus">♪ Alpha Sounds · Web3</div>
-    </div>
-  </div>
-  <!-- Phone 4: mid-right, pink -->
-  <div class="tk-phone tp4">
-    <div class="tk-vid"></div><div class="tk-scan" style="animation-delay:.6s"></div>
-    <div class="tk-right">
-      <div class="tk-av">NT</div>
-      <div class="tk-ic"><span class="tk-ic-sym">❤</span><span class="tk-ic-n">89.1K</span></div>
-      <div class="tk-ic"><span class="tk-ic-sym">💬</span><span class="tk-ic-n">3.3K</span></div>
-      <div class="tk-ic"><span class="tk-ic-sym">↗</span><span class="tk-ic-n">Share</span></div>
-      <div class="tk-disc">♪</div>
-    </div>
-    <div class="tk-bot">
-      <div class="tk-user">@nfttrader</div>
-      <div class="tk-cap">This protocol is different $TAO 🔥</div>
-      <div class="tk-mus">♪ Market Beats · NFT Season</div>
-    </div>
-  </div>
-  <!-- Phone 5: bottom-left, blue -->
-  <div class="tk-phone tp5">
-    <div class="tk-vid"></div><div class="tk-scan" style="animation-delay:3s"></div>
-    <div class="tk-right">
-      <div class="tk-av">AI</div>
-      <div class="tk-ic"><span class="tk-ic-sym">❤</span><span class="tk-ic-n">34.7K</span></div>
-      <div class="tk-ic"><span class="tk-ic-sym">💬</span><span class="tk-ic-n">678</span></div>
-      <div class="tk-ic"><span class="tk-ic-sym">↗</span><span class="tk-ic-n">Share</span></div>
-      <div class="tk-disc">♪</div>
-    </div>
-    <div class="tk-bot">
-      <div class="tk-user">@aitrading</div>
-      <div class="tk-cap">ML meets on-chain data 🤖</div>
-      <div class="tk-mus">♪ Neural Sound · AI Mix</div>
-    </div>
-  </div>
-  <!-- Phone 6: bottom-right, gold -->
-  <div class="tk-phone tp6">
-    <div class="tk-vid"></div><div class="tk-scan" style="animation-delay:1.8s"></div>
-    <div class="tk-right">
-      <div class="tk-av">MC</div>
-      <div class="tk-ic"><span class="tk-ic-sym">❤</span><span class="tk-ic-n">201K</span></div>
-      <div class="tk-ic"><span class="tk-ic-sym">💬</span><span class="tk-ic-n">5.8K</span></div>
-      <div class="tk-ic"><span class="tk-ic-sym">↗</span><span class="tk-ic-n">Share</span></div>
-      <div class="tk-disc">♪</div>
-    </div>
-    <div class="tk-bot">
-      <div class="tk-user">@marketcap</div>
-      <div class="tk-cap">RWA tokenization: the quiet 10x 📈</div>
-      <div class="tk-mus">♪ Bull Season · MarketCap</div>
-    </div>
-  </div>
-  <div class="tk-overlay"></div>
-</div>
-<div id="demo-overlay">
 
-  <div class="demo-topbar">
-    <div class="demo-badge">
-      <span class="demo-badge-pill">DEMO</span>
-      <span class="demo-badge-name">TokGraph Web3 V3 &mdash; Live Preview</span>
-    </div>
-    <a class="demo-close" href="index.html" style="text-decoration:none">&#8592; BACK</a>
-  <a href="https://x.com/tokgraph" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:5px;font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--t4);text-decoration:none;border:1px solid var(--ln2);padding:5px 10px;transition:all .15s" onmouseover="this.style.color='#fff';this.style.borderColor='#3a3a3a'" onmouseout="this.style.color='var(--t4)';this.style.borderColor='var(--ln2)'">
+<div class="demo-topbar">
+  <div class="demo-topbar-left">
+    <a class="demo-back" href="index.html">
+      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+      BACK
+    </a>
+    <div class="demo-badge">DEMO MODE</div>
+  </div>
+  <a class="demo-x-link" href="https://x.com/tokgraph" target="_blank" rel="noopener">
     <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
     @tokgraph
   </a>
+</div>
+
+<div class="demo-body">
+
+  <!-- PHONE MOCKUP -->
+  <div class="demo-phone-col">
+    <div class="phone-frame">
+      <div class="htk-vid"></div>
+      <svg class="htk-chart-svg" viewBox="0 0 200 210" preserveAspectRatio="none">
+        <defs>
+          <linearGradient id="cg" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#4ade80" stop-opacity=".5"/>
+            <stop offset="100%" stop-color="#4ade80" stop-opacity="0"/>
+          </linearGradient>
+        </defs>
+        <polyline points="0,170 20,160 40,155 60,145 80,130 100,135 120,120 140,105 160,90 180,75 200,60"
+          fill="none" stroke="#4ade80" stroke-width="1.5" stroke-linejoin="round"/>
+        <polygon points="0,170 20,160 40,155 60,145 80,130 100,135 120,120 140,105 160,90 180,75 200,60 200,210 0,210"
+          fill="url(#cg)" opacity=".5"/>
+      </svg>
+      <div class="htk-scanline"></div>
+      <div class="htk-grain"></div>
+      <div class="htk-price-row">
+        <div class="htk-price-token">NEAR</div>
+        <div class="htk-price-val">+24.7%</div>
+      </div>
+      <div class="htk-signal-overlay">
+        <div class="sig-label">SIGNAL</div>
+        <div class="sig-score" id="phone-score">0</div>
+        <div class="sig-grade">STRONG BUY</div>
+        <div class="sig-divider"></div>
+        <div class="sig-coin">DETECTED</div>
+        <div class="sig-ticker">$NEAR</div>
+        <div class="sig-change">&#9650; 24.7%</div>
+        <div class="sig-divider"></div>
+        <div class="sig-mini-label">SENTIMENT</div>
+        <div class="sig-bar-row">
+          <div class="sig-bar-bg"><div class="sig-bar-fill" id="pb-sent" style="width:0%;background:#4ade80;"></div></div>
+          <div class="sig-bar-pct">82%</div>
+        </div>
+        <div class="sig-mini-label" style="margin-top:4px">VOLUME</div>
+        <div class="sig-bar-row">
+          <div class="sig-bar-bg"><div class="sig-bar-fill" id="pb-vol" style="width:0%;background:#60a5fa;"></div></div>
+          <div class="sig-bar-pct">91%</div>
+        </div>
+      </div>
+      <div class="htk-bottom">
+        <div class="htk-user">
+          <div class="htk-avatar">C</div>
+          <div class="htk-username">@cryptowhale88</div>
+        </div>
+        <div class="htk-desc">$NEAR just broke resistance — this is the move 🚀</div>
+        <div class="htk-tags">
+          <span class="htk-tag">#NEAR</span>
+          <span class="htk-tag">#crypto</span>
+          <span class="htk-tag">#altseason</span>
+        </div>
+      </div>
+      <div class="htk-right-col">
+        <div class="htk-action"><div class="htk-action-icon">❤️</div><div class="htk-action-val">2.1M</div></div>
+        <div class="htk-action"><div class="htk-action-icon">💬</div><div class="htk-action-val">18.4K</div></div>
+        <div class="htk-action"><div class="htk-action-icon">↗️</div><div class="htk-action-val">44.2K</div></div>
+      </div>
+    </div>
   </div>
 
-  <div class="demo-tabs">
-    <button class="demo-tab active" id="dt-human" onclick="setDemoTab('human')">
-      HUMAN <span class="dtag">LIVE</span>
-    </button>
-    <button class="demo-tab" id="dt-agent" onclick="setDemoTab('agent')">
-      API <span class="dtag">JSON</span>
-    </button>
-    <button class="demo-tab" id="dt-waitlist" onclick="setDemoTab('waitlist')" style="color:var(--red)">
-      JOIN <span class="dtag" style="border-color:var(--red)">FREE</span>
-    </button>
-  </div>
-
+  <!-- RIGHT PANELS -->
   <div class="demo-panels">
 
-    <!-- HUMAN DEMO -->
-    <div class="demo-panel active" id="dp-human">
-      <div class="hd-layout">
-        <!-- Status bar -->
-        <div class="hd-status-bar">
-          <div class="hd-status">
-            <div class="hd-status-dot idle" id="demo-dot"></div>
-            <span id="demo-status-txt" style="font-family:'IBM Plex Mono',monospace;font-size:9px">Standby</span>
-          </div>
-          <span class="hd-phase-lbl" id="demo-phase-lbl">STANDBY</span>
-        </div>
-
-        <!-- TikTok Signal Card -->
-        <div class="htk-card">
-          <div class="htk-vid">
-            <div class="htk-grain"></div>
-            <div class="htk-scanline-overlay"></div>
-            <svg class="htk-chart-svg" viewBox="0 0 200 210" preserveAspectRatio="none">
-              <polyline points="0,180 20,165 40,170 60,140 80,145 100,110 120,95 140,80 160,60 180,45 200,30" fill="none" stroke="rgba(74,222,128,.6)" stroke-width="1.5"/>
-              <polyline points="0,180 20,165 40,170 60,140 80,145 100,110 120,95 140,80 160,60 180,45 200,30" fill="url(#chartGrad)" stroke="none"/>
-              <defs><linearGradient id="chartGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="rgba(74,222,128,.25)"/><stop offset="100%" stop-color="rgba(74,222,128,0)"/></linearGradient></defs>
-              <line x1="0" y1="100" x2="200" y2="100" stroke="rgba(255,255,255,.06)" stroke-width="1" stroke-dasharray="4,4"/>
-              <line x1="0" y1="150" x2="200" y2="150" stroke="rgba(255,255,255,.06)" stroke-width="1" stroke-dasharray="4,4"/>
-            </svg>
-            <div class="htk-price-row">
-              <span class="htk-price-token">NEAR</span>
-              <span class="htk-price-val">+24.7%</span>
-            </div>
-            <div class="htk-beam" id="htk-beam"></div>
-            <div class="htk-user-lbl">@cryptowatcher</div>
-            <div class="htk-text" id="htk-text"></div>
-            <div class="htk-tags-lbl">#crypto #AIagents #web3 #NEAR #FET</div>
-          </div>
-          <div class="htk-right">
-            <div class="htk-av">CW</div>
-            <div class="htk-ic"><span class="htk-ic-s">❤</span><span class="htk-ic-n">48.2K</span></div>
-            <div class="htk-ic"><span class="htk-ic-s">💬</span><span class="htk-ic-n">892</span></div>
-            <div class="htk-ic"><span class="htk-ic-s">↗</span><span class="htk-ic-n">Share</span></div>
-            <div class="htk-disc" id="htk-disc">♪</div>
-          </div>
-        </div>
-
-        <!-- Scan steps -->
-        <div class="htk-steps" id="htk-steps">
-          <div class="htk-step-bars" id="htk-step-bars"></div>
-          <div class="htk-step-txt" id="htk-step-txt"></div>
-        </div>
-
-        <!-- Result blocks -->
-        <div class="demo-result" id="demo-result">
-
-          <div class="dr-blk" id="dr-narrative" style="opacity:0;transform:translateY(12px);transition:all .4s">
-            <div class="dr-hd">
-              <span>01 Narrative Detected</span>
-              <span style="color:var(--red);font-size:8px;letter-spacing:1.5px">BULLISH</span>
-            </div>
-            <div class="dr-bd">
-              <div class="demo-narr-cat">AI</div>
-              <div class="demo-narr-key">"AI agent infrastructure emerging as dominant cycle narrative"</div>
-              <div class="demo-sent">BULLISH</div>
-            </div>
-          </div>
-
-          <div class="dr-blk" id="dr-score" style="opacity:0;transform:translateY(12px);transition:all .4s .1s">
-            <div class="dr-hd">
-              <span>02 Market Relevance Score</span>
-              <span style="background:var(--wh);color:var(--bk);padding:2px 9px;font-size:8px;letter-spacing:1.5px">HIGH CONVICTION</span>
-            </div>
-            <div class="dr-bd">
-              <div class="score-ring-wrap">
-                <div class="score-ring-svg-wrap">
-                  <svg class="score-ring-svg" viewBox="0 0 100 100">
-                    <circle class="ring-bg" cx="50" cy="50" r="45"/>
-                    <circle class="ring-fill" cx="50" cy="50" r="45" id="demo-ring"/>
-                  </svg>
-                  <div class="score-num-center">
-                    <div class="score-num-big" id="demo-score-num">0.0</div>
-                    <div class="score-num-lbl">/ 10</div>
-                  </div>
-                </div>
-                <div class="score-ring-right">
-                  <div class="srr-verdict">Relevance</div>
-                  <div class="srr-conviction">High Conviction</div>
-                  <div class="demo-segs" id="demo-segs"></div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="dr-blk" id="dr-tokens" style="opacity:0;transform:translateY(12px);transition:all .4s .2s">
-            <div class="dr-hd"><span>03 Tokens and Keywords</span></div>
-            <div class="dr-bd">
-              <div style="font-family:'IBM Plex Mono',monospace;font-size:7px;color:var(--t4);letter-spacing:2px;margin-bottom:6px">DETECTED TOKENS</div>
-              <div class="demo-tags" id="demo-toks">
-                <span class="dtag-tok">$NEAR</span>
-                <span class="dtag-tok">$FET</span>
-                <span class="dtag-tok">$VIRTUAL</span>
-                <span class="dtag-tok">$TAO</span>
-              </div>
-              <div style="font-family:'IBM Plex Mono',monospace;font-size:7px;color:var(--t4);letter-spacing:2px;margin:10px 0 6px">KEY TERMS</div>
-              <div class="demo-tags" id="demo-kws">
-                <span class="dtag-kw">autonomous</span>
-                <span class="dtag-kw">agents</span>
-                <span class="dtag-kw">infrastructure</span>
-                <span class="dtag-kw">protocol</span>
-                <span class="dtag-kw">on-chain</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="dr-blk" id="dr-why" style="opacity:0;transform:translateY(12px);transition:all .4s .3s">
-            <div class="dr-hd"><span>04 Why It Matters</span></div>
-            <div class="dr-bd">
-              <p class="demo-why" id="demo-why">AI agent narratives are driving significant on-chain activity. Autonomous protocols are becoming the default execution layer. Infrastructure plays are positioned for outsized returns as adoption accelerates.</p>
-            </div>
-          </div>
-
-        </div><!-- /demo-result -->
-
-        <!-- SIGNAL CONFIRMED sticky banner -->
-        <div class="hd-confirmed" id="hd-confirmed">
+    <div class="section-label">LIVE SIGNAL</div>
+    <div class="signal-card">
+      <div class="sc-header">
+        <div class="sc-coin">
+          <div class="sc-icon">N</div>
           <div>
-            <div class="hc-lbl">SIGNAL CONFIRMED</div>
-            <div class="hc-sub">BULLISH &middot; AI NARRATIVE &middot; HIGH CONVICTION</div>
+            <div class="sc-name">NEAR Protocol</div>
+            <div class="sc-sym">$NEAR / USDT</div>
           </div>
-          <div class="hc-big">8.7</div>
         </div>
-
-      </div><!-- /hd-layout -->
-
-      <div class="demo-bottom">
-        <button class="demo-get-access" onclick="setDemoTab('waitlist')">
-          <span>REQUEST ACCESS</span>
-          <span style="font-family:'IBM Plex Mono',monospace">&rarr;</span>
-        </button>
+        <div class="sc-score-col">
+          <div class="sc-score" id="main-score">0</div>
+          <div class="sc-grade">STRONG BUY</div>
+        </div>
       </div>
-    </div><!-- /dp-human -->
-
-    <!-- AGENT DEMO -->
-    <div class="demo-panel" id="dp-agent">
-      <div class="ad-layout">
-
-        <!-- Live stats bar -->
-        <div class="ad-live-pill">
-          <div class="ad-live-dot-g"></div>
-          AGENT ENGINE · CONNECTED
-        </div>
-        <div class="ad-live-bar">
-          <div class="ad-lstat"><div class="ad-lstat-n" id="ad-latency">847ms</div><div class="ad-lstat-l">Avg Latency</div></div>
-          <div class="ad-lstat"><div class="ad-lstat-n" id="ad-reqs">2.4K</div><div class="ad-lstat-l">Req / Day</div></div>
-          <div class="ad-lstat"><div class="ad-lstat-n" id="ad-tokens">18.7K</div><div class="ad-lstat-l">Tokens Used</div></div>
-          <div class="ad-lstat"><div class="ad-lstat-n" style="color:var(--green)">99.7%</div><div class="ad-lstat-l">Uptime</div></div>
-        </div>
-
-        <div class="ad-section">
-          <div class="ad-section-lbl">Request</div>
-          <div class="term">
-            <div class="term-topbar">
-              <div class="term-dot" style="background:#fe5f57"></div>
-              <div class="term-dot" style="background:#febc2e"></div>
-              <div class="term-dot" style="background:#28c840"></div>
-              <span class="term-title">bash</span>
-            </div>
-            <div id="agent-request-lines"></div>
-            <span class="term-cursor" id="agent-cursor"></span>
-          </div>
-        </div>
-
-        <div class="ad-section">
-          <div class="ad-section-lbl">Response</div>
-          <div class="term" style="max-height:260px;overflow:hidden">
-            <div class="term-topbar">
-              <div class="term-dot" style="background:#fe5f57"></div>
-              <div class="term-dot" style="background:#febc2e"></div>
-              <div class="term-dot" style="background:#28c840"></div>
-              <span class="term-title">JSON 200 OK</span>
-            </div>
-            <div id="agent-response-lines"></div>
-          </div>
-        </div>
-
-        <div class="ad-section">
-          <div class="ad-section-lbl">WebSocket Stream</div>
-          <div class="ws-stream" id="ws-stream"></div>
-        </div>
-
-        <div class="ad-section">
-          <div class="ad-section-lbl">API Endpoints</div>
-          <div class="ep-table">
-            <div class="ep-row">
-              <span class="ep-method p">POST</span>
-              <span class="ep-path">/analyze</span>
-              <span class="ep-desc">Extract narrative signals from transcript</span>
-            </div>
-            <div class="ep-row">
-              <span class="ep-method g">GET</span>
-              <span class="ep-path">/trend</span>
-              <span class="ep-desc">Live narrative momentum feed</span>
-            </div>
-            <div class="ep-row">
-              <span class="ep-method g">GET</span>
-              <span class="ep-path">/history</span>
-              <span class="ep-desc">Past signal history export</span>
-            </div>
-            <div class="ep-row">
-              <span class="ep-method g">GET</span>
-              <span class="ep-path">/health</span>
-              <span class="ep-desc">Engine status and uptime</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="ad-section">
-          <div class="ad-section-lbl">Rate Limits</div>
-          <div class="rl-grid">
-            <div class="rl-cell">
-              <div class="rl-num">100</div>
-              <div class="rl-lbl">Req / Day</div>
-            </div>
-            <div class="rl-cell">
-              <div class="rl-num">10</div>
-              <div class="rl-lbl">Req / Min</div>
-            </div>
-            <div class="rl-cell">
-              <div class="rl-num">1MB</div>
-              <div class="rl-lbl">Max Body</div>
-            </div>
-          </div>
-        </div>
-
-      </div><!-- /ad-layout -->
-
-      <div class="demo-bottom">
-        <button class="demo-get-access" onclick="setDemoTab('waitlist')">
-          <span>REQUEST API ACCESS</span>
-          <span style="font-family:'IBM Plex Mono',monospace">&rarr;</span>
-        </button>
+      <div class="sc-metrics">
+        <div class="sc-metric"><div class="sc-metric-label">PRICE</div><div class="sc-metric-val">$6.84</div></div>
+        <div class="sc-metric"><div class="sc-metric-label">24H CHG</div><div class="sc-metric-val up">+24.7%</div></div>
+        <div class="sc-metric"><div class="sc-metric-label">SIGNALS</div><div class="sc-metric-val up">47</div></div>
       </div>
-    </div><!-- /dp-agent -->
+      <div class="sc-bar-row">
+        <div class="sc-bar-label">Sentiment</div>
+        <div class="sc-bar-track"><div class="sc-bar-fill" id="bar-sent" style="width:0%;background:#4ade80;"></div></div>
+        <div class="sc-bar-val">82%</div>
+      </div>
+      <div class="sc-bar-row">
+        <div class="sc-bar-label">Volume Score</div>
+        <div class="sc-bar-track"><div class="sc-bar-fill" id="bar-vol" style="width:0%;background:#60a5fa;"></div></div>
+        <div class="sc-bar-val">91%</div>
+      </div>
+      <div class="sc-bar-row">
+        <div class="sc-bar-label">Creator Trust</div>
+        <div class="sc-bar-track"><div class="sc-bar-fill" id="bar-trust" style="width:0%;background:#fb923c;"></div></div>
+        <div class="sc-bar-val">79%</div>
+      </div>
+      <div class="sc-footer">
+        <div class="sc-time">Updated 12s ago · HUMAN algo v3</div>
+        <div class="sc-action">VIEW FULL ANALYSIS &#8594;</div>
+      </div>
+    </div>
 
-    <!-- WAITLIST PANEL -->
-    <div class="demo-panel" id="dp-waitlist">
-      <div class="wl-layout">
+    <div class="section-label">TIKTOK FEED</div>
+    <div class="feed-card">
+      <div class="feed-header">
+        <div class="feed-title">LIVE SIGNALS</div>
+        <div class="feed-dot"></div>
+      </div>
+      <div class="feed-item" style="opacity:0;transform:translateY(8px);transition:opacity .3s ease,transform .3s ease">
+        <div class="feed-avatar" style="background:linear-gradient(135deg,#ff0050,#ff6b35)">C</div>
+        <div class="feed-right">
+          <div class="feed-user"><div class="feed-handle">@cryptowhale88</div><div class="feed-verified">&#10003;</div></div>
+          <div class="feed-text">$<span class="coin">NEAR</span> just broke resistance fr. This is the move everyone's been waiting for 🚀 <span class="tag">#NEAR</span> <span class="tag">#altseason</span></div>
+          <div class="feed-meta"><div class="feed-signal-badge bull">BULLISH</div><div class="feed-views">2.1M views</div><div class="feed-score hi">87</div></div>
+        </div>
+      </div>
+      <div class="feed-item" style="opacity:0;transform:translateY(8px);transition:opacity .3s ease,transform .3s ease">
+        <div class="feed-avatar" style="background:linear-gradient(135deg,#7c3aed,#4f46e5)">A</div>
+        <div class="feed-right">
+          <div class="feed-user"><div class="feed-handle">@altcoin_alice</div></div>
+          <div class="feed-text">Watching <span class="coin">$FET</span> closely. AI narrative + volume spike = interesting setup. NFA <span class="tag">#FET</span></div>
+          <div class="feed-meta"><div class="feed-signal-badge neutral">NEUTRAL</div><div class="feed-views">892K views</div><div class="feed-score mid">63</div></div>
+        </div>
+      </div>
+      <div class="feed-item" style="opacity:0;transform:translateY(8px);transition:opacity .3s ease,transform .3s ease">
+        <div class="feed-avatar" style="background:linear-gradient(135deg,#0891b2,#06b6d4)">D</div>
+        <div class="feed-right">
+          <div class="feed-user"><div class="feed-handle">@defi_detective</div><div class="feed-verified">&#10003;</div></div>
+          <div class="feed-text">$<span class="coin">TAO</span> on-chain activity going insane. Smart money accumulating. Chart don't lie <span class="tag">#TAO</span></div>
+          <div class="feed-meta"><div class="feed-signal-badge bull">BULLISH</div><div class="feed-views">1.4M views</div><div class="feed-score hi">91</div></div>
+        </div>
+      </div>
+      <div class="feed-item" style="opacity:0;transform:translateY(8px);transition:opacity .3s ease,transform .3s ease">
+        <div class="feed-avatar" style="background:linear-gradient(135deg,#be123c,#e11d48)">M</div>
+        <div class="feed-right">
+          <div class="feed-user"><div class="feed-handle">@moonboy_mike</div></div>
+          <div class="feed-text">$<span class="coin">VIRTUAL</span> just listed on major DEX. Liquidity flowing in hard. Early window closing <span class="tag">#VIRTUAL</span></div>
+          <div class="feed-meta"><div class="feed-signal-badge bear">CAUTION</div><div class="feed-views">321K views</div><div class="feed-score" style="color:var(--red)">38</div></div>
+        </div>
+      </div>
+    </div>
 
-        <!-- hero -->
-        <div class="wl-hero">
-          <div class="wl-eyebrow">Early Access</div>
-          <div class="wl-title">Join the Waitlist</div>
-          <div class="wl-sub">Get early access to TokGraph Web3 V3 — narrative intelligence for crypto traders and AI agents.</div>
+    <!-- ABOUT SECTION -->
+    <div class="section-label">ABOUT TOKGRAPH</div>
+    <div class="about-card">
+      <div class="about-header">
+        <div class="about-icon">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        </div>
+        <div>
+          <div class="about-title-text">TOKGRAPH V3</div>
+          <div class="about-sub">TikTok-powered crypto signal intelligence</div>
+        </div>
+      </div>
+      <div class="about-body">
+        <div class="about-desc">
+          TokGraph scans <strong>millions of TikTok videos</strong> in real time, extracting crypto signals from creators, engagement patterns, and narrative momentum — then maps them to <strong>on-chain price action</strong> before the market reacts.
         </div>
 
-        <!-- stats -->
-        <div class="wl-stats">
-          <div class="wl-stat">
-            <div class="wl-stat-n">2,841</div>
-            <div class="wl-stat-l">On Waitlist</div>
+        <div class="about-stats">
+          <div class="about-stat">
+            <div class="about-stat-val">12M+</div>
+            <div class="about-stat-label">VIDEOS/DAY</div>
           </div>
-          <div class="wl-stat">
-            <div class="wl-stat-n">48h</div>
-            <div class="wl-stat-l">Review Time</div>
+          <div class="about-stat">
+            <div class="about-stat-val">340+</div>
+            <div class="about-stat-label">COINS TRACKED</div>
           </div>
-          <div class="wl-stat">
-            <div class="wl-stat-n">Free</div>
-            <div class="wl-stat-l">Beta Access</div>
+          <div class="about-stat">
+            <div class="about-stat-val">V3</div>
+            <div class="about-stat-label">HUMAN ALGO</div>
           </div>
         </div>
 
-        <!-- form -->
-        <div id="wl-form-wrap">
-          <label class="wl-form-lbl">Your Email</label>
-          <input class="wl-input" type="email" id="wl-email" placeholder="you@example.com" autocomplete="email"/>
-
-          <label class="wl-form-lbl">I am a</label>
-          <div class="wl-roles">
-            <button class="wl-role sel" id="wr-trader" onclick="selectRole('trader')">Trader</button>
-            <button class="wl-role" id="wr-dev" onclick="selectRole('dev')">AI Dev</button>
-            <button class="wl-role" id="wr-fund" onclick="selectRole('fund')">Fund / VC</button>
+        <div class="about-features">
+          <div class="about-feature">
+            <div class="about-feature-icon">📡</div>
+            <div>
+              <div class="about-feature-name">Real-time Signal Extraction</div>
+              <div class="about-feature-desc">HUMAN algo scans TikTok creators, comments, and engagement velocity every 15 seconds to surface emerging coin narratives before they hit the charts.</div>
+            </div>
           </div>
-
-          <button class="wl-submit" id="wl-submit-btn" onclick="submitWaitlist()">
-            <span id="wl-submit-lbl">JOIN WAITLIST</span>
-            <span style="font-family:'IBM Plex Mono',monospace" id="wl-submit-arr">&rarr;</span>
-          </button>
-
-          <div class="wl-note">No spam. We review applications manually and send invite codes when ready.</div>
+          <div class="about-feature">
+            <div class="about-feature-icon">🧠</div>
+            <div>
+              <div class="about-feature-name">Creator Trust Score</div>
+              <div class="about-feature-desc">Each creator is rated 0–100 based on historical prediction accuracy, follower quality, and wash-trading detection patterns.</div>
+            </div>
+          </div>
+          <div class="about-feature">
+            <div class="about-feature-icon">⚡</div>
+            <div>
+              <div class="about-feature-name">Pre-pump Detection</div>
+              <div class="about-feature-desc">Identifies coordinated pumps and organic breakouts 30–90 minutes before they appear on CEX price feeds.</div>
+            </div>
+          </div>
+          <div class="about-feature">
+            <div class="about-feature-icon">🔒</div>
+            <div>
+              <div class="about-feature-name">Invite-Only Access</div>
+              <div class="about-feature-desc">Currently in private beta. Connect your TikTok to apply. Applications reviewed within 48 hours.</div>
+            </div>
+          </div>
         </div>
 
-        <!-- success state -->
-        <div class="wl-success" id="wl-success">
-          <div class="wl-success-icon">&#10003;</div>
-          <div class="wl-success-title">You're on the list</div>
-          <div class="wl-success-sub">We'll review your application and send your invite code to <strong id="wl-confirmed-email"></strong> within 48 hours.</div>
-          <div class="wl-success-ref" id="wl-ref-code"></div>
+        <div class="about-links">
+          <a class="about-link primary" href="index.html">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 3h6v6M10 14L21 3M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
+            APPLY FOR ACCESS
+          </a>
+          <a class="about-link" href="https://x.com/tokgraph" target="_blank" rel="noopener">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+            @TOKGRAPH ON X
+          </a>
         </div>
+      </div>
+    </div>
 
-      </div><!-- /wl-layout -->
-    </div><!-- /dp-waitlist -->
+    <div style="height:20px"></div>
+  </div>
+</div>
 
-  </div><!-- /demo-panels -->
-</div><!-- /demo-overlay -->
-<div class="toast" id="toast"></div>
 <script>
-<script>
-/* ══════════════════════════════════════
-   DATA
-══════════════════════════════════════ */
-const DEMOS = [
-  {label:'AI AGENTS',text:`AI agents are literally taking over crypto right now. I'm seeing autonomous agents trading, bridging, and writing smart contracts on their own. Every major protocol is integrating agent infrastructure. This is the next 100x narrative. $NEAR, $FET, and $VIRTUAL are all positioned perfectly. Get in early or get left behind.`},
-  {label:'MEMECOIN', text:`Okay so this memecoin launched 2 hours ago and it's already 50x. The dog with hat meta is back and it's bigger than ever. CT is going crazy. Devs doxxed, liquidity locked, contract renounced. This could be the next $WIF or $BONK. I'm aping in small just to have a bag.`},
-  {label:'DEFI',     text:`DeFi yields are insane right now. I'm getting 40% APY on stablecoins through this new protocol. They're using real-world assets as backing. No inflationary emissions. Just pure organic yield from on-chain lending markets. $AAVE and $COMP are mooning on this narrative.`},
-  {label:'RWA',      text:`Real world assets are the biggest narrative of the next bull run. BlackRock is tokenizing everything. Treasury bonds, real estate, private credit. TVL in RWA protocols has 10x in 6 months. $ONDO, $CENTRIFUGE, $MAPLE are the picks. Institutions are finally here.`},
-  {label:'GAMING',   text:`Web3 gaming is having its moment. Major studios are launching on Immutable and Ronin. NFT assets with real in-game utility. Play-to-earn is back but sustainable this time. $IMX and $RONIN are accumulating quietly before the meta explodes.`},
-  {label:'L2',       text:`Layer 2 wars are heating up. Arbitrum, Base, and zkSync are all fighting for TVL dominance. Bridging volume is up 4x month over month. The fragmentation is creating real arbitrage opportunities right now. $ARB and $OP still undervalued relative to their ecosystems.`}
-];
+window.addEventListener('DOMContentLoaded', function() {
+  // Animate score count-up
+  function countUp(id, target, delay) {
+    var el = document.getElementById(id);
+    if (!el) return;
+    var v = 0;
+    setTimeout(function go() {
+      v = Math.min(v + 3, target);
+      el.textContent = v;
+      if (v < target) setTimeout(go, 18);
+    }, delay);
+  }
+  countUp('main-score', 87, 200);
+  countUp('phone-score', 87, 300);
 
-const MOCK_TRENDS = [
-  {name:'AI Agents',       mentions:142,growth:'+280%',signal_strength:9.4,summary:'Autonomous on-chain agents dominating CT. Infrastructure plays seeing 3x volume increases across major protocols.'},
-  {name:'RWA Tokenization',mentions:98, growth:'+165%',signal_strength:8.8,summary:'Institutional RWA protocols attracting major capital. BlackRock effect creating sustained narrative momentum.'},
-  {name:'DeFi Restaking',  mentions:76, growth:'+120%',signal_strength:7.9,summary:'Liquid restaking protocols in exponential TVL growth phase. ETH yield narrative returning with institutional backing.'},
-  {name:'Memecoin Season', mentions:210,growth:'+95%', signal_strength:6.5,summary:'Dog and frog meta cycling again. Fast money flows with extreme volatility. Sizing is everything here.'},
-  {name:'Layer 2 Wars',    mentions:63, growth:'+78%', signal_strength:7.1,summary:'L2 fragmentation creating arbitrage. Bridge volume up 4x MoM. Follow TVL migration to spot rotation.'},
-  {name:'ZK Privacy',      mentions:45, growth:'+55%', signal_strength:6.8,summary:'Zero-knowledge tech moving to production. Privacy narrative gaining institutional traction for the first time.'}
-];
+  // Animate signal bars
+  setTimeout(function() {
+    var bars = [
+      {id:'bar-sent', w:82},
+      {id:'bar-vol',  w:91},
+      {id:'bar-trust',w:79},
+      {id:'pb-sent',  w:82},
+      {id:'pb-vol',   w:91}
+    ];
+    bars.forEach(function(b) {
+      var el = document.getElementById(b.id);
+      if (el) el.style.width = b.w + '%';
+    });
+  }, 300);
 
-const ALERTS = [
-  'AI agent narratives spiking — 142 signals in the last hour',
-  'RWA tokenization volume up 280% this week across 6 protocols',
-  'Memecoin meta active — dog/frog category trending CT-wide',
-  'DeFi restaking TVL broke $8B — narrative entering growth phase',
-  'L2 bridge volume up 4x MoM — capital rotation signal active',
-  '$NEAR, $FET, $VIRTUAL showing correlated mention spike',
-  'Institutional wallet activity detected across RWA protocols',
-  'ZK privacy gaining traction — 3 new protocol launches this week'
-];
-
-const TICKER_DATA = [
-  {name:'AI Agents',growth:'+280%',up:true},
-  {name:'RWA',      growth:'+165%',up:true},
-  {name:'DeFi',     growth:'+120%',up:true},
-  {name:'Memecoin', growth:'+95%', up:true},
-  {name:'L2 Wars',  growth:'+78%', up:true},
-  {name:'ZK Privacy',growth:'+55%',up:true},
-  {name:'Gaming',   growth:'+44%', up:true},
-  {name:'Perps DEX',growth:'-12%', up:false}
-];
-
-/* ══════════════════════════════════════
-   AUTH
-══════════════════════════════════════ */
-// Valid credentials (demo — real backend would verify these server-side)
-const VALID_CODES   = ['TOKGRAPH-2025','TOKGRAPH-ALPHA','TOKGRAPH-BETA'];
-const VALID_API_KEY = 'tg_sk_'; // any key starting with this prefix
-
-let authState = null; // {type:'human'|'agent', identifier:string, key?:string}
-
-function setMode(mode) {
-  ['human','agent'].forEach(m => {
-    document.getElementById('panel-'+m).classList.toggle('show', m===mode);
-    document.getElementById('m-'+m).classList.toggle('active', m===mode);
+  // Fade-in feed items
+  var items = document.querySelectorAll('.feed-item');
+  items.forEach(function(item, i) {
+    setTimeout(function() {
+      item.style.opacity = '1';
+      item.style.transform = 'translateY(0)';
+    }, 400 + i * 120);
   });
-  document.getElementById('h-err').classList.remove('show');
-  document.getElementById('a-err').classList.remove('show');
-}
-
-function toggleReveal() {
-  const inp = document.getElementById('a-key');
-  const btn = document.querySelector('.reveal-btn');
-  if(inp.type==='password'){ inp.type='text'; btn.textContent='HIDE'; }
-  else { inp.type='password'; btn.textContent='SHOW'; }
-}
-
-function loginHuman() {
-  const email = document.getElementById('h-email').value.trim();
-  const code  = document.getElementById('h-code').value.trim().toUpperCase();
-  const err   = document.getElementById('h-err');
-  err.classList.remove('show');
-
-  if(!email || !email.includes('@')){ showErr(err,'Enter a valid email address'); return; }
-  if(!code){ showErr(err,'Enter your invite code'); return; }
-
-  setLoading('h',true);
-  setTimeout(() => {
-    if(VALID_CODES.includes(code)){
-      authState = {type:'human', identifier:email, key:'tg_human_'+btoa(email).slice(0,16)};
-      localStorage.setItem('tg_auth', JSON.stringify(authState));
-      enterApp();
-    } else {
-      setLoading('h',false);
-      showErr(err,'Invalid invite code. Request access below.');
-    }
-  }, 1400);
-}
-
-function loginAgent() {
-  const key = document.getElementById('a-key').value.trim();
-  const err = document.getElementById('a-err');
-  err.classList.remove('show');
-
-  if(!key){ showErr(err,'Enter your API key'); return; }
-  if(!key.startsWith(VALID_API_KEY)){ showErr(err,'Invalid API key format. Keys start with tg_sk_'); return; }
-
-  setLoading('a',true);
-  setTimeout(() => {
-    if(key.length >= 18){
-      authState = {type:'agent', identifier:'agent@api', key};
-      localStorage.setItem('tg_auth', JSON.stringify(authState));
-      enterApp();
-    } else {
-      setLoading('a',false);
-      showErr(err,'API key too short. Check your dashboard for the correct key.');
-    }
-  }, 1400);
-}
-
-function setLoading(mode, on) {
-  const btn  = document.getElementById(mode+'-btn');
-  const spin = document.getElementById(mode+'-spin');
-  const lbl  = document.getElementById(mode+'-lbl');
-  btn.classList.toggle('loading', on);
-  spin.style.display = on ? 'block' : 'none';
-  lbl.textContent = on ? 'AUTHENTICATING...' : (mode==='h' ? 'ACCESS TOKGRAPH' : 'AUTHENTICATE AGENT');
-}
-
-function showErr(el, msg){ el.textContent = msg; el.classList.add('show'); }
-
-function showDemoBtn(on) {
-  const el = document.getElementById('gate-demo-cta');
-  if(el) el.classList.toggle('visible', on);
-}
-
-function enterApp() {
-  const gate = document.getElementById('login-gate');
-  const app  = document.getElementById('app');
-  // showDemoBtn not used in demo
-  gate.classList.add('exit');
-  setTimeout(() => {
-    gate.style.display = 'none';
-    app.classList.add('show');
-    initApp();
-  }, 500);
-}
-
-function logout() {
-  localStorage.removeItem('tg_auth');
-  authState = null;
-  document.getElementById('user-menu').classList.remove('show');
-  document.getElementById('app').classList.remove('show');
-  const gate = document.getElementById('login-gate');
-  gate.style.display = '';
-  gate.classList.remove('exit');
-  gate.style.animation = 'none';
-  void gate.offsetWidth;
-  gate.style.animation = '';
-  document.getElementById('h-code').value='';
-  document.getElementById('a-key').value='';
-  document.getElementById('h-err').classList.remove('show');
-  document.getElementById('a-err').classList.remove('show');
-  showDemoBtn(true);
-}
-
-function copyApiKey() {
-  if(!authState) return;
-  const key = authState.key || 'tg_human_guest';
-  navigator.clipboard.writeText(key).then(()=>{ toggleMenu(); toast('API key copied'); });
-}
-
-// Check for stored auth on load
-(function checkStoredAuth() {
-  const stored = localStorage.getItem('tg_auth');
-  if(stored){
-    try{
-      authState = JSON.parse(stored);
-      document.getElementById('login-gate').style.display = 'none';
-      document.getElementById('app').classList.add('show');
-      showDemoBtn(false);
-      initApp();
-      return;
-    } catch { localStorage.removeItem('tg_auth'); }
-  }
-  // Not logged in — show demo button
-  showDemoBtn(true);
-})();
-
-/* ══════════════════════════════════════
-   APP INIT
-══════════════════════════════════════ */
-function initApp() {
-  updateUserBadge();
-  initTicker();
-  startAlertLoop();
-  updateStats();
-}
-
-function updateUserBadge() {
-  if(!authState) return;
-  const badge = document.getElementById('user-badge');
-  const lbl   = document.getElementById('ub-label');
-  const dot   = document.getElementById('ub-dot');
-  const umdot = document.getElementById('um-dot');
-  const umwho = document.getElementById('um-who');
-
-  if(authState.type==='human'){
-    const name = authState.identifier.split('@')[0].toUpperCase().slice(0,10);
-    lbl.textContent = name;
-    badge.className = 'user-badge human';
-    dot.style.background = 'var(--green)';
-    umdot.style.background = 'var(--green)';
-    umwho.textContent = authState.identifier;
-  } else {
-    lbl.textContent = 'AGENT';
-    badge.className = 'user-badge agent';
-    dot.style.background = '#60a5fa';
-    umdot.style.background = '#60a5fa';
-    umwho.textContent = 'API Agent';
-  }
-}
-
-/* ══════════════════════════════════════
-   TICKER INIT
-══════════════════════════════════════ */
-function initTicker() {
-  const items = [...TICKER_DATA,...TICKER_DATA];
-  const html = items.map(t=>`
-    <div class="tick-item">
-      <span>${t.name}</span>
-      <div class="tick-div"></div>
-      <span class="${t.up?'up':'dn'}">${t.growth}</span>
-    </div>`).join('');
-  document.getElementById('ticker-inner').innerHTML = html;
-}
-
-/* ══════════════════════════════════════
-   ALERT LOOP
-══════════════════════════════════════ */
-let alertIdx = 0;
-function startAlertLoop() {
-  function cycle(){
-    const strip = document.getElementById('alert-strip');
-    const txt   = document.getElementById('alert-txt');
-    const age   = document.getElementById('alert-age');
-    strip.style.opacity='0';
-    setTimeout(()=>{
-      alertIdx=(alertIdx+1)%ALERTS.length;
-      txt.textContent=ALERTS[alertIdx];
-      age.textContent=alertIdx===0?'0m':Math.floor(Math.random()*50+5)+'m';
-      strip.style.opacity='1';
-    },450);
-  }
-  setInterval(cycle, 8000);
-}
-
-/* ══════════════════════════════════════
-   STATE + STATS
-══════════════════════════════════════ */
-let hist = JSON.parse(localStorage.getItem('tg6')||'[]');
-let lastResult = null;
-const MAX = 2000;
-
-function updateStats() {
-  document.getElementById('s-total').textContent   = hist.length;
-  const sig = hist.filter(h=>h.action==='Early Signal').length;
-  document.getElementById('s-signals').textContent = sig;
-  const avg = hist.length ? (hist.reduce((a,h)=>a+parseFloat(h.market_relevance_score||0),0)/hist.length) : 0;
-  document.getElementById('s-avg').textContent = avg.toFixed(1);
-}
-
-/* ══════════════════════════════════════
-   NAV
-══════════════════════════════════════ */
-function goTab(btn, name) {
-  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
-  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
-  btn.classList.add('active');
-  document.getElementById('screen-'+name).classList.add('active');
-  if(name==='trends')  loadTrends();
-  if(name==='history') renderHist();
-}
-
-function toggleMenu() {
-  document.getElementById('user-menu').classList.toggle('show');
-}
-
-document.addEventListener('click', e=>{
-  const menu  = document.getElementById('user-menu');
-  const badge = document.getElementById('user-badge');
-  if(!menu.contains(e.target)&&!badge.contains(e.target)) menu.classList.remove('show');
 });
-
-/* ══════════════════════════════════════
-   INPUT
-══════════════════════════════════════ */
-function onType() {
-  const v=document.getElementById('inp').value;
-  const n=document.getElementById('cnum');
-  const b=document.getElementById('cbar');
-  n.textContent=v.length;
-  n.classList.toggle('lit',v.length>0);
-  b.style.width=Math.min(v.length/MAX*100,100)+'%';
-}
-
-function clearAll() {
-  document.getElementById('inp').value='';
-  onType();
-  document.getElementById('result').classList.remove('show');
-  document.getElementById('err').classList.remove('show');
-  document.getElementById('scan').classList.remove('show');
-  document.getElementById('r-fill').style.width='0';
-}
-
-function loadDemo(i) {
-  document.getElementById('inp').value=DEMOS[i].text;
-  onType();
-  document.getElementById('result').classList.remove('show');
-  document.getElementById('err').classList.remove('show');
-  toast(DEMOS[i].label+' loaded');
-}
-
-/* ══════════════════════════════════════
-   ANALYZE
-══════════════════════════════════════ */
-const STEPS=['Normalizing input signal','Detecting narrative patterns','Scoring market relevance','Extracting token signals','Generating intelligence report'];
-
-function buildSegs(active) {
-  document.getElementById('scan-segs').innerHTML =
-    STEPS.map((_,i)=>`<div class="sseg${i<active?' done':i===active?' active':''}"></div>`).join('');
-}
-
-async function runAnalysis() {
-  const text=document.getElementById('inp').value.trim();
-  if(!text){toast('Paste content first');return}
-  if(text.length<15){toast('Content too short');return}
-
-  setBusy(true);
-  document.getElementById('result').classList.remove('show');
-  document.getElementById('err').classList.remove('show');
-  document.getElementById('scan').classList.add('show');
-  buildSegs(0);
-
-  let step=0;
-  const timer=setInterval(()=>{
-    step=Math.min(step+1,STEPS.length-1);
-    document.getElementById('scan-txt').textContent=STEPS[step];
-    buildSegs(step);
-  },480);
-
-  try {
-    const res=await fetch(location.origin+'/analyze',{
-      method:'POST',headers:{'Content-Type':'application/json','X-TG-Key':(authState&&authState.key)||''},
-      body:JSON.stringify({text})
-    });
-    if(!res.ok) throw new Error(res.status);
-    const d=await res.json();
-    showResult(d); saveHist(d,text);
-  } catch {
-    const d=mockEngine(text);
-    showResult(d); saveHist(d,text);
-    showErrBox('Backend offline — AI simulation active');
-  } finally {
-    clearInterval(timer);
-    setBusy(false);
-    document.getElementById('scan').classList.remove('show');
-  }
-}
-
-function setBusy(on) {
-  const btn=document.getElementById('cta');
-  const sp=document.getElementById('cspin');
-  const lbl=document.getElementById('cta-lbl');
-  const arr=document.getElementById('cta-arr');
-  btn.classList.toggle('busy',on);
-  sp.style.display=on?'block':'none';
-  lbl.textContent=on?'ANALYZING':'ANALYZE SIGNAL';
-  arr.style.opacity=on?'0':'1';
-}
-
-function showErrBox(msg) {
-  const el=document.getElementById('err');
-  el.textContent=msg; el.classList.add('show');
-}
-
-/* ══════════════════════════════════════
-   MOCK ENGINE
-══════════════════════════════════════ */
-function mockEngine(text) {
-  const t=text.toLowerCase();
-  const rules=[
-    {match:w=>w.includes('ai')||w.includes('agent')||w.includes('autonomous')||w.includes('fetch')||w.includes('virtual')||w.includes('near'),
-     out:{narrative_category:'AI',key_narrative:'AI agent infrastructure emerging as dominant cycle narrative',sentiment:'Bullish',market_relevance_score:8.7,action:'Early Signal',tokens_mentioned:['NEAR','FET','VIRTUAL','TAO'],keywords:['autonomous','agents','infrastructure','protocol','on-chain'],why_it_matters:'AI agent narratives are driving significant on-chain activity. Autonomous protocols are becoming the default execution layer. Infrastructure plays are positioned for outsized returns as adoption accelerates exponentially. On-chain agent volume is up 380% in 30 days.'}},
-    {match:w=>w.includes('meme')||w.includes('bonk')||w.includes('wif')||w.includes('pepe')||w.includes('aping')||w.includes('dog with hat'),
-     out:{narrative_category:'Memecoin',key_narrative:'Memecoin meta cycling — dog/frog tier active',sentiment:'Bullish',market_relevance_score:6.2,action:'Watch',tokens_mentioned:['WIF','BONK','PEPE','DOGE'],keywords:['memecoin','meta','aping','CT','liquidity'],why_it_matters:'Memecoin narratives cycle rapidly with high volatility. This pattern signals a risk-on environment. Fast entries and exits required. Position sizing is critical. Monitor community sentiment daily for exit signals before rotation ends.'}},
-    {match:w=>w.includes('defi')||w.includes('yield')||w.includes('apy')||w.includes('lending')||w.includes('stablecoin')||w.includes('aave'),
-     out:{narrative_category:'DeFi',key_narrative:'Organic yield resurgence — emission-free protocols',sentiment:'Bullish',market_relevance_score:7.8,action:'Research',tokens_mentioned:['AAVE','COMP','UNI','MKR'],keywords:['yield','APY','liquidity','stablecoin','organic'],why_it_matters:'Organic DeFi yield signals capital rotation into productive on-chain assets. Emission-free yield at scale indicates healthy protocol growth. A strong risk-adjusted opportunity. TVL acceleration is confirming narrative strength this cycle.'}},
-    {match:w=>w.includes('rwa')||w.includes('real world')||w.includes('tokeniz')||w.includes('blackrock')||w.includes('ondo'),
-     out:{narrative_category:'RWA',key_narrative:'Institutional RWA tokenization wave beginning',sentiment:'Bullish',market_relevance_score:9.1,action:'Early Signal',tokens_mentioned:['ONDO','CENTRIFUGE','MAPLE'],keywords:['tokenization','RWA','institutions','BlackRock','treasury'],why_it_matters:'Institutional RWA adoption represents a structural shift in global finance. This is the on-ramp for trillions in traditional assets. Only the very beginning of capital flows at this scale. Multi-year narrative with clear institutional tailwind.'}},
-    {match:w=>w.includes('gaming')||(w.includes('nft')&&w.includes('game'))||w.includes('immutable')||w.includes('ronin')||w.includes('imx'),
-     out:{narrative_category:'Gaming',key_narrative:'Web3 gaming in quiet accumulation phase',sentiment:'Neutral',market_relevance_score:6.8,action:'Research',tokens_mentioned:['IMX','RONIN','GALA','BEAM'],keywords:['gaming','NFT','utility','play-to-earn','studio'],why_it_matters:'Web3 gaming narratives historically accumulate quietly before explosive rotations. Studio partnerships and sustainable token economies are the signal to track for catalyst timing. Next 90 days are critical.'}},
-    {match:w=>w.includes('layer 2')||w.includes(' l2 ')||w.includes('arbitrum')||w.includes('optimism')||w.includes('base')||w.includes('rollup'),
-     out:{narrative_category:'Infra',key_narrative:'L2 TVL fragmentation creating rotation signal',sentiment:'Neutral',market_relevance_score:7.1,action:'Research',tokens_mentioned:['ARB','OP','MATIC'],keywords:['layer2','rollup','scaling','bridge','TVL'],why_it_matters:'L2 competition is creating capital fragmentation and arbitrage opportunities. Track bridge flows and TVL migration patterns. Rotation signals precede 30-60 day price catalysts historically.'}},
-    {match:w=>w.includes('bear')||w.includes('dump')||w.includes('crash')||w.includes('rug')||w.includes('scam'),
-     out:{narrative_category:'Risk',key_narrative:'Bearish content — low signal quality',sentiment:'Bearish',market_relevance_score:2.0,action:'Ignore',tokens_mentioned:[],keywords:['bearish','risk','caution'],why_it_matters:'Content exhibits bearish framing with minimal actionable signal value. No positioning recommended. Monitor for reversal signals before re-entering this narrative.'}}
-  ];
-
-  const match=rules.find(r=>r.match(t));
-  const base=match?match.out:{narrative_category:'Unknown',key_narrative:'Unclear Web3 narrative signal',sentiment:'Neutral',market_relevance_score:3.5,action:'Ignore',tokens_mentioned:[],keywords:[],why_it_matters:'Content does not map clearly to a recognized Web3 narrative pattern. Low signal quality. More specific content needed for meaningful extraction.'};
-  return {id:'sim_'+Date.now(),...base,timestamp:new Date().toISOString()};
-}
-
-/* ══════════════════════════════════════
-   RENDER
-══════════════════════════════════════ */
-function showResult(d) {
-  lastResult=d;
-  document.getElementById('r-id').textContent='#'+String(d.id||'').replace('sim_','').slice(-6).toUpperCase();
-  const ts=d.timestamp?new Date(d.timestamp):new Date();
-  const tsStr=ts.toLocaleString('en-US',{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'});
-  document.getElementById('r-ts-inline').textContent=tsStr;
-  document.getElementById('r-ts').textContent='Generated '+tsStr;
-
-  document.getElementById('r-cat').textContent=d.narrative_category||'Unknown';
-  document.getElementById('r-key').textContent='"'+(d.key_narrative||'')+'"';
-  const s=(d.sentiment||'').toLowerCase();
-  const sEl=document.getElementById('r-sent');
-  sEl.textContent=(d.sentiment||'Neutral').toUpperCase();
-  sEl.className='sent-pill '+(s==='bullish'?'b':s==='bearish'?'r':'n');
-
-  const score=parseFloat(d.market_relevance_score)||0;
-  document.getElementById('r-score').textContent=score.toFixed(1);
-
-  const vs=[[0,3,'LOW','vn'],[3,5,'WEAK','vl'],[5,7,'MODERATE','vm'],[7,8.5,'STRONG','vs'],[8.5,11,'HIGH CONVICTION','vh']];
-  const vv=vs.find(([l,h])=>score>=l&&score<h)||vs[2];
-  ['r-verd','r-verd2'].forEach(id=>{
-    const el=document.getElementById(id);
-    el.textContent=vv[2]; el.className='verd '+vv[3];
-  });
-
-  setTimeout(()=>{ document.getElementById('r-fill').style.width=(score/10*100)+'%'; },80);
-
-  document.getElementById('r-segs').innerHTML=
-    Array.from({length:10},(_,i)=>{
-      const on=i<Math.floor(score);
-      const half=!on&&i===Math.floor(score)&&score%1>0.3;
-      return `<div class="seg${on?' on':half?' half':''}"></div>`;
-    }).join('');
-
-  const toks=d.tokens_mentioned||[];
-  document.getElementById('r-toks').innerHTML=toks.length
-    ?toks.map(t=>`<span class="tag tok">$${t}</span>`).join('')
-    :'<span class="tag nil">None detected</span>';
-
-  const kws=d.keywords||[];
-  document.getElementById('r-kws').innerHTML=kws.length
-    ?kws.map(k=>`<span class="tag kw">${k}</span>`).join('')
-    :'<span class="tag nil">None detected</span>';
-
-  document.getElementById('r-why').textContent=d.why_it_matters||'';
-
-  const ac=(d.action||'watch').toLowerCase().replace(' ','-');
-  const card=document.getElementById('r-action');
-  card.className='action-blk '+(ac==='early-signal'?'es':ac==='research'?'re':ac==='ignore'?'ig':'wa');
-  document.getElementById('r-actname').textContent=(d.action||'Watch').toUpperCase();
-  const descs={'watch':'Monitor narrative for confirmation. Check back in 24-48h for signal strengthening.','ignore':'Low signal quality. Insufficient data for actionable positioning.','research':'Signal quality sufficient. Investigate protocols, tokenomics, and upcoming catalysts.','early-signal':'High conviction entry window open. Early positioning with managed risk recommended now.'};
-  const glyphs={'watch':'\u25CB','ignore':'\u00D7','research':'\u25CE','early-signal':'\u2191'};
-  document.getElementById('r-actsub').textContent=descs[ac]||'';
-  document.getElementById('r-actg').textContent=glyphs[ac]||'\u2192';
-
-  const rv=document.getElementById('result');
-  rv.classList.add('show');
-  setTimeout(()=>rv.scrollIntoView({behavior:'smooth',block:'start'}),100);
-}
-
-/* ══════════════════════════════════════
-   COPY / SHARE
-══════════════════════════════════════ */
-function copyResult() {
-  if(!lastResult) return;
-  navigator.clipboard.writeText(JSON.stringify(lastResult,null,2)).then(()=>{
-    const fl=document.getElementById('copy-flash');
-    const btn=document.getElementById('copy-btn');
-    fl.classList.add('show'); btn.classList.add('ok'); btn.textContent='COPIED';
-    setTimeout(()=>{ fl.classList.remove('show'); btn.classList.remove('ok'); btn.textContent='COPY JSON'; },1800);
-  });
-}
-
-function shareResult() {
-  if(!lastResult) return;
-  const txt=`TokGraph Signal\nCategory: ${lastResult.narrative_category}\nNarrative: ${lastResult.key_narrative}\nSentiment: ${lastResult.sentiment}\nScore: ${lastResult.market_relevance_score}/10\nAction: ${lastResult.action}\n\ntokgraph.fun`;
-  if(navigator.share){ navigator.share({title:'TokGraph Signal',text:txt}); }
-  else { navigator.clipboard.writeText(txt).then(()=>toast('Signal copied for sharing')); }
-}
-
-/* ══════════════════════════════════════
-   HISTORY
-══════════════════════════════════════ */
-function saveHist(d,text) {
-  hist.unshift({...d,_preview:text.slice(0,90)});
-  if(hist.length>60) hist=hist.slice(0,60);
-  localStorage.setItem('tg6',JSON.stringify(hist));
-  updateStats();
-}
-
-function renderHist() {
-  const el=document.getElementById('hist-list');
-  document.getElementById('hist-sub').textContent=hist.length+' analyses stored';
-  if(!hist.length){ el.innerHTML='<div class="empty">No analyses yet</div>'; return; }
-  el.innerHTML=hist.map((h,i)=>{
-    const ts=h.timestamp?new Date(h.timestamp).toLocaleString('en-US',{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'}):'';
-    const s=(h.sentiment||'').toLowerCase();
-    return `<div class="hist-item" onclick="restoreHist(${i})" style="animation-delay:${Math.min(i*.04,.3)}s">
-      <div class="h1">
-        <span class="hcat">${h.narrative_category||'Unknown'}</span>
-        <span class="htime mono">${ts}</span>
-      </div>
-      <div class="hnarr">"${h.key_narrative||''}"</div>
-      <div class="h2">
-        <span class="hscr mono">${parseFloat(h.market_relevance_score||0).toFixed(1)}/10</span>
-        <span class="hsent ${s==='bullish'?'b':s==='bearish'?'r':'n'}">${(h.sentiment||'').toUpperCase()}</span>
-        <span class="hact mono">${(h.action||'').toUpperCase()} &#x2192;</span>
-      </div>
-    </div>`;
-  }).join('');
-}
-
-function restoreHist(i) {
-  const h=hist[i];
-  document.querySelectorAll('.tab')[0].click();
-  if(h._preview){ document.getElementById('inp').value=h._preview; onType(); }
-  showResult(h);
-}
-
-function clearHist() {
-  if(!hist.length) return;
-  hist=[];localStorage.removeItem('tg6');renderHist();updateStats();toast('History cleared');
-}
-
-/* ══════════════════════════════════════
-   TRENDS
-══════════════════════════════════════ */
-async function loadTrends(force) {
-  const list=document.getElementById('trend-list');
-  list.innerHTML=[1,2,3].map(()=>`<div class="sk-item"><div class="sk" style="width:40%"></div><div class="sk" style="width:68%"></div></div>`).join('');
-  let trends;
-  try {
-    const res=await fetch(location.origin+'/trend');
-    if(!res.ok) throw new Error();
-    const d=await res.json();
-    trends=(d.trends||[]).length?d.trends:MOCK_TRENDS;
-  } catch { trends=MOCK_TRENDS; }
-
-  document.getElementById('trend-sub').textContent=trends.length+' narratives live at '+new Date().toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'});
-
-  list.innerHTML=trends.map((t,i)=>`
-    <div class="trend-item" style="animation-delay:${i*.07}s">
-      <div class="tr1">
-        <div class="tl">
-          <span class="trk mono">${String(i+1).padStart(2,'0')}</span>
-          <span class="tnm">${t.name}</span>
-        </div>
-        <span class="tgr mono">${t.growth}</span>
-      </div>
-      <div class="tr2">
-        <span class="tsig mono">${t.mentions} signals</span>
-        <div class="tbar"><div class="tbfill" style="width:${t.signal_strength/10*100}%"></div></div>
-        <span class="tscr mono">${t.signal_strength}</span>
-      </div>
-      <div class="tsum">${t.summary}</div>
-    </div>`).join('');
-
-  if(force) toast('Trends refreshed');
-}
-
-/* ══════════════════════════════════════
-   TOAST
-══════════════════════════════════════ */
-let _tt;
-function toast(msg) {
-  const el=document.getElementById('toast');
-  el.textContent=msg; el.classList.add('show');
-  clearTimeout(_tt); _tt=setTimeout(()=>el.classList.remove('show'),2400);
-}
-
-/* ══════════════════════════════════════
-   KEYBOARD
-══════════════════════════════════════ */
-document.addEventListener('keydown', e=>{
-  if((e.ctrlKey||e.metaKey)&&e.key==='Enter') runAnalysis();
-  if(e.key==='Escape') closeDemo();
-});
-
-/* ══════════════════════════════════════
-   DEMO OVERLAY
-══════════════════════════════════════ */
-let demoRunning = false;
-let demoTimers  = [];
-
-function openDemo() {
-  showDemoBtn(false);
-  document.getElementById('demo-overlay').classList.add('show');
-  setDemoTab('human');
-  startHumanDemo();
-}
-
-function closeDemo() { location.href = 'index.html'; }
-
-function setDemoTab(tab) {
-  ['human','agent','waitlist'].forEach(t => {
-    document.getElementById('dt-'+t).classList.toggle('active', t===tab);
-    document.getElementById('dp-'+t).classList.toggle('active', t===tab);
-  });
-  stopDemo();
-  if(tab==='human')    startHumanDemo();
-  else if(tab==='agent') startAgentDemo();
-  // waitlist: no animation needed
-}
-
-/* ── WAITLIST FORM ── */
-let wlRole = 'trader';
-
-function selectRole(r) {
-  wlRole = r;
-  ['trader','dev','fund'].forEach(id => {
-    document.getElementById('wr-'+id).classList.toggle('sel', id===r);
-  });
-}
-
-function submitWaitlist() {
-  const email = document.getElementById('wl-email').value.trim();
-  if(!email || !email.includes('@')) {
-    document.getElementById('wl-email').focus();
-    document.getElementById('wl-email').style.borderColor='var(--red)';
-    setTimeout(()=>document.getElementById('wl-email').style.borderColor='',1500);
-    return;
-  }
-  const btn = document.getElementById('wl-submit-btn');
-  btn.disabled = true;
-  document.getElementById('wl-submit-lbl').textContent = 'SUBMITTING...';
-  document.getElementById('wl-submit-arr').textContent = '';
-
-  // Store in localStorage
-  const entries = JSON.parse(localStorage.getItem('tg_waitlist')||'[]');
-  const ref = 'TG-' + Math.random().toString(36).slice(2,8).toUpperCase();
-  entries.push({ email, role:wlRole, ref, ts: Date.now() });
-  localStorage.setItem('tg_waitlist', JSON.stringify(entries));
-
-  setTimeout(() => {
-    document.getElementById('wl-form-wrap').style.display = 'none';
-    document.getElementById('wl-confirmed-email').textContent = email;
-    document.getElementById('wl-ref-code').textContent = 'REF: ' + ref;
-    document.getElementById('wl-success').classList.add('show');
-  }, 900);
-}
-
-function stopDemo() {
-  demoTimers.forEach(id=>{ clearTimeout(id); clearInterval(id); });
-  demoTimers = [];
-  demoRunning = false;
-  if(agentWsInterval){ clearInterval(agentWsInterval); agentWsInterval=null; }
-}
-
-function dt(fn, delay) {
-  const id = setTimeout(fn, delay);
-  demoTimers.push(id);
-  return id;
-}
-
-/* ─── HUMAN DEMO ─── */
-const DEMO_TRANSCRIPT = `AI agents are literally taking over crypto right now. I'm seeing autonomous agents trading, bridging, and writing smart contracts on their own. Every major protocol is integrating agent infrastructure. This is the next 100x narrative. $NEAR, $FET, and $VIRTUAL are all positioned perfectly.`;
-
-const SCAN_STEPS = [
-  'Normalizing signal input',
-  'Detecting narrative patterns',
-  'Scoring market relevance',
-  'Extracting token mentions',
-  'Generating intelligence report'
-];
-
-function setPhase(label, cls) {
-  const dot = document.getElementById('demo-dot');
-  const txt = document.getElementById('demo-status-txt');
-  const ph  = document.getElementById('demo-phase-lbl');
-  if(dot) dot.className = 'hd-status-dot ' + (cls==='scanning'?'busy':cls==='done'?'complete':'idle');
-  if(txt) txt.textContent = cls==='scanning'?'Scanning...':cls==='done'?'Signal Confirmed':'Standby';
-  if(ph)  { ph.textContent = label; ph.className = 'hd-phase-lbl ' + cls; }
-}
-
-function startHumanDemo() {
-  if(demoRunning) return;
-  demoRunning = true;
-
-  /* ── RESET ── */
-  const textEl   = document.getElementById('htk-text');
-  const beam     = document.getElementById('htk-beam');
-  const disc     = document.getElementById('htk-disc');
-  const stepsEl  = document.getElementById('htk-steps');
-  const stepBars = document.getElementById('htk-step-bars');
-  const stepTxt  = document.getElementById('htk-step-txt');
-  const res      = document.getElementById('demo-result');
-  const scoreEl  = document.getElementById('demo-score-num');
-  const ring     = document.getElementById('demo-ring');
-  const confirmed = document.getElementById('hd-confirmed');
-
-  textEl.textContent = '';
-  beam.className = 'htk-beam';
-  disc.className = 'htk-disc';
-  stepsEl.classList.remove('show');
-  res.classList.remove('show');
-  if(scoreEl) scoreEl.textContent = '0.0';
-  if(ring)    ring.style.strokeDashoffset = '283';
-  if(confirmed) confirmed.classList.remove('show');
-  ['dr-narrative','dr-score','dr-tokens','dr-why'].forEach(id => {
-    const el = document.getElementById(id);
-    if(el) { el.style.opacity='0'; el.style.transform='translateY(12px)'; }
-  });
-  document.querySelectorAll('.dtag-tok,.dtag-kw').forEach(el=>el.classList.remove('in'));
-  document.getElementById('demo-why').classList.remove('in');
-  setPhase('STANDBY', '');
-
-  /* ── PHASE 1: TYPE INTO TIKTOK CARD ── */
-  disc.classList.add('spin');
-  setPhase('INGESTING SIGNAL', '');
-  let i = 0;
-  function typeNext() {
-    if(!demoRunning) return;
-    if(i >= DEMO_TRANSCRIPT.length) { dt(triggerScan, 500); return; }
-    textEl.textContent = DEMO_TRANSCRIPT.slice(0, ++i);
-    const speed = i < 50 ? 22 : i < 120 ? 14 : 8;
-    dt(typeNext, speed);
-  }
-  dt(typeNext, 400);
-
-  /* ── PHASE 2: RED BEAM SCAN ── */
-  function triggerScan() {
-    if(!demoRunning) return;
-    setPhase('SCANNING', 'scanning');
-    beam.className = 'htk-beam active';
-    stepsEl.classList.add('show');
-    runStep(0);
-  }
-
-  function runStep(step) {
-    if(!demoRunning) return;
-    const bars = Array.from({length:5},(_,j)=>
-      `<div class="htk-step-bar${j<step?' done':j===step?' act':''}"></div>`
-    ).join('');
-    if(stepBars) stepBars.innerHTML = bars;
-    if(stepTxt)  stepTxt.textContent = SCAN_STEPS[Math.min(step, SCAN_STEPS.length-1)];
-    if(step < SCAN_STEPS.length) {
-      dt(()=>runStep(step+1), 440);
-    } else {
-      dt(revealResult, 300);
-    }
-  }
-
-  /* ── PHASE 3: CINEMATIC RESULT REVEAL ── */
-  function revealResult() {
-    if(!demoRunning) return;
-    setPhase('SIGNAL CONFIRMED', 'done');
-    stepsEl.classList.remove('show');
-    res.classList.add('show');
-
-    // block 1 - narrative
-    dt(()=>{ const el=document.getElementById('dr-narrative'); if(el){el.style.opacity='1';el.style.transform='none';} }, 100);
-
-    // block 2 - score ring + counter
-    dt(()=>{
-      const el=document.getElementById('dr-score');
-      if(el){el.style.opacity='1';el.style.transform='none';}
-    }, 400);
-    dt(()=>{
-      // SVG ring: circumference = 2*PI*45 ≈ 283; 8.7/10 = 87% fill
-      if(ring) ring.style.strokeDashoffset = String(283 * (1 - 0.87));
-      // counter
-      let val = 0;
-      const target = 8.7;
-      const step = target / (1400/16);
-      function tick() {
-        if(!demoRunning) return;
-        val = Math.min(val+step, target);
-        if(scoreEl) scoreEl.textContent = val.toFixed(1);
-        if(val < target) dt(tick, 16);
-      }
-      tick();
-      // segs
-      const segs = document.getElementById('demo-segs');
-      if(segs) segs.innerHTML = Array.from({length:10},(_,i)=>
-        `<div class="dseg${i<8?' on':i===8?' half':''}"></div>`
-      ).join('');
-    }, 450);
-
-    // block 3 - tokens
-    dt(()=>{ const el=document.getElementById('dr-tokens'); if(el){el.style.opacity='1';el.style.transform='none';} }, 900);
-    document.querySelectorAll('#demo-toks .dtag-tok').forEach((el,i)=>{
-      dt(()=>el.classList.add('in'), 1000 + i*130);
-    });
-    document.querySelectorAll('#demo-kws .dtag-kw').forEach((el,i)=>{
-      dt(()=>el.classList.add('in'), 1500 + i*90);
-    });
-
-    // block 4 - why
-    dt(()=>{
-      const el=document.getElementById('dr-why');
-      if(el){el.style.opacity='1';el.style.transform='none';}
-      document.getElementById('demo-why').classList.add('in');
-    }, 1900);
-
-    // SIGNAL CONFIRMED banner
-    dt(()=>{ if(confirmed) confirmed.classList.add('show'); }, 2400);
-
-    // loop
-    dt(()=>{ stopDemo(); dt(startHumanDemo, 1000); }, 7500);
-  }
-}
-
-/* ─── AGENT DEMO ─── */
-const REQUEST_LINES = [
-  {cls:'t-comment', txt:'# TokGraph Intelligence API v2'},
-  {cls:'t-cmd',     txt:'curl \\'},
-  {cls:'t-flag',    txt:'  -X POST \\'},
-  {cls:'t-url',     txt:'  https://api.tokgraph.fun/v2/analyze \\'},
-  {cls:'t-flag',    txt:'  -H "Authorization: Bearer tg_sk_..." \\'},
-  {cls:'t-flag',    txt:'  -H "Content-Type: application/json" \\'},
-  {cls:'t-string',  txt:"  -d '{\"text\": \"AI agents are taking over...\"}'"},
-];
-
-const RESPONSE_LINES = [
-  {cls:'t-punc',    txt:'{'},
-  {cls:'',          txt:'  <span class="t-key">"id"</span><span class="t-punc">:</span> <span class="t-val-str">"sig_1749823600174"</span><span class="t-punc">,</span>'},
-  {cls:'',          txt:'  <span class="t-key">"narrative_category"</span><span class="t-punc">:</span> <span class="t-val-str">"AI"</span><span class="t-punc">,</span>'},
-  {cls:'',          txt:'  <span class="t-key">"sentiment"</span><span class="t-punc">:</span> <span class="t-val-str">"Bullish"</span><span class="t-punc">,</span>'},
-  {cls:'',          txt:'  <span class="t-key">"market_relevance_score"</span><span class="t-punc">:</span> <span class="t-val-num">8.7</span><span class="t-punc">,</span>'},
-  {cls:'',          txt:'  <span class="t-key">"conviction"</span><span class="t-punc">:</span> <span class="t-val-str">"HIGH"</span><span class="t-punc">,</span>'},
-  {cls:'',          txt:'  <span class="t-key">"action"</span><span class="t-punc">:</span> <span class="t-val-str">"Early Signal"</span><span class="t-punc">,</span>'},
-  {cls:'',          txt:'  <span class="t-key">"tokens_mentioned"</span><span class="t-punc">:</span> <span class="t-punc">[</span><span class="t-val-str">"NEAR"</span><span class="t-punc">,</span><span class="t-val-str">"FET"</span><span class="t-punc">,</span><span class="t-val-str">"VIRTUAL"</span><span class="t-punc">],</span>'},
-  {cls:'',          txt:'  <span class="t-key">"keywords"</span><span class="t-punc">:</span> <span class="t-punc">[</span><span class="t-val-str">"agents"</span><span class="t-punc">,</span><span class="t-val-str">"autonomous"</span><span class="t-punc">,</span><span class="t-val-str">"infrastructure"</span><span class="t-punc">],</span>'},
-  {cls:'',          txt:'  <span class="t-key">"latency_ms"</span><span class="t-punc">:</span> <span class="t-val-num">847</span><span class="t-punc">,</span>'},
-  {cls:'',          txt:'  <span class="t-key">"timestamp"</span><span class="t-punc">:</span> <span class="t-val-str">"2026-06-13T11:46:40.174Z"</span>'},
-  {cls:'t-punc',    txt:'}'},
-];
-
-const WS_POOL = [
-  {name:'AI Agents',           score:9.1,  up:true},
-  {name:'RWA Tokenization',    score:8.8,  up:true},
-  {name:'DeFi Restaking',      score:7.9,  up:true},
-  {name:'Memecoin Season',     score:6.5,  up:true},
-  {name:'Layer 2 Scaling',     score:7.4,  up:true},
-  {name:'ZK Privacy',          score:-2.1, up:false},
-  {name:'GameFi Revival',      score:8.1,  up:true},
-  {name:'DePIN Infrastructure',score:9.3,  up:true},
-  {name:'Liquid Staking',      score:7.2,  up:true},
-  {name:'Perp DEX Narrative',  score:6.8,  up:true},
-  {name:'AI x DeFi Hybrid',   score:9.0,  up:true},
-  {name:'Stablecoin Yield',    score:-1.4, up:false},
-];
-
-let agentWsInterval = null;
-
-function startAgentDemo() {
-  if(demoRunning) return;
-  demoRunning = true;
-
-  const reqEl = document.getElementById('agent-request-lines');
-  const resEl = document.getElementById('agent-response-lines');
-  const wsEl  = document.getElementById('ws-stream');
-  const cur   = document.getElementById('agent-cursor');
-
-  reqEl.innerHTML = '';
-  resEl.innerHTML = '';
-  wsEl.innerHTML  = '';
-  if(cur) cur.style.display='inline-block';
-  if(agentWsInterval) { clearInterval(agentWsInterval); agentWsInterval=null; }
-
-  // animate live stats numbers subtly
-  const latEl = document.getElementById('ad-latency');
-  const reqsEl = document.getElementById('ad-reqs');
-  const toksEl = document.getElementById('ad-tokens');
-  let latBase=847, reqBase=2400, tokBase=18700;
-  const statsInterval = setInterval(()=>{
-    if(!demoRunning){ clearInterval(statsInterval); return; }
-    latBase  += Math.floor(Math.random()*60-30);
-    reqBase  += Math.floor(Math.random()*4);
-    tokBase  += Math.floor(Math.random()*12);
-    latBase   = Math.max(600, Math.min(1200, latBase));
-    if(latEl)  latEl.textContent  = latBase+'ms';
-    if(reqsEl) reqsEl.textContent = (reqBase/1000).toFixed(1)+'K';
-    if(toksEl) toksEl.textContent = (tokBase/1000).toFixed(1)+'K';
-  }, 1800);
-  demoTimers.push(statsInterval);
-
-  // type request lines
-  REQUEST_LINES.forEach((line, i) => {
-    dt(() => {
-      if(!demoRunning) return;
-      const el = document.createElement('div');
-      el.innerHTML = `<span class="${line.cls}">${line.txt}</span>`;
-      el.style.opacity='0';el.style.transform='translateX(-4px)';el.style.transition='all .22s';
-      reqEl.appendChild(el);
-      requestAnimationFrame(()=>{ el.style.opacity='1'; el.style.transform='none'; });
-    }, i*160);
-  });
-
-  const reqDone = REQUEST_LINES.length * 160 + 280;
-
-  // cursor off, response lines
-  dt(()=>{ if(cur) cur.style.display='none'; }, reqDone);
-
-  RESPONSE_LINES.forEach((line, i) => {
-    dt(()=>{
-      if(!demoRunning) return;
-      const el = document.createElement('div');
-      el.innerHTML = line.cls ? `<span class="${line.cls}">${line.txt}</span>` : line.txt;
-      el.style.opacity='0';el.style.transition='opacity .18s';
-      resEl.appendChild(el);
-      requestAnimationFrame(()=>el.style.opacity='1');
-    }, reqDone + 180 + i*110);
-  });
-
-  const resDone = reqDone + 180 + RESPONSE_LINES.length * 110 + 350;
-
-  // start live WS stream
-  dt(()=>{
-    if(!demoRunning) return;
-    const hdr = document.createElement('div');
-    hdr.className='ws-line';
-    hdr.innerHTML='<span class="wst">// ws://api.tokgraph.fun/stream</span> <span style="color:var(--green);font-size:9px">CONNECTED</span>';
-    wsEl.appendChild(hdr);
-
-    let wsIdx = 0;
-    function addWsEntry() {
-      if(!demoRunning) return;
-      const entry = WS_POOL[wsIdx % WS_POOL.length];
-      wsIdx++;
-      const now = new Date();
-      const ts = now.getHours().toString().padStart(2,'0')+':'+
-                 now.getMinutes().toString().padStart(2,'0')+':'+
-                 now.getSeconds().toString().padStart(2,'0');
-      const el = document.createElement('div');
-      el.className='ws-line';
-      el.style.opacity='0';el.style.transition='opacity .3s';
-      el.innerHTML=`<span class="wst">${ts}</span> <span class="wsn">${entry.name}</span> <span class="${entry.up?'wss':'wsr'}">${entry.up?'+':''}${entry.score}</span>`;
-      wsEl.appendChild(el);
-      requestAnimationFrame(()=>el.style.opacity='1');
-      // keep only last 8 visible
-      while(wsEl.children.length > 9) wsEl.removeChild(wsEl.children[1]);
-      wsEl.scrollTop = wsEl.scrollHeight;
-    }
-
-    // first 4 fast, then keep streaming every 1.4s
-    [0,600,1100,1600].forEach((d,i)=>dt(addWsEntry,d));
-    agentWsInterval = setInterval(addWsEntry, 1400);
-    demoTimers.push(agentWsInterval);
-  }, resDone);
-}
-</script>
-</body>
-</html>
-document.addEventListener('DOMContentLoaded',function(){setDemoTab('human');startHumanDemo();});
 </script>
 </body>
 </html>
