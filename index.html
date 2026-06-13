@@ -2355,10 +2355,7 @@ let demoRunning = false;
 let demoTimers  = [];
 
 function openDemo() {
-  showDemoBtn(false);
-  document.getElementById('demo-overlay').classList.add('show');
-  setDemoTab('human');
-  startHumanDemo();
+  window.location.href = 'demo.html';
 }
 
 function closeDemo() {

@@ -512,6 +512,13 @@ html,body{height:100%;overflow:hidden;background:var(--bg);font-family:'Space Gr
 .pulse-chg.up{color:var(--acc);}
 .pulse-chg.dn{color:var(--red);}
 
+/* ── BODY BACKGROUND GRID ── */
+body::after{content:'';position:fixed;inset:0;background-image:radial-gradient(rgba(0,245,255,.025) 1px,transparent 1px);background-size:26px 26px;pointer-events:none;z-index:0;}
+
+/* ── SECTION LABEL UPGRADES ── */
+.section-label{border-left:2px solid rgba(0,245,255,.2);transition:border-color .3s;}
+.section-label:hover{border-left-color:rgba(0,245,255,.5);}
+
 /* ── INFLUENCER DATABASE ── */
 .inf-panel{padding:10px 12px 12px;}
 .inf-filter-bar{
@@ -524,78 +531,111 @@ html,body{height:100%;overflow:hidden;background:var(--bg);font-family:'Space Gr
 }
 .inf-filter:hover{border-color:#3a3a3a;color:var(--t2);}
 .inf-filter.active{border-color:rgba(0,245,255,.35);color:var(--cyan);background:rgba(0,245,255,.06);}
-.inf-list{display:flex;flex-direction:column;gap:6px;}
+.inf-list{display:flex;flex-direction:column;gap:7px;}
+
+/* ── INF CARD — visual redesign ── */
 .inf-card{
-  background:var(--sf2);border:1px solid var(--ln2);
-  padding:9px 10px;cursor:default;transition:border-color .2s;
-  animation:slideIn .3s ease;
+  background:var(--sf2);border:1px solid var(--ln2);border-left-width:3px;
+  padding:10px 11px 9px;cursor:default;transition:border-color .2s,box-shadow .2s;
+  animation:slideIn .35s ease;position:relative;overflow:hidden;
 }
-.inf-card:hover{border-color:#333;}
-.inf-card-top{display:flex;align-items:center;gap:8px;margin-bottom:7px;}
+.inf-card::before{
+  content:'';position:absolute;top:-20px;right:-20px;width:80px;height:80px;
+  border-radius:50%;opacity:.05;pointer-events:none;
+  background:radial-gradient(circle,#fff,transparent);
+}
+.inf-card:hover{box-shadow:0 0 16px rgba(0,245,255,.04);border-color:#333;}
+
+/* top row */
+.inf-card-top{display:flex;align-items:flex-start;gap:9px;margin-bottom:8px;}
 .inf-avatar{
-  width:30px;height:30px;border-radius:2px;flex-shrink:0;
+  width:36px;height:36px;border-radius:3px;flex-shrink:0;
   display:flex;align-items:center;justify-content:center;
-  font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:700;color:#fff;
+  font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:700;color:#fff;
+  box-shadow:0 0 10px rgba(0,0,0,.4);
 }
 .inf-info{flex:1;min-width:0;}
-.inf-handle-row{display:flex;align-items:center;gap:4px;margin-bottom:2px;}
+.inf-handle-row{display:flex;align-items:center;gap:5px;margin-bottom:2px;flex-wrap:wrap;}
 .inf-handle{
-  font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:700;
-  color:var(--t1);letter-spacing:.2px;
-  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:700;
+  color:var(--t1);letter-spacing:.1px;
 }
 .inf-verified{
-  width:9px;height:9px;border-radius:50%;
+  width:10px;height:10px;border-radius:50%;
   background:var(--cyan);flex-shrink:0;display:flex;align-items:center;justify-content:center;
 }
 .inf-verified svg{width:6px;height:6px;}
-.inf-followers{
-  font-family:'IBM Plex Mono',monospace;font-size:7px;color:var(--t3);
+.inf-live-badge{
+  display:inline-flex;align-items:center;gap:3px;
+  font-family:'IBM Plex Mono',monospace;font-size:6px;font-weight:700;
+  color:var(--tg);border:1px solid rgba(255,0,80,.35);padding:1px 5px;
+  background:rgba(255,0,80,.07);
 }
-.inf-right{display:flex;flex-direction:column;align-items:flex-end;gap:3px;}
+.inf-live-dot{width:4px;height:4px;border-radius:50%;background:var(--tg);animation:pulse 1s infinite;}
+.inf-meta-row{display:flex;align-items:center;gap:6px;}
+.inf-followers{font-family:'IBM Plex Mono',monospace;font-size:7px;color:var(--t3);}
 .inf-tier{
   font-family:'IBM Plex Mono',monospace;font-size:6.5px;font-weight:700;
-  letter-spacing:.4px;padding:2px 6px;border:1px solid;
+  letter-spacing:.4px;padding:1px 6px;border:1px solid;
 }
-.inf-tier.t1{color:#fbbf24;border-color:rgba(251,191,36,.4);background:rgba(251,191,36,.08);}
-.inf-tier.t2{color:#60a5fa;border-color:rgba(96,165,250,.35);background:rgba(96,165,250,.06);}
-.inf-tier.t3{color:#a3e635;border-color:rgba(163,230,53,.35);background:rgba(163,230,53,.06);}
-.inf-accuracy-badge{
-  font-family:'IBM Plex Mono',monospace;font-size:8px;font-weight:700;
+.inf-tier.t1{color:#fbbf24;border-color:rgba(251,191,36,.4);background:rgba(251,191,36,.07);}
+.inf-tier.t2{color:#60a5fa;border-color:rgba(96,165,250,.35);background:rgba(96,165,250,.05);}
+.inf-tier.t3{color:#a3e635;border-color:rgba(163,230,53,.35);background:rgba(163,230,53,.05);}
+
+/* accuracy ring */
+.inf-right{display:flex;flex-direction:column;align-items:center;gap:4px;flex-shrink:0;}
+.inf-acc-ring{width:38px;height:38px;position:relative;display:flex;align-items:center;justify-content:center;}
+.inf-acc-ring svg{position:absolute;top:0;left:0;transform:rotate(-90deg);}
+.inf-acc-ring-val{
+  font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:700;
+  position:relative;z-index:1;line-height:1;
 }
+.inf-acc-lbl{font-family:'IBM Plex Mono',monospace;font-size:5.5px;color:var(--t4);letter-spacing:.5px;}
+
+/* narratives + tokens */
 .inf-narratives{display:flex;gap:3px;flex-wrap:wrap;margin-bottom:6px;}
 .inf-narr-tag{
   font-family:'IBM Plex Mono',monospace;font-size:6px;font-weight:700;
-  letter-spacing:.3px;padding:1px 5px;border:1px solid;
+  letter-spacing:.3px;padding:2px 6px;border:1px solid;
 }
-.inf-tokens{display:flex;gap:3px;flex-wrap:wrap;margin-bottom:6px;}
+.inf-tokens{display:flex;gap:3px;flex-wrap:wrap;margin-bottom:7px;align-items:center;}
 .inf-tok{
   font-family:'IBM Plex Mono',monospace;font-size:6.5px;font-weight:700;
   color:var(--t2);border:1px solid var(--ln2);padding:1px 5px;
+  transition:all .2s;
 }
-.inf-tok.hot{border-color:rgba(0,245,255,.3);color:var(--cyan);background:rgba(0,245,255,.04);}
+.inf-tok.hot{border-color:rgba(0,245,255,.35);color:var(--cyan);background:rgba(0,245,255,.05);}
+
+/* signal history bars */
+.inf-history{display:flex;align-items:flex-end;gap:2px;height:18px;margin-bottom:7px;}
+.inf-hist-bar{width:8px;border-radius:1px 1px 0 0;transition:height .4s;}
+.inf-hist-bar.win{background:rgba(74,222,128,.6);}
+.inf-hist-bar.loss{background:rgba(248,113,113,.5);}
+.inf-hist-label{
+  font-family:'IBM Plex Mono',monospace;font-size:6px;color:var(--t4);
+  margin-left:4px;align-self:center;
+}
+
+/* stats row */
 .inf-bottom{
-  display:flex;align-items:center;gap:0;padding-top:6px;
-  border-top:1px solid var(--ln);
+  display:grid;grid-template-columns:repeat(4,1fr);
+  padding-top:7px;border-top:1px solid var(--ln);gap:0;
 }
-.inf-stat{
-  flex:1;text-align:center;border-right:1px solid var(--ln);
-}
+.inf-stat{text-align:center;border-right:1px solid var(--ln);padding:3px 0;}
 .inf-stat:last-child{border-right:none;}
 .inf-stat-val{
   font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:700;
-  color:var(--t1);margin-bottom:1px;
+  color:var(--t1);margin-bottom:1px;line-height:1.1;
 }
-.inf-stat-lbl{
-  font-family:'IBM Plex Mono',monospace;font-size:5.5px;color:var(--t4);
-  letter-spacing:.5px;text-transform:uppercase;
-}
+.inf-stat-lbl{font-family:'IBM Plex Mono',monospace;font-size:5px;color:var(--t4);letter-spacing:.4px;text-transform:uppercase;}
+
+/* last signal quote */
 .inf-last-signal{
-  font-family:'IBM Plex Mono',monospace;font-size:6.5px;color:var(--t3);
-  margin-top:5px;line-height:1.4;
-  padding:5px 7px;background:var(--sf);border:1px solid var(--ln);
+  font-family:'IBM Plex Mono',monospace;font-size:7px;color:var(--t3);
+  margin-top:6px;line-height:1.55;padding:6px 8px;
+  background:rgba(0,0,0,.3);border-left:2px solid;
 }
-.inf-last-signal strong{color:var(--cyan);}
+.inf-last-signal strong{font-weight:700;}
 
 /* ── CREATOR CHAIN ── */
 .chain-panel{padding:10px 12px 12px;}
@@ -1016,6 +1056,10 @@ window.addEventListener('DOMContentLoaded', function() {
   setTimeout(startAnimations, 400);
   startAutoRotate();
   startAlertCycle();
+  renderInfluencers('ALL');
+  renderBridge();
+  renderPulse();
+  renderCreatorChain();
 });
 
 /* ── COUNT-UPS ── */
@@ -1415,42 +1459,45 @@ var INFLUENCERS = [
   /* ── TIER 1 — Mega (>5M) ── */
   {
     handle:'@cryptowhale88', init:'CW', tier:'T1', tierLabel:'TIER 1',
-    followers:'8.2M', followersRaw:8200000,
-    verified:true,
+    followers:'8.2M', followersRaw:8200000, verified:true,
+    accentColor:'#00f5ff', accentBg:'rgba(0,245,255,.06)',
     avatarBg:'linear-gradient(135deg,#ff0050,#7c3aed)',
+    lastMinAgo:2, signalHistory:[true,true,false,true,true],
     narratives:[
-      {label:'AI AGENTS', color:'var(--cyan)', border:'rgba(0,245,255,.35)'},
-      {label:'DePIN',     color:'#4ade80',     border:'rgba(74,222,128,.3)'}
+      {label:'AI AGENTS', color:'#00f5ff', border:'rgba(0,245,255,.35)'},
+      {label:'DePIN',     color:'#4ade80', border:'rgba(74,222,128,.3)'}
     ],
     tokens:[{sym:'$NEAR',hot:true},{sym:'$TAO',hot:true},{sym:'$RNDR'},{sym:'$FET'}],
     accuracy:87, avgImpact:'+19.4%', signals:142,
-    lastSignal:'$NEAR just broke resistance — AI agent infra play. Smart money acc.',
+    lastSignal:'$NEAR just broke resistance — AI agent infra play. Smart money accumulating.',
     lastToken:'$NEAR', lastChg:'+24.7%', lastPos:true,
     tags:['T1','AI','DePIN']
   },
   {
     handle:'@defi_detective', init:'DD', tier:'T1', tierLabel:'TIER 1',
-    followers:'6.4M', followersRaw:6400000,
-    verified:true,
+    followers:'6.4M', followersRaw:6400000, verified:true,
+    accentColor:'#a855f7', accentBg:'rgba(168,85,247,.06)',
     avatarBg:'linear-gradient(135deg,#7c3aed,#4f46e5)',
+    lastMinAgo:18, signalHistory:[true,true,true,true,false],
     narratives:[
-      {label:'RWA',   color:'var(--purple)', border:'rgba(168,85,247,.35)'},
-      {label:'DeFi',  color:'#22c55e',       border:'rgba(34,197,94,.3)'}
+      {label:'RWA',  color:'#a855f7', border:'rgba(168,85,247,.35)'},
+      {label:'DeFi', color:'#22c55e', border:'rgba(34,197,94,.3)'}
     ],
     tokens:[{sym:'$ONDO',hot:true},{sym:'$AAVE',hot:true},{sym:'$MAPLE'},{sym:'$CFG'}],
     accuracy:91, avgImpact:'+22.1%', signals:98,
-    lastSignal:'RWA tokenization wave incoming — BlackRock effect is real. $ONDO target.',
+    lastSignal:'RWA tokenization wave incoming — BlackRock effect is real. $ONDO is the target.',
     lastToken:'$ONDO', lastChg:'+18.4%', lastPos:true,
     tags:['T1','RWA']
   },
   {
     handle:'@web3alpha', init:'W3', tier:'T1', tierLabel:'TIER 1',
-    followers:'5.1M', followersRaw:5100000,
-    verified:true,
+    followers:'5.1M', followersRaw:5100000, verified:true,
+    accentColor:'#60a5fa', accentBg:'rgba(96,165,250,.05)',
     avatarBg:'linear-gradient(135deg,#0891b2,#06b6d4)',
+    lastMinAgo:41, signalHistory:[true,false,true,true,true],
     narratives:[
-      {label:'L2 WARS', color:'#60a5fa',    border:'rgba(96,165,250,.3)'},
-      {label:'AI AGENTS',color:'var(--cyan)',border:'rgba(0,245,255,.35)'}
+      {label:'L2 WARS',   color:'#60a5fa', border:'rgba(96,165,250,.3)'},
+      {label:'AI AGENTS', color:'#00f5ff', border:'rgba(0,245,255,.35)'}
     ],
     tokens:[{sym:'$ARB',hot:true},{sym:'$OP',hot:true},{sym:'$VIRTUAL'},{sym:'$STRK'}],
     accuracy:79, avgImpact:'+14.8%', signals:76,
@@ -1461,26 +1508,28 @@ var INFLUENCERS = [
   /* ── TIER 2 — Major (1M–5M) ── */
   {
     handle:'@altcoin_alice', init:'AA', tier:'T2', tierLabel:'TIER 2',
-    followers:'3.8M', followersRaw:3800000,
-    verified:true,
+    followers:'3.8M', followersRaw:3800000, verified:true,
+    accentColor:'#fbbf24', accentBg:'rgba(251,191,36,.05)',
     avatarBg:'linear-gradient(135deg,#ca8a04,#d97706)',
+    lastMinAgo:7, signalHistory:[true,true,false,true,false],
     narratives:[
-      {label:'AI AGENTS', color:'var(--cyan)',  border:'rgba(0,245,255,.35)'},
-      {label:'MEMECOIN',  color:'var(--tg)',    border:'rgba(255,0,80,.3)'}
+      {label:'AI AGENTS', color:'#00f5ff', border:'rgba(0,245,255,.35)'},
+      {label:'MEMECOIN',  color:'#ff0050', border:'rgba(255,0,80,.3)'}
     ],
     tokens:[{sym:'$FET',hot:true},{sym:'$AGIX',hot:true},{sym:'$NEAR'},{sym:'$WIF'}],
     accuracy:74, avgImpact:'+11.2%', signals:63,
-    lastSignal:'$FET AI narrative + volume spike. Not financial advice — positioning.',
+    lastSignal:'$FET AI narrative + volume spike. Not financial advice — positioning now.',
     lastToken:'$FET', lastChg:'+12.8%', lastPos:true,
     tags:['T2','AI']
   },
   {
     handle:'@rwa_roman', init:'RR', tier:'T2', tierLabel:'TIER 2',
-    followers:'2.1M', followersRaw:2100000,
-    verified:false,
+    followers:'2.1M', followersRaw:2100000, verified:false,
+    accentColor:'#a855f7', accentBg:'rgba(168,85,247,.05)',
     avatarBg:'linear-gradient(135deg,#065f46,#059669)',
+    lastMinAgo:55, signalHistory:[true,true,true,false,true],
     narratives:[
-      {label:'RWA', color:'var(--purple)', border:'rgba(168,85,247,.35)'}
+      {label:'RWA', color:'#a855f7', border:'rgba(168,85,247,.35)'}
     ],
     tokens:[{sym:'$ONDO',hot:true},{sym:'$CFG',hot:true},{sym:'$TRU'},{sym:'$MPL'}],
     accuracy:82, avgImpact:'+17.3%', signals:54,
@@ -1490,12 +1539,13 @@ var INFLUENCERS = [
   },
   {
     handle:'@nfttrader', init:'NT', tier:'T2', tierLabel:'TIER 2',
-    followers:'1.9M', followersRaw:1900000,
-    verified:true,
+    followers:'1.9M', followersRaw:1900000, verified:true,
+    accentColor:'#fb923c', accentBg:'rgba(251,146,60,.05)',
     avatarBg:'linear-gradient(135deg,#be123c,#e11d48)',
+    lastMinAgo:120, signalHistory:[false,true,true,false,true],
     narratives:[
-      {label:'GAMEFI',  color:'#fb923c',  border:'rgba(251,146,60,.3)'},
-      {label:'AI AGENTS',color:'var(--cyan)',border:'rgba(0,245,255,.3)'}
+      {label:'GAMEFI',    color:'#fb923c', border:'rgba(251,146,60,.3)'},
+      {label:'AI AGENTS', color:'#00f5ff', border:'rgba(0,245,255,.3)'}
     ],
     tokens:[{sym:'$IMX',hot:true},{sym:'$RONIN'},{sym:'$BLUR'},{sym:'$GODS'}],
     accuracy:68, avgImpact:'+9.7%', signals:41,
@@ -1505,12 +1555,13 @@ var INFLUENCERS = [
   },
   {
     handle:'@aitrading', init:'AI', tier:'T2', tierLabel:'TIER 2',
-    followers:'1.4M', followersRaw:1400000,
-    verified:false,
+    followers:'1.4M', followersRaw:1400000, verified:false,
+    accentColor:'#00f5ff', accentBg:'rgba(0,245,255,.04)',
     avatarBg:'linear-gradient(135deg,#1d4ed8,#2563eb)',
+    lastMinAgo:9, signalHistory:[true,true,true,false,true],
     narratives:[
-      {label:'AI AGENTS', color:'var(--cyan)',  border:'rgba(0,245,255,.35)'},
-      {label:'DePIN',     color:'#4ade80',      border:'rgba(74,222,128,.3)'}
+      {label:'AI AGENTS', color:'#00f5ff', border:'rgba(0,245,255,.35)'},
+      {label:'DePIN',     color:'#4ade80', border:'rgba(74,222,128,.3)'}
     ],
     tokens:[{sym:'$TAO',hot:true},{sym:'$FET',hot:true},{sym:'$VIRTUAL'},{sym:'$RNDR'}],
     accuracy:76, avgImpact:'+13.9%', signals:87,
@@ -1520,12 +1571,13 @@ var INFLUENCERS = [
   },
   {
     handle:'@marketcap', init:'MC', tier:'T2', tierLabel:'TIER 2',
-    followers:'1.1M', followersRaw:1100000,
-    verified:true,
+    followers:'1.1M', followersRaw:1100000, verified:true,
+    accentColor:'#60a5fa', accentBg:'rgba(96,165,250,.04)',
     avatarBg:'linear-gradient(135deg,#374151,#6b7280)',
+    lastMinAgo:88, signalHistory:[false,true,false,true,true],
     narratives:[
-      {label:'L2 WARS',  color:'#60a5fa', border:'rgba(96,165,250,.3)'},
-      {label:'RESTAKING',color:'#22c55e', border:'rgba(34,197,94,.3)'}
+      {label:'L2 WARS',   color:'#60a5fa', border:'rgba(96,165,250,.3)'},
+      {label:'RESTAKING', color:'#22c55e', border:'rgba(34,197,94,.3)'}
     ],
     tokens:[{sym:'$ARB',hot:true},{sym:'$OP'},{sym:'$STRK'},{sym:'$PENDLE'}],
     accuracy:72, avgImpact:'+10.4%', signals:38,
@@ -1536,12 +1588,13 @@ var INFLUENCERS = [
   /* ── RISING — High accuracy (<1M) ── */
   {
     handle:'@web3_watcher', init:'WW', tier:'RISING', tierLabel:'RISING',
-    followers:'890K', followersRaw:890000,
-    verified:true,
+    followers:'890K', followersRaw:890000, verified:true,
+    accentColor:'#4ade80', accentBg:'rgba(74,222,128,.04)',
     avatarBg:'linear-gradient(135deg,#14532d,#15803d)',
+    lastMinAgo:34, signalHistory:[true,true,false,true,true],
     narratives:[
-      {label:'L2 WARS',  color:'#60a5fa',  border:'rgba(96,165,250,.3)'},
-      {label:'ZK PRIV',  color:'#a855f7',  border:'rgba(168,85,247,.35)'}
+      {label:'L2 WARS', color:'#60a5fa', border:'rgba(96,165,250,.3)'},
+      {label:'ZK PRIV', color:'#a855f7', border:'rgba(168,85,247,.35)'}
     ],
     tokens:[{sym:'$OP',hot:true},{sym:'$STRK',hot:true},{sym:'$MANTA'},{sym:'$SCROLL'}],
     accuracy:71, avgImpact:'+8.6%', signals:29,
@@ -1551,12 +1604,13 @@ var INFLUENCERS = [
   },
   {
     handle:'@cryptosleuth', init:'CS', tier:'RISING', tierLabel:'RISING',
-    followers:'540K', followersRaw:540000,
-    verified:false,
+    followers:'540K', followersRaw:540000, verified:false,
+    accentColor:'#4ade80', accentBg:'rgba(74,222,128,.05)',
     avatarBg:'linear-gradient(135deg,#7c2d12,#c2410c)',
+    lastMinAgo:4, signalHistory:[true,false,true,true,true],
     narratives:[
-      {label:'AI AGENTS', color:'var(--cyan)', border:'rgba(0,245,255,.35)'},
-      {label:'DePIN',     color:'#4ade80',     border:'rgba(74,222,128,.3)'}
+      {label:'AI AGENTS', color:'#00f5ff', border:'rgba(0,245,255,.35)'},
+      {label:'DePIN',     color:'#4ade80', border:'rgba(74,222,128,.3)'}
     ],
     tokens:[{sym:'$NEAR',hot:true},{sym:'$IO',hot:true},{sym:'$MANTA'},{sym:'$HNT'}],
     accuracy:83, avgImpact:'+21.7%', signals:22,
@@ -1566,12 +1620,13 @@ var INFLUENCERS = [
   },
   {
     handle:'@tokn_tracker', init:'TT', tier:'RISING', tierLabel:'RISING',
-    followers:'320K', followersRaw:320000,
-    verified:false,
+    followers:'320K', followersRaw:320000, verified:false,
+    accentColor:'#fb923c', accentBg:'rgba(251,146,60,.04)',
     avatarBg:'linear-gradient(135deg,#0f172a,#1e3a5f)',
+    lastMinAgo:15, signalHistory:[true,true,true,false,true],
     narratives:[
-      {label:'CORR',   color:'#fb923c', border:'rgba(251,146,60,.3)'},
-      {label:'DePIN',  color:'#4ade80', border:'rgba(74,222,128,.3)'}
+      {label:'CORR',  color:'#fb923c', border:'rgba(251,146,60,.3)'},
+      {label:'DePIN', color:'#4ade80', border:'rgba(74,222,128,.3)'}
     ],
     tokens:[{sym:'$RNDR',hot:true},{sym:'$HNT'},{sym:'$IO'},{sym:'$MOBILE'}],
     accuracy:77, avgImpact:'+14.2%', signals:18,
@@ -1581,9 +1636,10 @@ var INFLUENCERS = [
   },
   {
     handle:'@depin_daily', init:'DP', tier:'RISING', tierLabel:'RISING',
-    followers:'180K', followersRaw:180000,
-    verified:false,
+    followers:'180K', followersRaw:180000, verified:false,
+    accentColor:'#4ade80', accentBg:'rgba(74,222,128,.06)',
     avatarBg:'linear-gradient(135deg,#134e4a,#0d9488)',
+    lastMinAgo:3, signalHistory:[true,true,true,true,false],
     narratives:[
       {label:'DePIN', color:'#4ade80', border:'rgba(74,222,128,.3)'}
     ],
@@ -1596,6 +1652,32 @@ var INFLUENCERS = [
 ];
 
 var currentInfFilter = 'ALL';
+
+function makeAccuracyRing(acc, accentColor) {
+  var r = 15, circ = 2 * Math.PI * r;
+  var offset = circ * (1 - acc / 100);
+  var col = acc >= 85 ? '#4ade80' : acc >= 75 ? accentColor : acc >= 65 ? '#fb923c' : '#f87171';
+  return '<div class="inf-acc-ring">' +
+    '<svg width="38" height="38" viewBox="0 0 38 38">' +
+      '<circle cx="19" cy="19" r="' + r + '" fill="none" stroke="rgba(255,255,255,.07)" stroke-width="2.5"/>' +
+      '<circle cx="19" cy="19" r="' + r + '" fill="none" stroke="' + col + '" stroke-width="2.5"' +
+        ' stroke-dasharray="' + circ.toFixed(1) + '" stroke-dashoffset="' + offset.toFixed(1) + '"' +
+        ' stroke-linecap="round"/>' +
+    '</svg>' +
+    '<div class="inf-acc-ring-val" style="color:' + col + '">' + acc + '</div>' +
+  '</div>' +
+  '<div class="inf-acc-lbl">ACCURACY</div>';
+}
+
+function makeSignalBars(history) {
+  var heights = [8, 12, 7, 14, 10];
+  return '<div class="inf-history">' +
+    history.map(function(win, i) {
+      return '<div class="inf-hist-bar ' + (win ? 'win' : 'loss') + '" style="height:' + heights[i] + 'px"></div>';
+    }).join('') +
+    '<span class="inf-hist-label">LAST 5 SIGNALS</span>' +
+  '</div>';
+}
 
 function renderInfluencers(filter) {
   var list = document.getElementById('inf-list');
@@ -1610,47 +1692,65 @@ function renderInfluencers(filter) {
 
   list.innerHTML = data.map(function(inf) {
     var tierCls = inf.tier === 'T1' ? 't1' : inf.tier === 'T2' ? 't2' : 't3';
-    var accColor = inf.accuracy >= 80 ? 'var(--acc)' : inf.accuracy >= 70 ? '#fb923c' : 'var(--t2)';
+    var chgColor = inf.lastPos ? '#4ade80' : '#f87171';
+    var accent = inf.accentColor || '#00f5ff';
+
+    var isLive = inf.lastMinAgo <= 8;
+    var liveBadge = isLive
+      ? '<span class="inf-live-badge"><span class="inf-live-dot"></span>' + inf.lastMinAgo + 'm LIVE</span>'
+      : '';
+
+    var verifiedHtml = inf.verified
+      ? '<div class="inf-verified"><svg viewBox="0 0 8 8" fill="none"><polyline points="1.5,4 3.5,6 6.5,2" stroke="#000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>'
+      : '';
 
     var narrHtml = inf.narratives.map(function(n) {
-      return '<span class="inf-narr-tag" style="color:' + n.color + ';border-color:' + n.border + ';background:rgba(0,0,0,.3)">' + n.label + '</span>';
+      return '<span class="inf-narr-tag" style="color:' + n.color + ';border-color:' + n.border + ';background:rgba(0,0,0,.35)">' + n.label + '</span>';
     }).join('');
 
     var tokHtml = inf.tokens.map(function(t) {
       return '<span class="inf-tok' + (t.hot ? ' hot' : '') + '">' + t.sym + '</span>';
     }).join('');
 
-    var verifiedHtml = inf.verified
-      ? '<div class="inf-verified"><svg viewBox="0 0 8 8" fill="none"><polyline points="1.5,4 3.5,6 6.5,2" stroke="#000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>'
-      : '';
+    var timeLabel = inf.lastMinAgo < 60
+      ? inf.lastMinAgo + 'm ago'
+      : Math.floor(inf.lastMinAgo / 60) + 'h ago';
 
-    var chgColor = inf.lastPos ? 'var(--acc)' : 'var(--red)';
-
-    return '<div class="inf-card">' +
+    return '<div class="inf-card" style="border-left-color:' + accent + ';background:linear-gradient(135deg,' + (inf.accentBg || 'transparent') + ',var(--sf2) 40%)">' +
+      /* ── TOP ROW ── */
       '<div class="inf-card-top">' +
-        '<div class="inf-avatar" style="background:' + inf.avatarBg + '">' + inf.init + '</div>' +
+        '<div class="inf-avatar" style="background:' + inf.avatarBg + ';box-shadow:0 0 14px ' + accent + '33">' + inf.init + '</div>' +
         '<div class="inf-info">' +
           '<div class="inf-handle-row">' +
-            '<div class="inf-handle">' + inf.handle + '</div>' +
+            '<span class="inf-handle">' + inf.handle + '</span>' +
             verifiedHtml +
+            '<span class="inf-tier ' + tierCls + '">' + inf.tierLabel + '</span>' +
+            liveBadge +
           '</div>' +
-          '<div class="inf-followers">' + inf.followers + ' followers</div>' +
+          '<div class="inf-meta-row">' +
+            '<span class="inf-followers">👥 ' + inf.followers + '</span>' +
+          '</div>' +
         '</div>' +
         '<div class="inf-right">' +
-          '<div class="inf-tier ' + tierCls + '">' + inf.tierLabel + '</div>' +
-          '<div class="inf-accuracy-badge" style="color:' + accColor + '">' + inf.accuracy + '% acc</div>' +
+          makeAccuracyRing(inf.accuracy, accent) +
         '</div>' +
       '</div>' +
+      /* ── NARRATIVES ── */
       '<div class="inf-narratives">' + narrHtml + '</div>' +
+      /* ── TOKENS ── */
       '<div class="inf-tokens">' + tokHtml + '</div>' +
+      /* ── SIGNAL HISTORY BARS ── */
+      makeSignalBars(inf.signalHistory || [true,true,true,false,true]) +
+      /* ── STATS ── */
       '<div class="inf-bottom">' +
-        '<div class="inf-stat"><div class="inf-stat-val" style="color:' + accColor + '">' + inf.accuracy + '%</div><div class="inf-stat-lbl">Accuracy</div></div>' +
-        '<div class="inf-stat"><div class="inf-stat-val" style="color:var(--acc)">' + inf.avgImpact + '</div><div class="inf-stat-lbl">Avg Impact</div></div>' +
-        '<div class="inf-stat"><div class="inf-stat-val">' + inf.signals + '</div><div class="inf-stat-lbl">Signals</div></div>' +
-        '<div class="inf-stat"><div class="inf-stat-val" style="color:' + chgColor + '">' + inf.lastChg + '</div><div class="inf-stat-lbl">Last Call</div></div>' +
+        '<div class="inf-stat"><div class="inf-stat-val" style="color:' + chgColor + '">' + inf.avgImpact + '</div><div class="inf-stat-lbl">AVG MOVE</div></div>' +
+        '<div class="inf-stat"><div class="inf-stat-val">' + inf.signals + '</div><div class="inf-stat-lbl">SIGNALS</div></div>' +
+        '<div class="inf-stat"><div class="inf-stat-val" style="color:' + chgColor + '">' + inf.lastChg + '</div><div class="inf-stat-lbl">LAST CALL</div></div>' +
+        '<div class="inf-stat"><div class="inf-stat-val" style="color:var(--t3)">' + timeLabel + '</div><div class="inf-stat-lbl">POSTED</div></div>' +
       '</div>' +
-      '<div class="inf-last-signal">' +
-        '<strong>' + inf.lastToken + '</strong> · ' + inf.lastSignal.slice(0, 80) + (inf.lastSignal.length > 80 ? '…' : '') +
+      /* ── LAST SIGNAL QUOTE ── */
+      '<div class="inf-last-signal" style="border-left-color:' + accent + '">' +
+        '"' + inf.lastSignal.slice(0, 85) + (inf.lastSignal.length > 85 ? '…' : '') + '"' +
       '</div>' +
     '</div>';
   }).join('');
@@ -1664,12 +1764,7 @@ function filterInf(filter, btn) {
   renderInfluencers(filter);
 }
 
-renderInfluencers('ALL');
-
-/* ── CALL NEW INIT FUNCTIONS ── */
-renderBridge();
-renderPulse();
-renderCreatorChain();
+/* ── INIT CALLED IN DOMContentLoaded (see above) ── */
 </script>
 </body>
 </html>
