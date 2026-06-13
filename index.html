@@ -1269,6 +1269,26 @@ textarea::placeholder{color:var(--t5);font-size:13px}
   .user-menu{transform:none;right:auto;left:calc(50% + 500px/2 - 196px)}
   .toast{max-width:360px}
 }
+
+/* ── IMPROVED DEMO VISUAL ── */
+.htk-vid{background:linear-gradient(170deg,#080808 0%,#1c0008 25%,#380010 50%,#1a0005 75%,#080808 100%)!important;}
+.htk-chart-svg{position:absolute;inset:0;width:100%;height:100%;z-index:1;opacity:.35;pointer-events:none;}
+.htk-price-row{position:absolute;top:9px;left:10px;z-index:4;display:flex;align-items:center;gap:6px;}
+.htk-price-token{font-family:'IBM Plex Mono',monospace;font-size:7px;font-weight:700;color:#fff;background:rgba(254,44,85,.9);padding:2px 5px;letter-spacing:.5px;}
+.htk-price-val{font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:700;color:#4ade80;}
+.htk-scanline-overlay{position:absolute;inset:0;z-index:2;background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,0,0,.08) 3px,rgba(0,0,0,.08) 4px);pointer-events:none;}
+.htk-grain{position:absolute;inset:0;z-index:2;opacity:.06;pointer-events:none;}
+.tk-phone .tk-live-dot{position:absolute;top:8px;right:7px;width:5px;height:5px;border-radius:50%;background:#fe2c55;animation:blink 1s step-end infinite;z-index:4;}
+.tk-phone .tk-price-tag{position:absolute;top:8px;left:7px;font-family:'IBM Plex Mono',monospace;font-size:6px;font-weight:700;color:#fff;background:rgba(254,44,85,.85);padding:2px 4px;z-index:4;letter-spacing:.3px;}
+/* TikTok Login Gate */
+.gate-tiktok-wrap{width:100%;max-width:420px;margin-top:12px;}
+.gate-divider{display:flex;align-items:center;gap:10px;margin-bottom:12px;font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--t4);}
+.gate-divider::before,.gate-divider::after{content:'';flex:1;height:1px;background:var(--ln)}
+.gate-tiktok-btn{width:100%;background:var(--sf);border:1px solid var(--ln2);display:flex;align-items:center;justify-content:center;gap:10px;padding:13px;cursor:pointer;transition:all .2s;font-family:'Space Grotesk',sans-serif;font-size:13px;font-weight:700;color:var(--t1);letter-spacing:.3px;}
+.gate-tiktok-btn:hover{border-color:#3a3a3a;background:var(--sf2)}
+.gate-tiktok-btn.loading{opacity:.5;pointer-events:none}
+.gate-tiktok-icon{width:20px;height:20px;flex-shrink:0;}
+.gate-tiktok-spin{width:13px;height:13px;border:2px solid rgba(255,255,255,.2);border-top-color:#fff;border-radius:50%;animation:spin .6s linear infinite;display:none;flex-shrink:0;}
 </style>
 </head>
 <body>
@@ -1350,24 +1370,36 @@ textarea::placeholder{color:var(--t5);font-size:13px}
     </div>
   </div>
 
+<!-- TikTok Login -->
+<div class="gate-tiktok-wrap">
+  <div class="gate-divider"><span>or continue with</span></div>
+  <button class="gate-tiktok-btn" id="tiktok-btn" onclick="loginTikTok()">
+    <div class="gate-tiktok-spin" id="tiktok-spin"></div>
+    <svg class="gate-tiktok-icon" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.32 6.32 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.9a8.18 8.18 0 004.78 1.52V7a4.84 4.84 0 01-1.01-.31z"/>
+    </svg>
+    <span id="tiktok-lbl">Continue with TikTok</span>
+  </button>
+</div>
+
 </div>
 
 <!-- Demo button — fixed at bottom, always visible, outside gate -->
 <div class="gate-demo-cta" id="gate-demo-cta">
-  <button class="gate-demo-btn" onclick="openDemo()">
+  <a class="gate-demo-btn" href="demo.html">
     <div class="gdb-left">
       <div class="gdb-label">&#9654; LIVE PREVIEW</div>
       <div class="gdb-sub">See the full product before requesting access</div>
     </div>
     <div class="gdb-arrow">&rarr;</div>
-  </button>
+  </a>
 </div>
 
 <!-- ══════ TIKTOK COLLAGE BACKGROUND ══════ -->
 <div id="tiktok-bg">
   <!-- Phone 1: top-left, warm orange -->
   <div class="tk-phone tp1">
-    <div class="tk-vid"></div><div class="tk-scan"></div>
+    <div class="tk-vid"></div><div class="tk-scan"></div><div class="tk-live-dot"></div><div class="tk-price-tag">NEAR +24%</div>
     <div class="tk-right">
       <div class="tk-av">CW</div>
       <div class="tk-ic"><span class="tk-ic-sym">❤</span><span class="tk-ic-n">48.2K</span></div>
@@ -1383,7 +1415,7 @@ textarea::placeholder{color:var(--t5);font-size:13px}
   </div>
   <!-- Phone 2: top-right, purple -->
   <div class="tk-phone tp2">
-    <div class="tk-vid"></div><div class="tk-scan" style="animation-delay:1.3s"></div>
+    <div class="tk-vid"></div><div class="tk-scan" style="animation-delay:1.3s"></div><div class="tk-live-dot"></div><div class="tk-price-tag">FET +18%</div>
     <div class="tk-right">
       <div class="tk-av">DM</div>
       <div class="tk-ic"><span class="tk-ic-sym">❤</span><span class="tk-ic-n">112K</span></div>
@@ -1399,7 +1431,7 @@ textarea::placeholder{color:var(--t5);font-size:13px}
   </div>
   <!-- Phone 3: mid-left, green -->
   <div class="tk-phone tp3">
-    <div class="tk-vid"></div><div class="tk-scan" style="animation-delay:2.1s"></div>
+    <div class="tk-vid"></div><div class="tk-scan" style="animation-delay:2.1s"></div><div class="tk-live-dot"></div><div class="tk-price-tag">TAO +31%</div>
     <div class="tk-right">
       <div class="tk-av">W3</div>
       <div class="tk-ic"><span class="tk-ic-sym">❤</span><span class="tk-ic-n">67.4K</span></div>
@@ -1415,7 +1447,7 @@ textarea::placeholder{color:var(--t5);font-size:13px}
   </div>
   <!-- Phone 4: mid-right, pink -->
   <div class="tk-phone tp4">
-    <div class="tk-vid"></div><div class="tk-scan" style="animation-delay:.6s"></div>
+    <div class="tk-vid"></div><div class="tk-scan" style="animation-delay:.6s"></div><div class="tk-live-dot"></div><div class="tk-price-tag">VIRTUAL +42%</div>
     <div class="tk-right">
       <div class="tk-av">NT</div>
       <div class="tk-ic"><span class="tk-ic-sym">❤</span><span class="tk-ic-n">89.1K</span></div>
@@ -1431,7 +1463,7 @@ textarea::placeholder{color:var(--t5);font-size:13px}
   </div>
   <!-- Phone 5: bottom-left, blue -->
   <div class="tk-phone tp5">
-    <div class="tk-vid"></div><div class="tk-scan" style="animation-delay:3s"></div>
+    <div class="tk-vid"></div><div class="tk-scan" style="animation-delay:3s"></div><div class="tk-live-dot"></div><div class="tk-price-tag">ONDO +15%</div>
     <div class="tk-right">
       <div class="tk-av">AI</div>
       <div class="tk-ic"><span class="tk-ic-sym">❤</span><span class="tk-ic-n">34.7K</span></div>
@@ -1447,7 +1479,7 @@ textarea::placeholder{color:var(--t5);font-size:13px}
   </div>
   <!-- Phone 6: bottom-right, gold -->
   <div class="tk-phone tp6">
-    <div class="tk-vid"></div><div class="tk-scan" style="animation-delay:1.8s"></div>
+    <div class="tk-vid"></div><div class="tk-scan" style="animation-delay:1.8s"></div><div class="tk-live-dot"></div><div class="tk-price-tag">ARB +12%</div>
     <div class="tk-right">
       <div class="tk-av">MC</div>
       <div class="tk-ic"><span class="tk-ic-sym">❤</span><span class="tk-ic-n">201K</span></div>
@@ -1504,6 +1536,18 @@ textarea::placeholder{color:var(--t5);font-size:13px}
         <!-- TikTok Signal Card -->
         <div class="htk-card">
           <div class="htk-vid">
+            <div class="htk-grain"></div>
+            <div class="htk-scanline-overlay"></div>
+            <svg class="htk-chart-svg" viewBox="0 0 200 210" preserveAspectRatio="none">
+              <defs><linearGradient id="cg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="rgba(74,222,128,.2)"/><stop offset="100%" stop-color="rgba(74,222,128,0)"/></linearGradient></defs>
+              <polyline points="0,180 25,160 50,165 80,130 110,100 140,75 165,55 200,30" fill="none" stroke="rgba(74,222,128,.7)" stroke-width="1.5"/>
+              <polygon points="0,180 25,160 50,165 80,130 110,100 140,75 165,55 200,30 200,210 0,210" fill="url(#cg)"/>
+              <line x1="0" y1="105" x2="200" y2="105" stroke="rgba(255,255,255,.05)" stroke-width="1" stroke-dasharray="4,4"/>
+            </svg>
+            <div class="htk-price-row">
+              <span class="htk-price-token">NEAR</span>
+              <span class="htk-price-val">+24.7%</span>
+            </div>
             <div class="htk-beam" id="htk-beam"></div>
             <div class="htk-user-lbl">@cryptowatcher</div>
             <div class="htk-text" id="htk-text"></div>
@@ -3007,6 +3051,23 @@ function startAgentDemo() {
     agentWsInterval = setInterval(addWsEntry, 1400);
     demoTimers.push(agentWsInterval);
   }, resDone);
+}
+
+/* ── TIKTOK LOGIN ── */
+function loginTikTok() {
+  const btn  = document.getElementById('tiktok-btn');
+  const spin = document.getElementById('tiktok-spin');
+  const lbl  = document.getElementById('tiktok-lbl');
+  btn.classList.add('loading');
+  spin.style.display = 'block';
+  lbl.textContent = 'Connecting...';
+  setTimeout(() => {
+    const handles = ['cryptowatcher','defi_maxi','web3alpha','nfttrader','aitrading'];
+    const handle  = handles[Math.floor(Math.random() * handles.length)];
+    authState = {type:'human', identifier:'@' + handle, key:'tg_tk_' + Math.random().toString(36).slice(2,14)};
+    localStorage.setItem('tg_auth', JSON.stringify(authState));
+    enterApp();
+  }, 1600);
 }
 </script>
 </body>
