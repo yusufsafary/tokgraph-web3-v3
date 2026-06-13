@@ -153,19 +153,25 @@ body::before{
   padding:12px 22px;border-top:1px solid var(--ln);
   font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--t4);
   text-align:center;letter-spacing:.5px;
-  display:flex;align-items:center;justify-content:space-between;
 }
+/* Fixed demo button — always visible at bottom of screen */
 .gate-demo-cta{
-  width:100%;max-width:420px;margin-top:10px;
+  position:fixed;bottom:0;left:0;right:0;
+  z-index:1000;
+  padding:0 20px 20px;
+  background:linear-gradient(transparent,#000 38%);
+  pointer-events:none;
 }
+.gate-demo-cta.visible{pointer-events:all}
 .gate-demo-btn{
-  width:100%;background:none;
-  border:1px solid var(--ln2);
+  width:100%;max-width:420px;margin:0 auto;
+  background:#0d0d0d;
+  border:1px solid #2a2a2a;
   cursor:pointer;padding:14px 18px;
   display:flex;align-items:center;justify-content:space-between;
   gap:12px;transition:border-color .2s,background .2s;text-align:left;
 }
-.gate-demo-btn:hover{border-color:#3a3a3a;background:var(--sf)}
+.gate-demo-btn:hover{border-color:#444;background:#141414}
 .gdb-left{flex:1}
 .gdb-label{
   font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:600;
@@ -173,16 +179,16 @@ body::before{
 }
 .gdb-sub{font-size:12px;color:var(--t4)}
 .gdb-arrow{
-  font-family:'IBM Plex Mono',monospace;font-size:18px;color:var(--t3);
+  font-family:'IBM Plex Mono',monospace;font-size:20px;color:var(--t3);
   transition:transform .2s,color .2s;
 }
-.gate-demo-btn:hover .gdb-arrow{transform:translateX(4px);color:var(--t1)}
+.gate-demo-btn:hover .gdb-arrow{transform:translateX(5px);color:var(--t1)}
 
 /* ══════════════════════════════════════════════
    DEMO OVERLAY
 ══════════════════════════════════════════════ */
 #demo-overlay{
-  position:fixed;inset:0;z-index:1000;
+  position:fixed;inset:0;z-index:1002;
   background:var(--bk);
   display:flex;flex-direction:column;
   opacity:0;pointer-events:none;
@@ -1025,21 +1031,21 @@ textarea::placeholder{color:var(--t5);font-size:13px}
 
     </div>
     <div class="gate-footer">
-    <span>Invite-only access &middot; Applications reviewed within 48h</span>
-  </div>
-  </div>
-
-  <!-- Demo CTA — clearly visible below card -->
-  <div class="gate-demo-cta">
-    <button class="gate-demo-btn" onclick="openDemo()">
-      <div class="gdb-left">
-        <div class="gdb-label">LIVE PREVIEW</div>
-        <div class="gdb-sub">See the full product before requesting access</div>
-      </div>
-      <div class="gdb-arrow">&rarr;</div>
-    </button>
+      <span>Invite-only access &middot; Applications reviewed within 48h</span>
+    </div>
   </div>
 
+</div>
+
+<!-- Demo button — fixed at bottom, always visible, outside gate -->
+<div class="gate-demo-cta" id="gate-demo-cta">
+  <button class="gate-demo-btn" onclick="openDemo()">
+    <div class="gdb-left">
+      <div class="gdb-label">&#9654; LIVE PREVIEW</div>
+      <div class="gdb-sub">See the full product before requesting access</div>
+    </div>
+    <div class="gdb-arrow">&rarr;</div>
+  </button>
 </div>
 
 <!-- ══════ DEMO OVERLAY ══════ -->
@@ -1667,9 +1673,15 @@ function setLoading(mode, on) {
 
 function showErr(el, msg){ el.textContent = msg; el.classList.add('show'); }
 
+function showDemoBtn(on) {
+  const el = document.getElementById('gate-demo-cta');
+  if(el) el.classList.toggle('visible', on);
+}
+
 function enterApp() {
   const gate = document.getElementById('login-gate');
   const app  = document.getElementById('app');
+  showDemoBtn(false);
   gate.classList.add('exit');
   setTimeout(() => {
     gate.style.display = 'none';
@@ -1693,6 +1705,7 @@ function logout() {
   document.getElementById('a-key').value='';
   document.getElementById('h-err').classList.remove('show');
   document.getElementById('a-err').classList.remove('show');
+  showDemoBtn(true);
 }
 
 function copyApiKey() {
@@ -1709,9 +1722,13 @@ function copyApiKey() {
       authState = JSON.parse(stored);
       document.getElementById('login-gate').style.display = 'none';
       document.getElementById('app').classList.add('show');
+      showDemoBtn(false);
       initApp();
+      return;
     } catch { localStorage.removeItem('tg_auth'); }
   }
+  // Not logged in — show demo button
+  showDemoBtn(true);
 })();
 
 /* ══════════════════════════════════════
@@ -2126,6 +2143,7 @@ let demoRunning = false;
 let demoTimers  = [];
 
 function openDemo() {
+  showDemoBtn(false);
   document.getElementById('demo-overlay').classList.add('show');
   setDemoTab('human');
   startHumanDemo();
@@ -2134,6 +2152,7 @@ function openDemo() {
 function closeDemo() {
   document.getElementById('demo-overlay').classList.remove('show');
   stopDemo();
+  if(!authState) showDemoBtn(true);
 }
 
 function setDemoTab(tab) {
