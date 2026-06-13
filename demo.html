@@ -13,18 +13,48 @@
   --t1:#ffffff;--t2:#aaaaaa;--t3:#666;--t4:#444;
   --ln:#222;--ln2:#2a2a2a;--acc:#4ade80;--acc2:#22c55e;
   --red:#f87171;--blue:#60a5fa;--orange:#fb923c;
-  --tg:#ff0050;
+  --purple:#a855f7;--cyan:#00f5ff;--tg:#ff0050;
 }
 html,body{height:100%;overflow:hidden;background:var(--bg);font-family:'Space Grotesk',sans-serif;color:var(--t1);}
 
-/* TOP BAR */
+/* ── TICKER STRIP ── */
+.ticker-strip{
+  position:fixed;top:0;left:0;right:0;height:26px;
+  background:#0a0a0a;border-bottom:1px solid var(--ln);
+  overflow:hidden;z-index:2000;display:flex;align-items:center;
+}
+.ticker-inner{
+  display:flex;gap:0;white-space:nowrap;
+  animation:ticker-scroll 28s linear infinite;
+}
+.ticker-inner:hover{animation-play-state:paused}
+.ticker-item{
+  display:inline-flex;align-items:center;gap:6px;
+  font-family:'IBM Plex Mono',monospace;font-size:8px;
+  padding:0 18px;border-right:1px solid var(--ln);
+  flex-shrink:0;
+}
+.ticker-sym{color:var(--t2);font-weight:700;letter-spacing:.4px;}
+.ticker-price{color:var(--t1);}
+.ticker-chg{font-weight:700;}
+.ticker-chg.up{color:var(--acc);}
+.ticker-chg.dn{color:var(--red);}
+.ticker-sig{
+  font-size:7px;font-weight:700;letter-spacing:.3px;
+  padding:1px 4px;
+}
+.ticker-sig.hot{background:rgba(255,0,80,.15);color:var(--tg);border:1px solid rgba(255,0,80,.2);}
+.ticker-sig.watch{background:rgba(251,146,60,.1);color:var(--orange);border:1px solid rgba(251,146,60,.15);}
+@keyframes ticker-scroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+
+/* ── TOP BAR ── */
 .demo-topbar{
-  position:fixed;top:0;left:0;right:0;height:44px;
+  position:fixed;top:26px;left:0;right:0;height:44px;
   display:flex;align-items:center;justify-content:space-between;
-  padding:0 16px;background:rgba(8,8,8,.95);border-bottom:1px solid var(--ln);
+  padding:0 16px;background:rgba(8,8,8,.97);border-bottom:1px solid var(--ln);
   z-index:1000;backdrop-filter:blur(12px);
 }
-.demo-topbar-left{display:flex;align-items:center;gap:12px;}
+.demo-topbar-left{display:flex;align-items:center;gap:10px;}
 .demo-back{
   display:inline-flex;align-items:center;gap:5px;
   font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:600;
@@ -37,6 +67,7 @@ html,body{height:100%;overflow:hidden;background:var(--bg);font-family:'Space Gr
   color:var(--tg);letter-spacing:1px;border:1px solid rgba(255,0,80,.25);
   padding:3px 7px;background:rgba(255,0,80,.07);
 }
+.demo-topbar-right{display:flex;align-items:center;gap:8px;}
 .demo-x-link{
   display:inline-flex;align-items:center;gap:5px;
   font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:600;
@@ -44,29 +75,36 @@ html,body{height:100%;overflow:hidden;background:var(--bg);font-family:'Space Gr
   border:1px solid var(--ln2);padding:5px 10px;transition:all .15s;
 }
 .demo-x-link:hover{color:var(--t1);border-color:#3a3a3a;}
+.demo-algo-badge{
+  font-family:'IBM Plex Mono',monospace;font-size:7px;font-weight:700;
+  color:var(--cyan);letter-spacing:1px;border:1px solid rgba(0,245,255,.2);
+  padding:3px 7px;background:rgba(0,245,255,.04);display:flex;align-items:center;gap:5px;
+}
+.demo-algo-dot{width:5px;height:5px;border-radius:50%;background:var(--cyan);animation:pulse 1.2s infinite;}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.2}}
 
-/* LAYOUT */
+/* ── LAYOUT ── */
 .demo-body{
-  position:fixed;top:44px;left:0;right:0;bottom:0;
+  position:fixed;top:70px;left:0;right:0;bottom:0;
   display:flex;overflow:hidden;
 }
 
-/* PHONE MOCK */
+/* ── LEFT PHONE COL ── */
 .demo-phone-col{
-  width:340px;flex-shrink:0;
-  display:flex;align-items:center;justify-content:center;
+  width:290px;flex-shrink:0;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
   background:var(--bg);border-right:1px solid var(--ln);
-  padding:20px;
+  padding:16px;gap:12px;
 }
 .phone-frame{
-  width:250px;height:450px;
+  width:230px;height:400px;
   background:var(--sf);border:1.5px solid var(--ln2);
-  position:relative;overflow:hidden;border-radius:4px;
+  position:relative;overflow:hidden;border-radius:4px;flex-shrink:0;
 }
 .htk-vid{
   position:absolute;inset:0;
   background:linear-gradient(170deg,#080808 0%,#1c0008 25%,#380010 50%,#1a0005 75%,#080808 100%);
-  z-index:0;
+  z-index:0;transition:background 1.2s ease;
 }
 .htk-chart-svg{
   position:absolute;inset:0;width:100%;height:100%;
@@ -92,6 +130,7 @@ html,body{height:100%;overflow:hidden;background:var(--bg);font-family:'Space Gr
 }
 .htk-price-val{
   font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:700;color:#4ade80;
+  transition:color .5s;
 }
 .htk-bottom{
   position:absolute;bottom:12px;left:10px;right:50px;z-index:4;
@@ -119,8 +158,8 @@ html,body{height:100%;overflow:hidden;background:var(--bg);font-family:'Space Gr
 }
 .htk-action-val{font-size:7px;color:rgba(255,255,255,.6);font-family:'IBM Plex Mono',monospace;}
 .htk-signal-overlay{
-  position:absolute;top:0;right:0;width:115px;bottom:0;
-  background:linear-gradient(90deg,transparent,rgba(8,8,8,.92));
+  position:absolute;top:0;right:0;width:110px;bottom:0;
+  background:linear-gradient(90deg,transparent,rgba(8,8,8,.93));
   z-index:3;display:flex;flex-direction:column;justify-content:center;padding:8px;
 }
 .sig-label{font-family:'IBM Plex Mono',monospace;font-size:6px;color:var(--t4);letter-spacing:.8px;margin-bottom:4px;}
@@ -133,183 +172,298 @@ html,body{height:100%;overflow:hidden;background:var(--bg);font-family:'Space Gr
 .sig-mini-label{font-family:'IBM Plex Mono',monospace;font-size:6px;color:var(--t4);letter-spacing:.5px;margin-bottom:3px;}
 .sig-bar-row{display:flex;align-items:center;gap:4px;margin-bottom:3px;}
 .sig-bar-bg{flex:1;height:3px;background:var(--ln2);border-radius:1px;overflow:hidden;}
-.sig-bar-fill{height:100%;border-radius:1px;}
+.sig-bar-fill{height:100%;border-radius:1px;transition:width 1.5s cubic-bezier(.4,0,.2,1);}
 .sig-bar-pct{font-family:'IBM Plex Mono',monospace;font-size:6px;color:var(--t3);}
-
-/* PANELS */
-.demo-panels{
-  flex:1;overflow-y:auto;overflow-x:hidden;
-  padding:20px;display:flex;flex-direction:column;gap:16px;
+/* signal pulse flash */
+.phone-frame.flash::after{
+  content:'';position:absolute;inset:0;z-index:10;
+  background:rgba(74,222,128,.12);
+  animation:flashout .6s ease forwards;pointer-events:none;
 }
-.demo-panels::-webkit-scrollbar{width:3px;}
-.demo-panels::-webkit-scrollbar-thumb{background:var(--ln2);}
+@keyframes flashout{0%{opacity:1}100%{opacity:0}}
+
+/* ── VOICE INPUT ── */
+.voice-strip{
+  width:230px;background:var(--sf);border:1px solid var(--ln2);
+  padding:9px 12px;display:flex;align-items:center;gap:10px;flex-shrink:0;
+}
+.voice-mic{
+  width:26px;height:26px;border-radius:50%;
+  border:1px solid var(--ln2);display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;cursor:pointer;transition:all .2s;
+}
+.voice-mic.active{border-color:var(--tg);background:rgba(255,0,80,.1);}
+.voice-mic svg{width:12px;height:12px;}
+.voice-bars{display:flex;align-items:center;gap:2px;flex:1;}
+.voice-bar{
+  width:2px;border-radius:1px;background:var(--ln2);
+  transition:height .1s,background .2s;
+}
+.voice-label{font-family:'IBM Plex Mono',monospace;font-size:7px;color:var(--t4);letter-spacing:.5px;}
+.voice-label.active{color:var(--tg);}
+
+/* ── MIDDLE PANEL ── */
+.demo-mid{
+  width:320px;flex-shrink:0;
+  overflow-y:auto;overflow-x:hidden;
+  border-right:1px solid var(--ln);
+  display:flex;flex-direction:column;
+}
+.demo-mid::-webkit-scrollbar{width:2px;}
+.demo-mid::-webkit-scrollbar-thumb{background:var(--ln2);}
+
+/* ALERT STACK */
+.alert-stack{
+  padding:10px 12px;border-bottom:1px solid var(--ln);
+  display:flex;flex-direction:column;gap:6px;background:#0a0a0a;
+}
+.alert-row{
+  display:flex;align-items:center;gap:8px;
+  padding:7px 10px;background:var(--sf);border:1px solid var(--ln2);
+  animation:slideIn .35s ease;
+}
+@keyframes slideIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
+.alert-row.danger{border-color:rgba(255,0,80,.25);background:rgba(255,0,80,.04);}
+.alert-row.info{border-color:rgba(96,165,250,.2);background:rgba(96,165,250,.03);}
+.alert-row.success{border-color:rgba(74,222,128,.2);background:rgba(74,222,128,.03);}
+.alert-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;}
+.alert-text{font-family:'IBM Plex Mono',monospace;font-size:8px;color:var(--t2);flex:1;line-height:1.4;}
+.alert-text strong{color:var(--t1);}
+.alert-age{font-family:'IBM Plex Mono',monospace;font-size:7px;color:var(--t4);flex-shrink:0;}
 
 /* SIGNAL CARD */
-.signal-card{background:var(--sf);border:1px solid var(--ln2);padding:16px;}
-.sc-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px;}
-.sc-coin{display:flex;align-items:center;gap:10px;}
+.signal-card{padding:14px 14px 10px;border-bottom:1px solid var(--ln);}
+.sc-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:10px;}
+.sc-coin{display:flex;align-items:center;gap:9px;}
 .sc-icon{
-  width:36px;height:36px;border-radius:2px;
+  width:32px;height:32px;border-radius:2px;flex-shrink:0;
   background:linear-gradient(135deg,rgba(74,222,128,.15),rgba(34,197,94,.05));
   border:1px solid rgba(74,222,128,.2);
   display:flex;align-items:center;justify-content:center;
-  font-size:14px;font-weight:700;color:var(--acc);font-family:'IBM Plex Mono',monospace;
+  font-size:13px;font-weight:700;color:var(--acc);font-family:'IBM Plex Mono',monospace;
+  transition:all .4s;
 }
-.sc-name{font-size:13px;font-weight:700;color:var(--t1);}
-.sc-sym{font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--t3);letter-spacing:.5px;margin-top:1px;}
+.sc-name{font-size:12px;font-weight:700;color:var(--t1);}
+.sc-sym{font-family:'IBM Plex Mono',monospace;font-size:8px;color:var(--t3);letter-spacing:.5px;margin-top:1px;}
 .sc-score-col{text-align:right;}
-.sc-score{font-family:'IBM Plex Mono',monospace;font-size:26px;font-weight:700;color:var(--acc);line-height:1;}
-.sc-grade{font-size:9px;color:var(--acc);font-family:'IBM Plex Mono',monospace;letter-spacing:.5px;}
-.sc-metrics{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:12px;}
-.sc-metric{background:var(--sf2);border:1px solid var(--ln);padding:8px;text-align:center;}
-.sc-metric-label{font-family:'IBM Plex Mono',monospace;font-size:7px;color:var(--t4);letter-spacing:.5px;margin-bottom:4px;}
-.sc-metric-val{font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:700;color:var(--t1);}
+.sc-score{font-family:'IBM Plex Mono',monospace;font-size:28px;font-weight:700;color:var(--acc);line-height:1;transition:color .4s;}
+.sc-grade{font-size:8px;color:var(--acc);font-family:'IBM Plex Mono',monospace;letter-spacing:.5px;}
+.sc-metrics{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:10px;}
+.sc-metric{background:var(--sf2);border:1px solid var(--ln);padding:7px;text-align:center;}
+.sc-metric-label{font-family:'IBM Plex Mono',monospace;font-size:6px;color:var(--t4);letter-spacing:.5px;margin-bottom:4px;}
+.sc-metric-val{font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:700;color:var(--t1);}
 .sc-metric-val.up{color:var(--acc);}
-.sc-bar-row{display:flex;align-items:center;gap:8px;margin-bottom:6px;}
-.sc-bar-label{font-family:'IBM Plex Mono',monospace;font-size:8px;color:var(--t3);width:80px;flex-shrink:0;}
-.sc-bar-track{flex:1;height:4px;background:var(--ln2);border-radius:1px;overflow:hidden;}
-.sc-bar-fill{height:100%;border-radius:1px;transition:width 1.5s cubic-bezier(.4,0,.2,1);}
-.sc-bar-val{font-family:'IBM Plex Mono',monospace;font-size:8px;color:var(--t2);width:30px;text-align:right;flex-shrink:0;}
-.sc-footer{display:flex;align-items:center;justify-content:space-between;margin-top:12px;padding-top:10px;border-top:1px solid var(--ln);}
-.sc-time{font-family:'IBM Plex Mono',monospace;font-size:8px;color:var(--t4);letter-spacing:.3px;}
+.sc-bar-row{display:flex;align-items:center;gap:8px;margin-bottom:5px;}
+.sc-bar-label{font-family:'IBM Plex Mono',monospace;font-size:7px;color:var(--t3);width:76px;flex-shrink:0;}
+.sc-bar-track{flex:1;height:3px;background:var(--ln2);border-radius:1px;overflow:hidden;}
+.sc-bar-fill{height:100%;border-radius:1px;transition:width 1.2s cubic-bezier(.4,0,.2,1);}
+.sc-bar-val{font-family:'IBM Plex Mono',monospace;font-size:7px;color:var(--t2);width:28px;text-align:right;flex-shrink:0;}
+.sc-footer{display:flex;align-items:center;justify-content:space-between;margin-top:10px;padding-top:8px;border-top:1px solid var(--ln);}
+.sc-time{font-family:'IBM Plex Mono',monospace;font-size:7px;color:var(--t4);}
 .sc-action{
-  font-family:'IBM Plex Mono',monospace;font-size:8px;font-weight:700;
+  font-family:'IBM Plex Mono',monospace;font-size:7px;font-weight:700;
   color:var(--acc);letter-spacing:.5px;cursor:pointer;
-  border:1px solid rgba(74,222,128,.25);padding:4px 10px;
-  background:rgba(74,222,128,.05);transition:all .15s;
+  border:1px solid rgba(74,222,128,.2);padding:4px 9px;
+  background:rgba(74,222,128,.04);transition:all .15s;
 }
 .sc-action:hover{background:rgba(74,222,128,.1);}
 
-/* FEED CARD */
-.feed-card{background:var(--sf);border:1px solid var(--ln2);}
+/* FEED */
 .feed-header{
   display:flex;align-items:center;justify-content:space-between;
-  padding:10px 14px;border-bottom:1px solid var(--ln);
+  padding:9px 14px;border-bottom:1px solid var(--ln);background:#0a0a0a;
+  position:sticky;top:0;z-index:10;
 }
-.feed-title{font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:600;color:var(--t3);letter-spacing:.8px;}
+.feed-title{font-family:'IBM Plex Mono',monospace;font-size:8px;font-weight:700;color:var(--t3);letter-spacing:.8px;}
 .feed-dot{width:6px;height:6px;border-radius:50%;background:var(--tg);animation:pulse 1.5s infinite;}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.feed-count{font-family:'IBM Plex Mono',monospace;font-size:7px;color:var(--t4);}
 .feed-item{
-  display:flex;align-items:flex-start;gap:10px;
-  padding:10px 14px;border-bottom:1px solid var(--ln);transition:background .15s;
+  display:flex;align-items:flex-start;gap:9px;
+  padding:9px 14px;border-bottom:1px solid var(--ln);transition:background .15s;
+  animation:slideIn .35s ease;
 }
-.feed-item:last-child{border-bottom:none;}
 .feed-item:hover{background:var(--sf2);}
 .feed-avatar{
-  width:28px;height:28px;border-radius:50%;flex-shrink:0;
+  width:26px;height:26px;border-radius:50%;flex-shrink:0;
   display:flex;align-items:center;justify-content:center;
-  font-size:10px;font-weight:700;color:#fff;
+  font-size:9px;font-weight:700;color:#fff;
 }
 .feed-right{flex:1;min-width:0;}
-.feed-user{display:flex;align-items:center;gap:6px;margin-bottom:3px;}
-.feed-handle{font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:700;color:var(--t2);}
+.feed-user{display:flex;align-items:center;gap:5px;margin-bottom:3px;}
+.feed-handle{font-family:'IBM Plex Mono',monospace;font-size:8px;font-weight:700;color:var(--t2);}
 .feed-verified{font-size:8px;color:var(--tg);}
-.feed-text{font-size:10px;color:var(--t2);line-height:1.4;}
+.feed-text{font-size:9px;color:var(--t2);line-height:1.4;}
 .feed-text .coin{font-family:'IBM Plex Mono',monospace;font-weight:700;color:var(--acc);}
 .feed-text .tag{color:var(--tg);font-family:'IBM Plex Mono',monospace;}
-.feed-meta{display:flex;align-items:center;gap:10px;margin-top:5px;}
-.feed-signal-badge{font-family:'IBM Plex Mono',monospace;font-size:7px;font-weight:700;padding:2px 6px;letter-spacing:.3px;}
+.feed-meta{display:flex;align-items:center;gap:8px;margin-top:5px;}
+.feed-signal-badge{font-family:'IBM Plex Mono',monospace;font-size:6px;font-weight:700;padding:2px 5px;letter-spacing:.3px;}
 .feed-signal-badge.bull{background:rgba(74,222,128,.1);color:var(--acc);border:1px solid rgba(74,222,128,.2);}
 .feed-signal-badge.bear{background:rgba(248,113,113,.1);color:var(--red);border:1px solid rgba(248,113,113,.2);}
 .feed-signal-badge.neutral{background:rgba(251,146,60,.1);color:var(--orange);border:1px solid rgba(251,146,60,.2);}
-.feed-views{font-family:'IBM Plex Mono',monospace;font-size:7px;color:var(--t4);}
-.feed-score{font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:700;}
+.feed-views{font-family:'IBM Plex Mono',monospace;font-size:6px;color:var(--t4);}
+.feed-score{font-family:'IBM Plex Mono',monospace;font-size:8px;font-weight:700;}
 .feed-score.hi{color:var(--acc);}
 .feed-score.mid{color:var(--orange);}
 
-/* ABOUT CARD */
-.about-card{background:var(--sf);border:1px solid var(--ln2);overflow:hidden;}
-.about-header{
-  padding:14px 16px;border-bottom:1px solid var(--ln);
-  display:flex;align-items:center;gap:10px;
+/* ── RIGHT PANEL ── */
+.demo-right{
+  flex:1;overflow-y:auto;overflow-x:hidden;
+  display:flex;flex-direction:column;gap:0;
 }
+.demo-right::-webkit-scrollbar{width:2px;}
+.demo-right::-webkit-scrollbar-thumb{background:var(--ln2);}
+
+/* SECTION LABEL */
+.section-label{
+  font-family:'IBM Plex Mono',monospace;font-size:7px;font-weight:700;
+  color:var(--t4);letter-spacing:1.2px;padding:8px 14px 6px;
+  border-bottom:1px solid var(--ln);background:#0a0a0a;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.section-label-note{color:var(--t4);font-weight:400;letter-spacing:.3px;font-size:7px;}
+
+/* RADAR HEATMAP */
+.radar-panel{padding:14px;}
+.radar-grid{
+  display:grid;grid-template-columns:repeat(5,1fr);gap:4px;
+  margin-bottom:10px;
+}
+.radar-cell{
+  aspect-ratio:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  border:1px solid var(--ln2);cursor:pointer;transition:all .2s;position:relative;overflow:hidden;
+}
+.radar-cell:hover{border-color:#3a3a3a;transform:scale(1.04);}
+.radar-cell::before{
+  content:'';position:absolute;inset:0;opacity:.12;transition:opacity .3s;
+}
+.radar-cell.h90::before{background:var(--acc);}
+.radar-cell.h80::before{background:#60a5fa;}
+.radar-cell.h70::before{background:var(--orange);}
+.radar-cell.h50::before{background:var(--purple);}
+.radar-cell.h30::before{background:var(--red);}
+.radar-cell:hover::before{opacity:.22;}
+.radar-sym{font-family:'IBM Plex Mono',monospace;font-size:7px;font-weight:700;color:var(--t2);z-index:1;}
+.radar-score{font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:700;z-index:1;}
+.radar-score.h90{color:var(--acc);}
+.radar-score.h80{color:#60a5fa;}
+.radar-score.h70{color:var(--orange);}
+.radar-score.h50{color:var(--purple);}
+.radar-score.h30{color:var(--red);}
+.radar-legend{display:flex;gap:10px;flex-wrap:wrap;}
+.radar-leg-item{display:flex;align-items:center;gap:4px;font-family:'IBM Plex Mono',monospace;font-size:6px;color:var(--t4);}
+.radar-leg-dot{width:6px;height:6px;border-radius:1px;}
+
+/* CORRELATION MATRIX */
+.corr-panel{padding:14px;}
+.corr-title{font-family:'IBM Plex Mono',monospace;font-size:7px;color:var(--t4);letter-spacing:.8px;margin-bottom:10px;}
+.corr-grid{display:flex;flex-direction:column;gap:2px;}
+.corr-row{display:flex;gap:2px;align-items:center;}
+.corr-label{font-family:'IBM Plex Mono',monospace;font-size:7px;color:var(--t3);width:36px;flex-shrink:0;}
+.corr-cell{
+  width:26px;height:18px;display:flex;align-items:center;justify-content:center;
+  font-family:'IBM Plex Mono',monospace;font-size:6px;font-weight:700;
+  border-radius:1px;color:rgba(0,0,0,.8);transition:transform .15s;cursor:default;
+}
+.corr-cell:hover{transform:scale(1.12);}
+.corr-header{display:flex;gap:2px;padding-left:38px;margin-bottom:2px;}
+.corr-header-label{
+  width:26px;font-family:'IBM Plex Mono',monospace;font-size:6px;
+  color:var(--t4);text-align:center;
+}
+
+/* TIMELINE */
+.timeline-panel{padding:14px;}
+.timeline-track{position:relative;padding-left:18px;display:flex;flex-direction:column;gap:0;}
+.timeline-track::before{
+  content:'';position:absolute;left:6px;top:6px;bottom:6px;
+  width:1px;background:var(--ln2);
+}
+.tl-item{
+  position:relative;padding:0 0 14px 12px;
+  animation:slideIn .4s ease;
+}
+.tl-dot{
+  position:absolute;left:-12px;top:4px;width:8px;height:8px;border-radius:50%;
+  border:1.5px solid var(--ln2);background:var(--bg);
+  transition:all .3s;
+}
+.tl-dot.active{border-color:var(--acc);background:var(--acc);box-shadow:0 0 8px rgba(74,222,128,.4);}
+.tl-dot.warning{border-color:var(--orange);background:var(--orange);}
+.tl-dot.danger{border-color:var(--red);background:var(--red);}
+.tl-time{font-family:'IBM Plex Mono',monospace;font-size:7px;color:var(--t4);margin-bottom:3px;}
+.tl-content{background:var(--sf);border:1px solid var(--ln2);padding:8px 10px;}
+.tl-content-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:3px;}
+.tl-event{font-size:10px;font-weight:700;color:var(--t1);}
+.tl-badge{
+  font-family:'IBM Plex Mono',monospace;font-size:6px;font-weight:700;
+  padding:2px 5px;letter-spacing:.3px;
+}
+.tl-badge.signal{background:rgba(74,222,128,.1);color:var(--acc);border:1px solid rgba(74,222,128,.2);}
+.tl-badge.detect{background:rgba(96,165,250,.1);color:#60a5fa;border:1px solid rgba(96,165,250,.2);}
+.tl-badge.alert{background:rgba(251,146,60,.1);color:var(--orange);border:1px solid rgba(251,146,60,.2);}
+.tl-badge.confirm{background:rgba(168,85,247,.1);color:var(--purple);border:1px solid rgba(168,85,247,.2);}
+.tl-desc{font-family:'IBM Plex Mono',monospace;font-size:8px;color:var(--t3);line-height:1.4;}
+
+/* ABOUT CARD */
+.about-card{border-top:1px solid var(--ln);padding:14px;}
+.about-header{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
 .about-icon{
-  width:28px;height:28px;background:var(--tg);flex-shrink:0;
+  width:26px;height:26px;background:var(--tg);flex-shrink:0;
   display:flex;align-items:center;justify-content:center;
 }
-.about-title-text{font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:700;color:var(--t1);letter-spacing:.5px;}
-.about-sub{font-family:'IBM Plex Mono',monospace;font-size:7px;color:var(--t4);letter-spacing:.3px;margin-top:1px;}
-.about-body{padding:16px;display:flex;flex-direction:column;gap:14px;}
-.about-desc{font-size:11px;color:var(--t2);line-height:1.65;}
-.about-desc strong{color:var(--t1);font-weight:700;}
-.about-stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;}
+.about-title-text{font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:700;color:var(--t1);letter-spacing:.5px;}
+.about-sub{font-family:'IBM Plex Mono',monospace;font-size:6px;color:var(--t4);letter-spacing:.3px;margin-top:1px;}
+.about-stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:10px;}
 .about-stat{background:var(--sf2);border:1px solid var(--ln);padding:10px;text-align:center;}
-.about-stat-val{font-family:'IBM Plex Mono',monospace;font-size:16px;font-weight:700;color:var(--acc);}
-.about-stat-label{font-family:'IBM Plex Mono',monospace;font-size:7px;color:var(--t4);letter-spacing:.5px;margin-top:3px;}
-.about-features{display:flex;flex-direction:column;gap:8px;}
-.about-feature{display:flex;align-items:flex-start;gap:10px;padding:10px;background:var(--sf2);border:1px solid var(--ln);}
-.about-feature-icon{width:24px;height:24px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:12px;}
-.about-feature-name{font-size:11px;font-weight:700;color:var(--t1);margin-bottom:2px;}
-.about-feature-desc{font-size:9px;color:var(--t3);line-height:1.5;font-family:'IBM Plex Mono',monospace;}
-.about-links{display:flex;gap:8px;flex-wrap:wrap;}
+.about-stat-val{font-family:'IBM Plex Mono',monospace;font-size:15px;font-weight:700;color:var(--acc);}
+.about-stat-label{font-family:'IBM Plex Mono',monospace;font-size:6px;color:var(--t4);letter-spacing:.5px;margin-top:3px;}
+.about-desc{font-size:10px;color:var(--t2);line-height:1.65;}
+.about-desc strong{color:var(--t1);}
+.about-links{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px;}
 .about-link{
-  display:inline-flex;align-items:center;gap:6px;
-  font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:700;
+  display:inline-flex;align-items:center;gap:5px;
+  font-family:'IBM Plex Mono',monospace;font-size:8px;font-weight:700;
   color:var(--t1);text-decoration:none;
-  border:1px solid var(--ln2);padding:8px 14px;
+  border:1px solid var(--ln2);padding:7px 12px;
   background:var(--sf2);transition:all .15s;letter-spacing:.3px;
 }
 .about-link:hover{border-color:#3a3a3a;background:var(--sf3);}
 .about-link.primary{border-color:rgba(255,0,80,.35);color:var(--tg);background:rgba(255,0,80,.06);}
 .about-link.primary:hover{background:rgba(255,0,80,.12);}
 
-/* SECTION LABEL */
-.section-label{
-  font-family:'IBM Plex Mono',monospace;font-size:8px;font-weight:700;
-  color:var(--t4);letter-spacing:1.2px;padding-bottom:6px;
-  border-bottom:1px solid var(--ln);
-}
-
-/* SCORE ROWS */
-.about-score-rows{display:flex;flex-direction:column;}
-.score-row{
-  display:flex;align-items:flex-start;gap:12px;
-  padding:10px 0;border-bottom:1px solid var(--ln);
-}
-.score-row-left{flex:1;}
-.score-row-name{font-size:11px;font-weight:700;color:var(--t1);margin-bottom:3px;}
-.score-row-desc{font-size:9px;color:var(--t3);line-height:1.55;font-family:'IBM Plex Mono',monospace;}
-.score-row-weight{
-  font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:700;
-  color:var(--acc);flex-shrink:0;width:38px;text-align:right;padding-top:2px;
-}
-
-/* SIGNAL HISTORY TABLE */
-.signal-history{width:100%;border-collapse:collapse;font-family:'IBM Plex Mono',monospace;}
-.signal-history thead tr{border-bottom:1px solid var(--ln);}
-.signal-history th{
-  font-size:7px;font-weight:700;color:var(--t4);letter-spacing:.8px;
-  padding:8px 14px;text-align:left;
-}
-.signal-history td{font-size:9px;padding:9px 14px;border-bottom:1px solid var(--ln);color:var(--t2);}
-.signal-history tbody tr:hover{background:var(--sf2);}
-.coin-cell{font-weight:700;color:var(--t1);}
-.score-cell{font-weight:700;}
-.score-cell.hi{color:var(--acc);}
-.score-cell.mid{color:var(--orange);}
-.score-cell.lo{color:var(--red);}
-.up-cell{color:var(--acc);font-weight:700;}
-.dn-cell{color:var(--red);font-weight:700;}
-.lag-cell{color:var(--t4);}
-
-/* WHAT WE ARE NOT */
-.about-nolist{display:flex;flex-direction:column;gap:10px;}
-.no-item{display:flex;align-items:flex-start;gap:10px;}
-.no-x{
-  font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:700;
-  color:var(--red);flex-shrink:0;width:16px;padding-top:1px;
-}
-.no-text{font-size:11px;color:var(--t2);line-height:1.5;}
-.no-text strong{color:var(--t1);}
-
-@media (max-width: 700px) {
-  .demo-phone-col{display:none;}
-  .demo-body{flex-direction:column;}
-}
+@media(max-width:900px){.demo-phone-col{display:none;}}
+@media(max-width:700px){.demo-mid{width:100%;}}
 </style>
 </head>
 <body>
 
+<!-- ══════ LIVE TICKER STRIP ══════ -->
+<div class="ticker-strip">
+  <div class="ticker-inner" id="ticker-inner">
+    <div class="ticker-item"><span class="ticker-sym">$NEAR</span><span class="ticker-price">$6.84</span><span class="ticker-chg up">+24.7%</span><span class="ticker-sig hot">HOT</span></div>
+    <div class="ticker-item"><span class="ticker-sym">$TAO</span><span class="ticker-price">$412.50</span><span class="ticker-chg up">+31.2%</span><span class="ticker-sig hot">HOT</span></div>
+    <div class="ticker-item"><span class="ticker-sym">$FET</span><span class="ticker-price">$1.28</span><span class="ticker-chg up">+12.8%</span><span class="ticker-sig watch">WATCH</span></div>
+    <div class="ticker-item"><span class="ticker-sym">$ONDO</span><span class="ticker-price">$0.91</span><span class="ticker-chg up">+18.4%</span><span class="ticker-sig hot">HOT</span></div>
+    <div class="ticker-item"><span class="ticker-sym">$VIRTUAL</span><span class="ticker-price">$0.44</span><span class="ticker-chg dn">-6.1%</span></div>
+    <div class="ticker-item"><span class="ticker-sym">$WIF</span><span class="ticker-price">$2.11</span><span class="ticker-chg up">+9.3%</span><span class="ticker-sig watch">WATCH</span></div>
+    <div class="ticker-item"><span class="ticker-sym">$PENDLE</span><span class="ticker-price">$3.78</span><span class="ticker-chg up">+7.1%</span></div>
+    <div class="ticker-item"><span class="ticker-sym">$STRK</span><span class="ticker-price">$0.37</span><span class="ticker-chg dn">-2.4%</span></div>
+    <div class="ticker-item"><span class="ticker-sym">$OP</span><span class="ticker-price">$1.55</span><span class="ticker-chg up">+5.6%</span><span class="ticker-sig watch">WATCH</span></div>
+    <div class="ticker-item"><span class="ticker-sym">$ARB</span><span class="ticker-price">$0.62</span><span class="ticker-chg up">+3.2%</span></div>
+    <div class="ticker-item"><span class="ticker-sym">$NEAR</span><span class="ticker-price">$6.84</span><span class="ticker-chg up">+24.7%</span><span class="ticker-sig hot">HOT</span></div>
+    <div class="ticker-item"><span class="ticker-sym">$TAO</span><span class="ticker-price">$412.50</span><span class="ticker-chg up">+31.2%</span><span class="ticker-sig hot">HOT</span></div>
+    <div class="ticker-item"><span class="ticker-sym">$FET</span><span class="ticker-price">$1.28</span><span class="ticker-chg up">+12.8%</span><span class="ticker-sig watch">WATCH</span></div>
+    <div class="ticker-item"><span class="ticker-sym">$ONDO</span><span class="ticker-price">$0.91</span><span class="ticker-chg up">+18.4%</span><span class="ticker-sig hot">HOT</span></div>
+    <div class="ticker-item"><span class="ticker-sym">$VIRTUAL</span><span class="ticker-price">$0.44</span><span class="ticker-chg dn">-6.1%</span></div>
+    <div class="ticker-item"><span class="ticker-sym">$WIF</span><span class="ticker-price">$2.11</span><span class="ticker-chg up">+9.3%</span><span class="ticker-sig watch">WATCH</span></div>
+    <div class="ticker-item"><span class="ticker-sym">$PENDLE</span><span class="ticker-price">$3.78</span><span class="ticker-chg up">+7.1%</span></div>
+    <div class="ticker-item"><span class="ticker-sym">$STRK</span><span class="ticker-price">$0.37</span><span class="ticker-chg dn">-2.4%</span></div>
+    <div class="ticker-item"><span class="ticker-sym">$OP</span><span class="ticker-price">$1.55</span><span class="ticker-chg up">+5.6%</span><span class="ticker-sig watch">WATCH</span></div>
+    <div class="ticker-item"><span class="ticker-sym">$ARB</span><span class="ticker-price">$0.62</span><span class="ticker-chg up">+3.2%</span></div>
+  </div>
+</div>
+
+<!-- ══════ TOP BAR ══════ -->
 <div class="demo-topbar">
   <div class="demo-topbar-left">
     <a class="demo-back" href="index.html">
@@ -317,440 +471,580 @@ html,body{height:100%;overflow:hidden;background:var(--bg);font-family:'Space Gr
       BACK
     </a>
     <div class="demo-badge">DEMO MODE</div>
+    <div class="demo-algo-badge">
+      <div class="demo-algo-dot"></div>
+      HUMAN ALGO v3
+    </div>
   </div>
-  <div style="display:flex;align-items:center;gap:10px;">
+  <div class="demo-topbar-right">
     <a class="demo-x-link" href="https://x.com/tokgraph" target="_blank" rel="noopener">
       <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
       @tokgraph
     </a>
-    <a href="https://orynth.dev/projects/tokgraph" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;opacity:.55;transition:opacity .2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='.55'">
-      <img src="https://orynth.dev/api/badge/tokgraph?theme=dark&style=default" alt="Featured on Orynth" style="height:18px;width:auto;display:block;" />
+    <a href="https://orynth.dev/projects/tokgraph" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;opacity:.5;transition:opacity .2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='.5'">
+      <img src="https://orynth.dev/api/badge/tokgraph?theme=dark&style=default" alt="Featured on Orynth" style="height:18px;width:auto;display:block;"/>
     </a>
   </div>
 </div>
 
+<!-- ══════ BODY ══════ -->
 <div class="demo-body">
 
-  <!-- PHONE MOCKUP -->
+  <!-- LEFT: PHONE + VOICE -->
   <div class="demo-phone-col">
-    <div class="phone-frame">
-      <div class="htk-vid"></div>
-      <svg class="htk-chart-svg" viewBox="0 0 200 210" preserveAspectRatio="none">
+    <div class="phone-frame" id="phone-frame">
+      <div class="htk-vid" id="htk-vid"></div>
+      <svg class="htk-chart-svg" id="phone-chart-svg" viewBox="0 0 200 210" preserveAspectRatio="none">
         <defs>
           <linearGradient id="cg" x1="0" y1="0" x2="0" y2="1">
             <stop offset="0%" stop-color="#4ade80" stop-opacity=".5"/>
             <stop offset="100%" stop-color="#4ade80" stop-opacity="0"/>
           </linearGradient>
         </defs>
-        <polyline points="0,170 20,160 40,155 60,145 80,130 100,135 120,120 140,105 160,90 180,75 200,60"
+        <polyline id="phone-line" points="0,170 20,160 40,155 60,145 80,130 100,135 120,120 140,105 160,90 180,75 200,60"
           fill="none" stroke="#4ade80" stroke-width="1.5" stroke-linejoin="round"/>
-        <polygon points="0,170 20,160 40,155 60,145 80,130 100,135 120,120 140,105 160,90 180,75 200,60 200,210 0,210"
+        <polygon id="phone-area" points="0,170 20,160 40,155 60,145 80,130 100,135 120,120 140,105 160,90 180,75 200,60 200,210 0,210"
           fill="url(#cg)" opacity=".5"/>
       </svg>
       <div class="htk-scanline"></div>
       <div class="htk-grain"></div>
       <div class="htk-price-row">
-        <div class="htk-price-token">NEAR</div>
-        <div class="htk-price-val">+24.7%</div>
+        <div class="htk-price-token" id="ph-token">NEAR</div>
+        <div class="htk-price-val" id="ph-chg">+24.7%</div>
       </div>
       <div class="htk-signal-overlay">
         <div class="sig-label">SIGNAL</div>
         <div class="sig-score" id="phone-score">0</div>
-        <div class="sig-grade">STRONG BUY</div>
+        <div class="sig-grade" id="ph-grade">STRONG BUY</div>
         <div class="sig-divider"></div>
         <div class="sig-coin">DETECTED</div>
-        <div class="sig-ticker">$NEAR</div>
-        <div class="sig-change">&#9650; 24.7%</div>
+        <div class="sig-ticker" id="ph-ticker">$NEAR</div>
+        <div class="sig-change" id="ph-change">▲ 24.7%</div>
         <div class="sig-divider"></div>
         <div class="sig-mini-label">SENTIMENT</div>
         <div class="sig-bar-row">
           <div class="sig-bar-bg"><div class="sig-bar-fill" id="pb-sent" style="width:0%;background:#4ade80;"></div></div>
-          <div class="sig-bar-pct">82%</div>
+          <div class="sig-bar-pct" id="pb-sent-pct">82%</div>
         </div>
         <div class="sig-mini-label" style="margin-top:4px">VOLUME</div>
         <div class="sig-bar-row">
           <div class="sig-bar-bg"><div class="sig-bar-fill" id="pb-vol" style="width:0%;background:#60a5fa;"></div></div>
-          <div class="sig-bar-pct">91%</div>
+          <div class="sig-bar-pct" id="pb-vol-pct">91%</div>
         </div>
       </div>
       <div class="htk-bottom">
         <div class="htk-user">
-          <div class="htk-avatar">C</div>
-          <div class="htk-username">@cryptowhale88</div>
+          <div class="htk-avatar" id="ph-avatar">C</div>
+          <div class="htk-username" id="ph-user">@cryptowhale88</div>
         </div>
-        <div class="htk-desc">$NEAR just broke resistance — this is the move 🚀</div>
-        <div class="htk-tags">
+        <div class="htk-desc" id="ph-desc">$NEAR just broke resistance — this is the move 🚀</div>
+        <div class="htk-tags" id="ph-tags">
           <span class="htk-tag">#NEAR</span>
           <span class="htk-tag">#crypto</span>
-          <span class="htk-tag">#altseason</span>
         </div>
       </div>
       <div class="htk-right-col">
-        <div class="htk-action"><div class="htk-action-icon">❤️</div><div class="htk-action-val">2.1M</div></div>
-        <div class="htk-action"><div class="htk-action-icon">💬</div><div class="htk-action-val">18.4K</div></div>
-        <div class="htk-action"><div class="htk-action-icon">↗️</div><div class="htk-action-val">44.2K</div></div>
+        <div class="htk-action"><div class="htk-action-icon">❤️</div><div class="htk-action-val" id="ph-likes">2.1M</div></div>
+        <div class="htk-action"><div class="htk-action-icon">💬</div><div class="htk-action-val" id="ph-comments">18.4K</div></div>
+        <div class="htk-action"><div class="htk-action-icon">↗️</div><div class="htk-action-val" id="ph-shares">44.2K</div></div>
       </div>
+    </div>
+
+    <!-- VOICE INPUT -->
+    <div class="voice-strip">
+      <div class="voice-mic" id="voice-mic">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="9" y="3" width="6" height="12" rx="3"/>
+          <path d="M5 10a7 7 0 0 0 14 0"/>
+          <line x1="12" y1="19" x2="12" y2="22"/>
+          <line x1="9" y1="22" x2="15" y2="22"/>
+        </svg>
+      </div>
+      <div class="voice-bars" id="voice-bars"></div>
+      <div class="voice-label" id="voice-label">VOICE SEARCH</div>
     </div>
   </div>
 
-  <!-- RIGHT PANELS -->
-  <div class="demo-panels">
+  <!-- MIDDLE: SIGNAL + FEED -->
+  <div class="demo-mid">
 
-    <div class="section-label">LIVE SIGNAL</div>
+    <!-- SMART ALERTS -->
+    <div class="alert-stack" id="alert-stack">
+      <div class="alert-row success">
+        <div class="alert-dot" style="background:var(--acc)"></div>
+        <div class="alert-text"><strong>$TAO</strong> signal confirmed — 3 creators in 2h window, score 91</div>
+        <div class="alert-age">12s</div>
+      </div>
+      <div class="alert-row info">
+        <div class="alert-dot" style="background:#60a5fa"></div>
+        <div class="alert-text"><strong>$ONDO</strong> view velocity spike — 180K views/hr on 2 videos</div>
+        <div class="alert-age">1m</div>
+      </div>
+      <div class="alert-row danger">
+        <div class="alert-dot" style="background:var(--red)"></div>
+        <div class="alert-text"><strong>$VIRTUAL</strong> exit comments dominant — score dropped to 38</div>
+        <div class="alert-age">4m</div>
+      </div>
+    </div>
+
+    <!-- LIVE SIGNAL -->
     <div class="signal-card">
       <div class="sc-header">
         <div class="sc-coin">
-          <div class="sc-icon">N</div>
+          <div class="sc-icon" id="sc-icon">N</div>
           <div>
-            <div class="sc-name">NEAR Protocol</div>
-            <div class="sc-sym">$NEAR / USDT</div>
+            <div class="sc-name" id="sc-name">NEAR Protocol</div>
+            <div class="sc-sym" id="sc-sym">$NEAR / USDT</div>
           </div>
         </div>
         <div class="sc-score-col">
           <div class="sc-score" id="main-score">0</div>
-          <div class="sc-grade">STRONG BUY</div>
+          <div class="sc-grade" id="sc-grade">STRONG BUY</div>
         </div>
       </div>
       <div class="sc-metrics">
-        <div class="sc-metric"><div class="sc-metric-label">PRICE</div><div class="sc-metric-val">$6.84</div></div>
-        <div class="sc-metric"><div class="sc-metric-label">24H CHG</div><div class="sc-metric-val up">+24.7%</div></div>
-        <div class="sc-metric"><div class="sc-metric-label">SIGNALS</div><div class="sc-metric-val up">47</div></div>
+        <div class="sc-metric"><div class="sc-metric-label">PRICE</div><div class="sc-metric-val" id="sc-price">$6.84</div></div>
+        <div class="sc-metric"><div class="sc-metric-label">24H CHG</div><div class="sc-metric-val up" id="sc-chg">+24.7%</div></div>
+        <div class="sc-metric"><div class="sc-metric-label">SIGNALS</div><div class="sc-metric-val up" id="sc-sigs">47</div></div>
       </div>
       <div class="sc-bar-row">
         <div class="sc-bar-label">Sentiment</div>
         <div class="sc-bar-track"><div class="sc-bar-fill" id="bar-sent" style="width:0%;background:#4ade80;"></div></div>
-        <div class="sc-bar-val">82%</div>
+        <div class="sc-bar-val" id="bar-sent-val">82%</div>
       </div>
       <div class="sc-bar-row">
         <div class="sc-bar-label">Volume Score</div>
         <div class="sc-bar-track"><div class="sc-bar-fill" id="bar-vol" style="width:0%;background:#60a5fa;"></div></div>
-        <div class="sc-bar-val">91%</div>
+        <div class="sc-bar-val" id="bar-vol-val">91%</div>
       </div>
       <div class="sc-bar-row">
         <div class="sc-bar-label">Creator Trust</div>
         <div class="sc-bar-track"><div class="sc-bar-fill" id="bar-trust" style="width:0%;background:#fb923c;"></div></div>
-        <div class="sc-bar-val">79%</div>
+        <div class="sc-bar-val" id="bar-trust-val">79%</div>
       </div>
       <div class="sc-footer">
-        <div class="sc-time">Updated 12s ago · HUMAN algo v3</div>
-        <div class="sc-action">VIEW FULL ANALYSIS &#8594;</div>
+        <div class="sc-time" id="sc-time">Updated 12s ago · HUMAN algo v3</div>
+        <div class="sc-action">FULL ANALYSIS →</div>
       </div>
     </div>
 
-    <div class="section-label">TIKTOK FEED</div>
-    <div class="feed-card">
-      <div class="feed-header">
-        <div class="feed-title">LIVE SIGNALS</div>
+    <!-- TIKTOK FEED -->
+    <div class="feed-header">
+      <div class="feed-title">LIVE SIGNALS</div>
+      <div style="display:flex;align-items:center;gap:8px;">
+        <div class="feed-count" id="feed-count">47 events</div>
         <div class="feed-dot"></div>
       </div>
-      <div class="feed-item" style="opacity:0;transform:translateY(8px);transition:opacity .3s ease,transform .3s ease">
-        <div class="feed-avatar" style="background:linear-gradient(135deg,#ff0050,#ff6b35)">C</div>
-        <div class="feed-right">
-          <div class="feed-user"><div class="feed-handle">@cryptowhale88</div><div class="feed-verified">&#10003;</div></div>
-          <div class="feed-text">$<span class="coin">NEAR</span> just broke resistance fr. This is the move everyone's been waiting for 🚀 <span class="tag">#NEAR</span> <span class="tag">#altseason</span></div>
-          <div class="feed-meta"><div class="feed-signal-badge bull">BULLISH</div><div class="feed-views">2.1M views</div><div class="feed-score hi">87</div></div>
-        </div>
-      </div>
-      <div class="feed-item" style="opacity:0;transform:translateY(8px);transition:opacity .3s ease,transform .3s ease">
-        <div class="feed-avatar" style="background:linear-gradient(135deg,#7c3aed,#4f46e5)">A</div>
-        <div class="feed-right">
-          <div class="feed-user"><div class="feed-handle">@altcoin_alice</div></div>
-          <div class="feed-text">Watching <span class="coin">$FET</span> closely. AI narrative + volume spike = interesting setup. NFA <span class="tag">#FET</span></div>
-          <div class="feed-meta"><div class="feed-signal-badge neutral">NEUTRAL</div><div class="feed-views">892K views</div><div class="feed-score mid">63</div></div>
-        </div>
-      </div>
-      <div class="feed-item" style="opacity:0;transform:translateY(8px);transition:opacity .3s ease,transform .3s ease">
-        <div class="feed-avatar" style="background:linear-gradient(135deg,#0891b2,#06b6d4)">D</div>
-        <div class="feed-right">
-          <div class="feed-user"><div class="feed-handle">@defi_detective</div><div class="feed-verified">&#10003;</div></div>
-          <div class="feed-text">$<span class="coin">TAO</span> on-chain activity going insane. Smart money accumulating. Chart don't lie <span class="tag">#TAO</span></div>
-          <div class="feed-meta"><div class="feed-signal-badge bull">BULLISH</div><div class="feed-views">1.4M views</div><div class="feed-score hi">91</div></div>
-        </div>
-      </div>
-      <div class="feed-item" style="opacity:0;transform:translateY(8px);transition:opacity .3s ease,transform .3s ease">
-        <div class="feed-avatar" style="background:linear-gradient(135deg,#be123c,#e11d48)">M</div>
-        <div class="feed-right">
-          <div class="feed-user"><div class="feed-handle">@moonboy_mike</div></div>
-          <div class="feed-text">$<span class="coin">VIRTUAL</span> just listed on major DEX. Liquidity flowing in hard. Early window closing <span class="tag">#VIRTUAL</span></div>
-          <div class="feed-meta"><div class="feed-signal-badge bear">CAUTION</div><div class="feed-views">321K views</div><div class="feed-score" style="color:var(--red)">38</div></div>
-        </div>
+    </div>
+    <div id="feed-list"></div>
+
+  </div>
+
+  <!-- RIGHT: RADAR + CORRELATION + TIMELINE + ABOUT -->
+  <div class="demo-right">
+
+    <!-- RADAR HEATMAP -->
+    <div class="section-label">
+      SIGNAL RADAR
+      <span class="section-label-note">top 10 coins by score · live</span>
+    </div>
+    <div class="radar-panel">
+      <div class="radar-grid" id="radar-grid"></div>
+      <div class="radar-legend">
+        <div class="radar-leg-item"><div class="radar-leg-dot" style="background:var(--acc)"></div>85–100 STRONG</div>
+        <div class="radar-leg-item"><div class="radar-leg-dot" style="background:#60a5fa"></div>70–84 SIGNAL</div>
+        <div class="radar-leg-item"><div class="radar-leg-dot" style="background:var(--orange)"></div>50–69 WATCH</div>
+        <div class="radar-leg-item"><div class="radar-leg-dot" style="background:var(--purple)"></div>30–49 LOW</div>
+        <div class="radar-leg-item"><div class="radar-leg-dot" style="background:var(--red)"></div>0–29 NOISE</div>
       </div>
     </div>
 
-    <!-- ABOUT SECTION -->
-    <div class="section-label">ABOUT TOKGRAPH</div>
+    <!-- CORRELATION MATRIX -->
+    <div class="section-label">
+      TOKEN CORRELATION
+      <span class="section-label-note">TikTok mention co-occurrence · 24h</span>
+    </div>
+    <div class="corr-panel">
+      <div class="corr-header" id="corr-header"></div>
+      <div class="corr-grid" id="corr-grid"></div>
+    </div>
 
-    <!-- THE THESIS -->
+    <!-- SIGNAL TIMELINE -->
+    <div class="section-label">
+      SIGNAL TIMELINE
+      <span class="section-label-note">last 90 min</span>
+    </div>
+    <div class="timeline-panel">
+      <div class="timeline-track" id="timeline-track"></div>
+    </div>
+
+    <!-- ABOUT -->
+    <div class="section-label">ABOUT TOKGRAPH</div>
     <div class="about-card">
       <div class="about-header">
         <div class="about-icon">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
         </div>
         <div>
           <div class="about-title-text">THE THESIS</div>
           <div class="about-sub">Why TikTok, why now</div>
         </div>
       </div>
-      <div class="about-body">
-        <div class="about-desc">
-          By the time a coin is trending on Crypto Twitter, you're already <strong>2 layers late.</strong> CT is where traders confirm — TikTok is where retail <em>discovers.</em>
-        </div>
-        <div class="about-desc" style="margin-top:-4px">
-          We backtested 3,200+ TikTok videos mentioning sub-$3B mcap coins across 2024–2025. <strong>In 71% of cases, price moved more than 8% within 90 minutes</strong> of a video crossing 500K views. The window averages <strong>47 minutes.</strong>
-        </div>
-        <div class="about-desc" style="margin-top:-4px">
-          Professional traders aren't watching TikTok. That's the edge.
-        </div>
-
-        <div class="about-stats">
-          <div class="about-stat">
-            <div class="about-stat-val">71%</div>
-            <div class="about-stat-label">PRICE MOVED &gt;8%</div>
-          </div>
-          <div class="about-stat">
-            <div class="about-stat-val">47m</div>
-            <div class="about-stat-label">AVG WINDOW</div>
-          </div>
-          <div class="about-stat">
-            <div class="about-stat-val">3.2K</div>
-            <div class="about-stat-label">EVENTS LOGGED</div>
-          </div>
-        </div>
+      <div class="about-stats">
+        <div class="about-stat"><div class="about-stat-val" id="stat-pct">0%</div><div class="about-stat-label">PRICE MOVED &gt;8%</div></div>
+        <div class="about-stat"><div class="about-stat-val" id="stat-win">0m</div><div class="about-stat-label">AVG WINDOW</div></div>
+        <div class="about-stat"><div class="about-stat-val" id="stat-events">0</div><div class="about-stat-label">EVENTS LOGGED</div></div>
+      </div>
+      <div class="about-desc">
+        By the time a coin trends on Crypto Twitter, you're already <strong>2 layers late.</strong> CT is where traders confirm — TikTok is where retail <em>discovers.</em> We backtested 3,200+ videos and found: <strong>71% of cases, price moved &gt;8% within 90 minutes</strong> of a video crossing 500K views. The window averages <strong>47 minutes.</strong>
+      </div>
+      <div class="about-links">
+        <a class="about-link primary" href="index.html">
+          <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 3h6v6M10 14L21 3M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
+          APPLY FOR ACCESS
+        </a>
+        <a class="about-link" href="https://x.com/tokgraph" target="_blank" rel="noopener">
+          <svg width="9" height="9" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+          @TOKGRAPH ON X
+        </a>
+        <a href="https://orynth.dev/projects/tokgraph" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;opacity:.55;transition:opacity .2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='.55'">
+          <img src="https://orynth.dev/api/badge/tokgraph?theme=dark&style=default" alt="Featured on Orynth" style="height:18px;width:auto;display:block;"/>
+        </a>
       </div>
     </div>
 
-    <!-- HOW THE SCORE WORKS -->
-    <div class="about-card">
-      <div class="about-header">
-        <div class="about-icon" style="background:#1a1a1a;border:1px solid var(--ln2);">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--acc)" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>
-        </div>
-        <div>
-          <div class="about-title-text">HOW THE SCORE WORKS</div>
-          <div class="about-sub">HUMAN algo v3 — five weighted inputs</div>
-        </div>
-      </div>
-      <div class="about-body">
-        <div class="about-score-rows">
-          <div class="score-row">
-            <div class="score-row-left">
-              <div class="score-row-name">View Velocity</div>
-              <div class="score-row-desc">Likes + shares per hour in the first 60 min after post. A video hitting 80K likes/hour on a $NEAR mention scores higher than 2M total likes on a week-old post.</div>
-            </div>
-            <div class="score-row-weight">35%</div>
-          </div>
-          <div class="score-row">
-            <div class="score-row-left">
-              <div class="score-row-name">Cross-Creator Corroboration</div>
-              <div class="score-row-desc">Same coin mentioned by 3+ unrelated creators within a 2-hour window. Single influencer ≠ signal. When @cryptowhale88, @altcoin_alice, and @defi_detective all post $NEAR independently — that's signal.</div>
-            </div>
-            <div class="score-row-weight">30%</div>
-          </div>
-          <div class="score-row">
-            <div class="score-row-left">
-              <div class="score-row-name">Creator Track Record</div>
-              <div class="score-row-desc">Each creator has a historical accuracy rating. Calculated from 90 days of their past coin calls vs actual price action within 24h. Mega-influencers often score low — they post after the pump.</div>
-            </div>
-            <div class="score-row-weight">20%</div>
-          </div>
-          <div class="score-row">
-            <div class="score-row-left">
-              <div class="score-row-name">Comment Buy Intent</div>
-              <div class="score-row-desc">NLP on top 200 comments. "Where do I buy this" vs "already sold" signals very different momentum. We weight buy-intent comments against cope/exit comments.</div>
-            </div>
-            <div class="score-row-weight">10%</div>
-          </div>
-          <div class="score-row" style="border-bottom:none">
-            <div class="score-row-left">
-              <div class="score-row-name">On-Chain Cross-Check</div>
-              <div class="score-row-desc">DEX volume spike, wallet inflows on L1/L2 for the coin. If on-chain already moved, the TikTok signal is late — score penalized. If on-chain is flat, it's early — score boosted.</div>
-            </div>
-            <div class="score-row-weight">5%</div>
-          </div>
-        </div>
-        <div class="about-desc" style="color:var(--t4);font-size:9px;font-family:'IBM Plex Mono',monospace">
-          Score 0–49 = noise / 50–69 = watch / 70–84 = signal / 85–100 = strong signal. We do not issue "buy" or "sell" — only signal strength.
-        </div>
-      </div>
-    </div>
-
-    <!-- RECENT CONFIRMED SIGNALS -->
-    <div class="about-card">
-      <div class="about-header">
-        <div class="about-icon" style="background:#1a1a1a;border:1px solid var(--ln2);">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--acc)" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-        </div>
-        <div>
-          <div class="about-title-text">CONFIRMED SIGNALS</div>
-          <div class="about-sub">Recent events where score &gt;80 preceded a price move</div>
-        </div>
-      </div>
-      <div class="about-body" style="padding:0">
-        <table class="signal-history">
-          <thead>
-            <tr>
-              <th>COIN</th>
-              <th>SCORE</th>
-              <th>TIKTOK VIEWS</th>
-              <th>PRICE +%</th>
-              <th>LAG</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td class="coin-cell">$NEAR</td>
-              <td class="score-cell hi">87</td>
-              <td>2.1M / 3 creators</td>
-              <td class="up-cell">+24.7%</td>
-              <td class="lag-cell">41 min</td>
-            </tr>
-            <tr>
-              <td class="coin-cell">$TAO</td>
-              <td class="score-cell hi">91</td>
-              <td>1.4M / 2 creators</td>
-              <td class="up-cell">+31.2%</td>
-              <td class="lag-cell">28 min</td>
-            </tr>
-            <tr>
-              <td class="coin-cell">$FET</td>
-              <td class="score-cell mid">74</td>
-              <td>892K / 4 creators</td>
-              <td class="up-cell">+12.8%</td>
-              <td class="lag-cell">1h 12m</td>
-            </tr>
-            <tr>
-              <td class="coin-cell">$ONDO</td>
-              <td class="score-cell hi">82</td>
-              <td>1.1M / 2 creators</td>
-              <td class="up-cell">+18.4%</td>
-              <td class="lag-cell">53 min</td>
-            </tr>
-            <tr style="border-bottom:none">
-              <td class="coin-cell">$VIRTUAL</td>
-              <td class="score-cell lo">38</td>
-              <td>321K / 1 creator</td>
-              <td class="dn-cell">-6.1%</td>
-              <td class="lag-cell">—</td>
-            </tr>
-          </tbody>
-        </table>
-        <div style="padding:10px 14px;font-family:'IBM Plex Mono',monospace;font-size:8px;color:var(--t4);border-top:1px solid var(--ln)">
-          $VIRTUAL scored 38 (single creator, no corroboration, exit comments dominant) — price dropped. Low scores matter too.
-        </div>
-      </div>
-    </div>
-
-    <!-- WHAT TOKGRAPH IS NOT -->
-    <div class="about-card">
-      <div class="about-header">
-        <div class="about-icon" style="background:#1a1a1a;border:1px solid var(--ln2);">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
-        </div>
-        <div>
-          <div class="about-title-text">WHAT WE ARE NOT</div>
-          <div class="about-sub">Read before applying</div>
-        </div>
-      </div>
-      <div class="about-body">
-        <div class="about-nolist">
-          <div class="no-item">
-            <div class="no-x">✕</div>
-            <div class="no-text"><strong>Not a trading bot.</strong> We surface signals. What you do with them is on you.</div>
-          </div>
-          <div class="no-item">
-            <div class="no-x">✕</div>
-            <div class="no-text"><strong>Not financial advice.</strong> A 91 score means high social momentum — not that the coin is good or safe.</div>
-          </div>
-          <div class="no-item">
-            <div class="no-x">✕</div>
-            <div class="no-text"><strong>Not for mega-caps.</strong> BTC and ETH have too much liquidity — TikTok can't move them. We focus on sub-$3B mcap altcoins.</div>
-          </div>
-          <div class="no-item">
-            <div class="no-x">✕</div>
-            <div class="no-text"><strong>Not always right.</strong> 71% hit rate means 29% miss. Signals fail when market-wide sentiment is crashing or a rug is inbound.</div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ACCESS -->
-    <div class="about-card">
-      <div class="about-header">
-        <div class="about-icon" style="background:rgba(255,0,80,.12);border:1px solid rgba(255,0,80,.25);">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--tg)" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-        </div>
-        <div>
-          <div class="about-title-text">PRIVATE BETA ACCESS</div>
-          <div class="about-sub">Invite-only · reviewed within 48h</div>
-        </div>
-      </div>
-      <div class="about-body">
-        <div class="about-desc">
-          Connect your TikTok account to apply. We check that you're an actual crypto participant — not a bot, not a mass-applicant. If approved, you get <strong>full live signal feed, alert system, and API access.</strong>
-        </div>
-        <div class="about-desc" style="margin-top:-4px;color:var(--t3);font-size:10px">
-          Current waitlist: <strong style="color:var(--t1)">1,247 pending.</strong> Approvals sent in batches every Tuesday. Follow <a href="https://x.com/tokgraph" target="_blank" style="color:var(--tg);text-decoration:none">@tokgraph</a> for batch announcements.
-        </div>
-        <div class="about-links">
-          <a class="about-link primary" href="index.html">
-            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 3h6v6M10 14L21 3M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
-            APPLY FOR ACCESS
-          </a>
-          <a class="about-link" href="https://x.com/tokgraph" target="_blank" rel="noopener">
-            <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-            @TOKGRAPH ON X
-          </a>
-          <a href="https://orynth.dev/projects/tokgraph" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;padding:8px 12px;background:var(--sf2);border:1px solid var(--ln2);transition:border-color .15s;" onmouseover="this.style.borderColor='#3a3a3a'" onmouseout="this.style.borderColor='var(--ln2)'">
-            <img src="https://orynth.dev/api/badge/tokgraph?theme=dark&style=default" alt="Featured on Orynth" style="height:18px;width:auto;display:block;" />
-          </a>
-        </div>
-      </div>
-    </div>
-
-    <div style="height:20px"></div>
+    <div style="height:24px"></div>
   </div>
 </div>
 
 <script>
+/* ══════ DATA ══════ */
+var SIGNALS = [
+  {sym:'NEAR',name:'NEAR Protocol',score:87,grade:'STRONG BUY',price:'$6.84',chg:'+24.7%',sigs:47,sent:82,vol:91,trust:79,avatar:'C',user:'@cryptowhale88',desc:'$NEAR just broke resistance — this is the move 🚀',tags:['#NEAR','#altseason'],likes:'2.1M',comments:'18.4K',shares:'44.2K',color:'#ff0050',bg:'135deg,#1c0008,#380010'},
+  {sym:'TAO',name:'Bittensor',score:91,grade:'STRONG BUY',price:'$412.50',chg:'+31.2%',sigs:61,sent:88,vol:94,trust:85,avatar:'D',user:'@defi_detective',desc:'$TAO on-chain activity going insane. Smart money accumulating 📊',tags:['#TAO','#AI'],likes:'1.4M',comments:'9.8K',shares:'28.1K',color:'#7c3aed',bg:'135deg,#0d0020,#1a0040'},
+  {sym:'FET',name:'Fetch.ai',score:74,grade:'BUY SIGNAL',price:'$1.28',chg:'+12.8%',sigs:22,sent:71,vol:68,trust:62,avatar:'A',user:'@altcoin_alice',desc:'Watching $FET closely — AI narrative + volume spike is interesting',tags:['#FET','#AI'],likes:'892K',comments:'6.2K',shares:'18.4K',color:'#0891b2',bg:'135deg,#001820,#003040'},
+  {sym:'ONDO',name:'Ondo Finance',score:82,grade:'STRONG BUY',price:'$0.91',chg:'+18.4%',sigs:34,sent:79,vol:84,trust:77,avatar:'R',user:'@rwa_roman',desc:'$ONDO RWA narrative is heating up — institutions are watching',tags:['#ONDO','#RWA'],likes:'1.1M',comments:'7.5K',shares:'22.3K',color:'#ca8a04',bg:'135deg,#1a1200,#2a2000'}
+];
+
+var FEED_POOL = [
+  {bg:'135deg,#ff0050,#ff6b35',init:'C',handle:'@cryptowhale88',verified:true,text:'$<span class="coin">NEAR</span> just broke resistance fr. This is the move everyone\'s been waiting for 🚀 <span class="tag">#NEAR</span>',badge:'bull',label:'BULLISH',views:'2.1M',score:87,cls:'hi'},
+  {bg:'135deg,#7c3aed,#4f46e5',init:'D',handle:'@defi_detective',verified:true,text:'$<span class="coin">TAO</span> on-chain activity insane rn. Smart money acc. Chart don\'t lie <span class="tag">#TAO</span>',badge:'bull',label:'BULLISH',views:'1.4M',score:91,cls:'hi'},
+  {bg:'135deg,#0891b2,#06b6d4',init:'A',handle:'@altcoin_alice',verified:false,text:'Watching <span class="coin">$FET</span> closely. AI narrative + volume spike = interesting setup. NFA',badge:'neutral',label:'NEUTRAL',views:'892K',score:63,cls:'mid'},
+  {bg:'135deg,#ca8a04,#d97706',init:'R',handle:'@rwa_roman',verified:false,text:'$<span class="coin">ONDO</span> RWA narrative heating up. Institutions watching this one <span class="tag">#ONDO</span>',badge:'bull',label:'BULLISH',views:'1.1M',score:82,cls:'hi'},
+  {bg:'135deg,#be123c,#e11d48',init:'M',handle:'@moonboy_mike',verified:false,text:'$<span class="coin">VIRTUAL</span> just listed on major DEX. Early window closing <span class="tag">#VIRTUAL</span>',badge:'bear',label:'CAUTION',views:'321K',score:38,cls:''},
+  {bg:'135deg,#065f46,#059669',init:'W',handle:'@web3_watcher',verified:true,text:'$<span class="coin">WIF</span> momentum building. Meme + utility combo not being priced in <span class="tag">#WIF</span>',badge:'bull',label:'BULLISH',views:'744K',score:71,cls:'mid'},
+  {bg:'135deg,#1d4ed8,#2563eb',init:'T',handle:'@tokn_tracker',verified:false,text:'Three different creators posted $<span class="coin">NEAR</span> in the last 90 min. Corroboration confirmed.',badge:'bull',label:'BULLISH',views:'560K',score:85,cls:'hi'}
+];
+
+var RADAR_COINS = [
+  {sym:'$TAO',score:91,cls:'h90'},{sym:'$NEAR',score:87,cls:'h90'},{sym:'$ONDO',score:82,cls:'h80'},
+  {sym:'$FET',score:74,cls:'h70'},{sym:'$WIF',score:71,cls:'h70'},{sym:'$OP',score:67,cls:'h70'},
+  {sym:'$PENDLE',score:58,cls:'h50'},{sym:'$ARB',score:51,cls:'h50'},{sym:'$STRK',score:34,cls:'h30'},
+  {sym:'$VIRTUAL',score:22,cls:'h30'}
+];
+
+var CORR_COINS = ['$NEAR','$TAO','$FET','$ONDO','$WIF'];
+var CORR_DATA = [
+  [1.00, 0.72, 0.51, 0.44, 0.38],
+  [0.72, 1.00, 0.68, 0.31, 0.24],
+  [0.51, 0.68, 1.00, 0.55, 0.19],
+  [0.44, 0.31, 0.55, 1.00, 0.29],
+  [0.38, 0.24, 0.19, 0.29, 1.00]
+];
+
+var TIMELINE_EVENTS = [
+  {time:'NOW',type:'active',badge:'signal',label:'SIGNAL CONFIRMED',desc:'$NEAR score 87 — 3 creators, 47 signals in 2h window'},
+  {time:'8m ago',type:'active',badge:'detect',label:'DETECTION',desc:'$TAO: @defi_detective posted, view velocity 94K/hr'},
+  {time:'22m ago',type:'',badge:'alert',label:'ALERT FIRED',desc:'$ONDO crossed 80 threshold — alert sent to 1,247 users'},
+  {time:'41m ago',type:'',badge:'confirm',label:'PRICE CONFIRMED',desc:'$NEAR +24.7% within 41m of signal — confirmed event logged'},
+  {time:'1h 3m ago',type:'',badge:'detect',label:'DETECTION',desc:'$FET: 3 AI narrative posts in 90min, on-chain flat — score 74'},
+  {time:'1h 28m ago',type:'warning',badge:'alert',label:'FALSE POSITIVE',desc:'$VIRTUAL score 38 — single creator, exit comments 61% — no entry'}
+];
+
+var SMART_ALERTS = [
+  {type:'success',color:getComputedStyle(document.documentElement).getPropertyValue('--acc').trim()||'#4ade80',text:'<strong>$TAO</strong> signal confirmed — 3 creators in 2h window, score 91',age:'12s'},
+  {type:'info',color:'#60a5fa',text:'<strong>$ONDO</strong> view velocity spike — 180K views/hr on 2 videos',age:'1m'},
+  {type:'danger',color:'#f87171',text:'<strong>$VIRTUAL</strong> exit comments dominant — score dropped to 38',age:'4m'},
+  {type:'success',color:'#4ade80',text:'<strong>$NEAR</strong> cross-creator corroboration — 4 independent posts in 90m',age:'7m'},
+  {type:'info',color:'#60a5fa',text:'<strong>$WIF</strong> entering watch zone — score crossed 50 for first time today',age:'11m'}
+];
+
+/* ══════ INIT ══════ */
 window.addEventListener('DOMContentLoaded', function() {
-  // Animate score count-up
-  function countUp(id, target, delay) {
-    var el = document.getElementById(id);
-    if (!el) return;
-    var v = 0;
-    setTimeout(function go() {
-      v = Math.min(v + 3, target);
-      el.textContent = v;
-      if (v < target) setTimeout(go, 18);
-    }, delay);
-  }
+  buildRadar();
+  buildCorrelation();
+  buildTimeline();
+  buildFeed();
+  initVoiceBars();
+  startCountUps();
+  setTimeout(startAnimations, 400);
+  startAutoRotate();
+  startAlertCycle();
+});
+
+/* ── COUNT-UPS ── */
+function countUp(id, target, delay, suffix) {
+  suffix = suffix || '';
+  var el = document.getElementById(id);
+  if (!el) return;
+  var v = 0, step = Math.max(1, Math.round(target / 60));
+  setTimeout(function go() {
+    v = Math.min(v + step, target);
+    el.textContent = v + suffix;
+    if (v < target) setTimeout(go, 18);
+  }, delay);
+}
+
+function startCountUps() {
   countUp('main-score', 87, 200);
   countUp('phone-score', 87, 300);
+  countUp('stat-pct', 71, 600, '%');
+  countUp('stat-win', 47, 700, 'm');
+  countUp('stat-events', 3200, 800);
+}
 
-  // Animate signal bars
-  setTimeout(function() {
-    var bars = [
-      {id:'bar-sent', w:82},
-      {id:'bar-vol',  w:91},
-      {id:'bar-trust',w:79},
-      {id:'pb-sent',  w:82},
-      {id:'pb-vol',   w:91}
-    ];
-    bars.forEach(function(b) {
-      var el = document.getElementById(b.id);
-      if (el) el.style.width = b.w + '%';
-    });
-  }, 300);
-
-  // Fade-in feed items
-  var items = document.querySelectorAll('.feed-item');
-  items.forEach(function(item, i) {
-    setTimeout(function() {
-      item.style.opacity = '1';
-      item.style.transform = 'translateY(0)';
-    }, 400 + i * 120);
+/* ── BARS ANIMATION ── */
+function startAnimations() {
+  [
+    {id:'bar-sent',w:82},{id:'bar-vol',w:91},{id:'bar-trust',w:79},
+    {id:'pb-sent',w:82},{id:'pb-vol',w:91}
+  ].forEach(function(b) {
+    var el = document.getElementById(b.id);
+    if (el) el.style.width = b.w + '%';
   });
-});
+}
+
+/* ── RADAR ── */
+function buildRadar() {
+  var grid = document.getElementById('radar-grid');
+  if (!grid) return;
+  grid.innerHTML = RADAR_COINS.map(function(c) {
+    return '<div class="radar-cell ' + c.cls + '" title="' + c.sym + ': ' + c.score + '">' +
+      '<span class="radar-sym">' + c.sym + '</span>' +
+      '<span class="radar-score ' + c.cls + '">' + c.score + '</span>' +
+      '</div>';
+  }).join('');
+}
+
+/* ── CORRELATION MATRIX ── */
+function corrColor(v) {
+  if (v >= 0.8) return '#4ade80';
+  if (v >= 0.6) return '#60a5fa';
+  if (v >= 0.4) return '#fb923c';
+  if (v >= 0.2) return '#a855f7';
+  return '#3a3a3a';
+}
+function corrTextColor(v) {
+  if (v >= 0.2) return 'rgba(0,0,0,0.85)';
+  return '#666';
+}
+
+function buildCorrelation() {
+  var header = document.getElementById('corr-header');
+  var grid = document.getElementById('corr-grid');
+  if (!header || !grid) return;
+  header.innerHTML = CORR_COINS.map(function(c) {
+    return '<div class="corr-header-label">' + c.replace('$','') + '</div>';
+  }).join('');
+  grid.innerHTML = CORR_DATA.map(function(row, i) {
+    return '<div class="corr-row">' +
+      '<div class="corr-label">' + CORR_COINS[i].replace('$','') + '</div>' +
+      row.map(function(v, j) {
+        var bg = i === j ? '#222' : corrColor(v);
+        var tc = i === j ? '#666' : corrTextColor(v);
+        var disp = i === j ? '—' : v.toFixed(2).replace('0.','.');
+        return '<div class="corr-cell" style="background:' + bg + ';color:' + tc + '" title="' + CORR_COINS[i] + ' × ' + CORR_COINS[j] + ': ' + v + '">' + disp + '</div>';
+      }).join('') +
+      '</div>';
+  }).join('');
+}
+
+/* ── TIMELINE ── */
+function buildTimeline() {
+  var track = document.getElementById('timeline-track');
+  if (!track) return;
+  track.innerHTML = TIMELINE_EVENTS.map(function(e) {
+    return '<div class="tl-item">' +
+      '<div class="tl-dot' + (e.type ? ' ' + e.type : '') + '"></div>' +
+      '<div class="tl-time">' + e.time + '</div>' +
+      '<div class="tl-content">' +
+        '<div class="tl-content-top">' +
+          '<div class="tl-event">' + e.label + '</div>' +
+          '<div class="tl-badge ' + e.badge + '">' + e.badge.toUpperCase() + '</div>' +
+        '</div>' +
+        '<div class="tl-desc">' + e.desc + '</div>' +
+      '</div>' +
+      '</div>';
+  }).join('');
+}
+
+/* ── FEED ── */
+var feedItems = [];
+function buildFeed() {
+  var list = document.getElementById('feed-list');
+  if (!list) return;
+  feedItems = FEED_POOL.slice(0, 5);
+  renderFeed();
+}
+
+function renderFeed() {
+  var list = document.getElementById('feed-list');
+  if (!list) return;
+  list.innerHTML = feedItems.map(function(f) {
+    return '<div class="feed-item">' +
+      '<div class="feed-avatar" style="background:linear-gradient(' + f.bg + ')">' + f.init + '</div>' +
+      '<div class="feed-right">' +
+        '<div class="feed-user"><div class="feed-handle">' + f.handle + '</div>' + (f.verified ? '<div class="feed-verified">✓</div>' : '') + '</div>' +
+        '<div class="feed-text">' + f.text + '</div>' +
+        '<div class="feed-meta">' +
+          '<div class="feed-signal-badge ' + f.badge + '">' + f.label + '</div>' +
+          '<div class="feed-views">' + f.views + ' views</div>' +
+          '<div class="feed-score ' + f.cls + '">' + f.score + '</div>' +
+        '</div>' +
+      '</div>' +
+      '</div>';
+  }).join('');
+}
+
+/* ── VOICE BARS ── */
+var voiceActive = false;
+var voiceInterval = null;
+function initVoiceBars() {
+  var bars = document.getElementById('voice-bars');
+  if (!bars) return;
+  bars.innerHTML = Array.from({length: 16}, function(_, i) {
+    return '<div class="voice-bar" style="height:4px;"></div>';
+  }).join('');
+  document.getElementById('voice-mic').addEventListener('click', toggleVoice);
+  setInterval(animateVoiceBars, 120);
+}
+
+function toggleVoice() {
+  voiceActive = !voiceActive;
+  var mic = document.getElementById('voice-mic');
+  var label = document.getElementById('voice-label');
+  if (mic) mic.classList.toggle('active', voiceActive);
+  if (label) { label.textContent = voiceActive ? 'LISTENING...' : 'VOICE SEARCH'; label.classList.toggle('active', voiceActive); }
+}
+
+function animateVoiceBars() {
+  var bars = document.querySelectorAll('.voice-bar');
+  bars.forEach(function(b) {
+    var h = voiceActive ? (4 + Math.random() * 14) : (2 + Math.random() * 3);
+    b.style.height = h + 'px';
+    b.style.background = voiceActive ? 'var(--tg)' : 'var(--ln2)';
+  });
+}
+
+/* ── AUTO ROTATE SIGNAL ── */
+var currentSignal = 0;
+function startAutoRotate() {
+  setInterval(function() {
+    currentSignal = (currentSignal + 1) % SIGNALS.length;
+    rotateSignal(SIGNALS[currentSignal]);
+  }, 5000);
+}
+
+function rotateSignal(s) {
+  var frame = document.getElementById('phone-frame');
+  if (frame) { frame.classList.remove('flash'); void frame.offsetWidth; frame.classList.add('flash'); }
+
+  setEl('ph-token', s.sym);
+  setEl('ph-chg', s.chg);
+  setEl('ph-grade', s.grade);
+  setEl('ph-ticker', '$' + s.sym);
+  setEl('ph-change', '▲ ' + s.chg.replace('+',''));
+  setEl('pb-sent-pct', s.sent + '%');
+  setEl('pb-vol-pct', s.vol + '%');
+  setEl('ph-avatar', s.avatar);
+  setEl('ph-user', s.user);
+  setEl('ph-desc', s.desc);
+  setEl('ph-likes', s.likes);
+  setEl('ph-comments', s.comments);
+  setEl('ph-shares', s.shares);
+
+  var tagsEl = document.getElementById('ph-tags');
+  if (tagsEl) tagsEl.innerHTML = s.tags.map(function(t){ return '<span class="htk-tag">' + t + '</span>'; }).join('');
+
+  setEl('sc-icon', s.sym[0]);
+  setEl('sc-name', s.name);
+  setEl('sc-sym', '$' + s.sym + ' / USDT');
+  setEl('sc-price', s.price);
+  setEl('sc-chg', s.chg);
+  setEl('sc-sigs', s.sigs);
+  setEl('sc-grade', s.grade);
+  setEl('sc-time', 'Updated just now · HUMAN algo v3');
+  setEl('bar-sent-val', s.sent + '%');
+  setEl('bar-vol-val', s.vol + '%');
+  setEl('bar-trust-val', s.trust + '%');
+
+  setBars(s.sent, s.vol, s.trust);
+  animateScore('main-score', s.score);
+  animateScore('phone-score', s.score);
+
+  var sentBar = document.getElementById('pb-sent');
+  var volBar = document.getElementById('pb-vol');
+  if (sentBar) sentBar.style.width = '0%'; if (volBar) volBar.style.width = '0%';
+  setTimeout(function() {
+    if (sentBar) sentBar.style.width = s.sent + '%';
+    if (volBar) volBar.style.width = s.vol + '%';
+  }, 100);
+
+  pushFeedItem();
+  var countEl = document.getElementById('feed-count');
+  if (countEl) { var n = parseInt(countEl.textContent) + 1; countEl.textContent = n + ' events'; }
+}
+
+function setEl(id, text) {
+  var el = document.getElementById(id);
+  if (el) el.textContent = text;
+}
+
+function setBars(sent, vol, trust) {
+  var bars = [{id:'bar-sent',w:sent},{id:'bar-vol',w:vol},{id:'bar-trust',w:trust}];
+  bars.forEach(function(b) {
+    var el = document.getElementById(b.id);
+    if (el) { el.style.width = '0%'; setTimeout(function(){ el.style.width = b.w + '%'; }, 50); }
+  });
+}
+
+function animateScore(id, target) {
+  var el = document.getElementById(id);
+  if (!el) return;
+  var start = parseInt(el.textContent) || 0;
+  var diff = target - start;
+  var steps = 20, i = 0;
+  var iv = setInterval(function() {
+    i++;
+    el.textContent = Math.round(start + diff * (i / steps));
+    if (i >= steps) clearInterval(iv);
+  }, 30);
+}
+
+function pushFeedItem() {
+  var pool = FEED_POOL;
+  var item = pool[Math.floor(Math.random() * pool.length)];
+  feedItems = [item].concat(feedItems.slice(0, 4));
+  renderFeed();
+}
+
+/* ── ALERT CYCLE ── */
+var alertIdx = 3;
+function startAlertCycle() {
+  setInterval(function() {
+    var stack = document.getElementById('alert-stack');
+    if (!stack) return;
+    alertIdx = alertIdx % SMART_ALERTS.length;
+    var a = SMART_ALERTS[alertIdx++];
+    var row = document.createElement('div');
+    row.className = 'alert-row ' + a.type;
+    row.innerHTML = '<div class="alert-dot" style="background:' + a.color + '"></div>' +
+      '<div class="alert-text">' + a.text + '</div>' +
+      '<div class="alert-age">' + a.age + '</div>';
+    stack.insertBefore(row, stack.firstChild);
+    if (stack.children.length > 3) stack.removeChild(stack.lastChild);
+  }, 6000);
+}
 </script>
 </body>
 </html>
