@@ -1289,6 +1289,10 @@ textarea::placeholder{color:var(--t5);font-size:13px}
 .gate-tiktok-btn.loading{opacity:.5;pointer-events:none}
 .gate-tiktok-icon{width:20px;height:20px;flex-shrink:0;}
 .gate-tiktok-spin{width:13px;height:13px;border:2px solid rgba(255,255,255,.2);border-top-color:#fff;border-radius:50%;animation:spin .6s linear infinite;display:none;flex-shrink:0;}
+
+.gate-x-link{display:inline-flex;align-items:center;gap:5px;font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--t3);text-decoration:none;letter-spacing:.5px;margin-top:7px;transition:color .15s;}
+.gate-x-link:hover{color:var(--t1)}
+.gate-footer{flex-direction:column;gap:0}
 </style>
 </head>
 <body>
@@ -1367,6 +1371,10 @@ textarea::placeholder{color:var(--t5);font-size:13px}
     </div>
     <div class="gate-footer">
       <span>Invite-only access &middot; Applications reviewed within 48h</span>
+<a href="https://x.com/tokgraph" target="_blank" rel="noopener" class="gate-x-link">
+  <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+  @tokgraph
+</a>
     </div>
   </div>
 
@@ -2094,7 +2102,13 @@ textarea::placeholder{color:var(--t5);font-size:13px}
   <!-- BOTTOM -->
   <div class="bbar">
     <div class="bbar-txt"><strong>TokGraph</strong> attention into tradable signals.</div>
-    <div class="bbar-v">V3</div>
+    <div style="display:flex;align-items:center;gap:12px">
+    <a href="https://x.com/tokgraph" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:4px;font-family:'IBM Plex Mono',monospace;font-size:8px;color:var(--t4);text-decoration:none;transition:color .15s" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='var(--t4)'">
+      <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+      @tokgraph
+    </a>
+    <span class="bbar-v">V3</span>
+  </div>
   </div>
 
 </div><!-- /app -->
